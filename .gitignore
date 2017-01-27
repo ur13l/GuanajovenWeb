@@ -1,5 +1,6 @@
 /node_modules
 /public/storage
+/public/app_php/conexion/conexion.php
 /storage/*.key
 /vendor
 /.idea
