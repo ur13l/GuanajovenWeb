@@ -3,7 +3,7 @@ var id;
 var notificaciones;
 var paginaActiva = 0;
 var eliminarIds;
-
+var sliderIMC;
 
 /**
  * Función que valida si un campo de texto está vacío, marca el error en la interfaz.
@@ -246,13 +246,15 @@ function newNotification(){
     titulo: $("#titulo").val(),
     mensaje: $("#mensaje").val(),
     enlace: $("#enlace").val(),
-    schedule: $("#chk_schedule").is(":checked"),
+    imc_min: sliderIMC.noUiSlider.get()[0],
+    imc_max: sliderIMC.noUiSlider.get()[1],
     fecha: $("#fecha").val(),
     hora: $("#hora").val(),
     hombre: $("#chk_hombre").is(":checked"),
     mujer: $("#chk_mujer").is(":checked"),
     presion: $("#chk_presion").is(":checked"),
     glucosa: $("#chk_glucosa").is(":checked"),
+    lesion: $("#chk_lesion").is(":checked"),
     rango: $("#sl_rango_edad").val(),
     age1: $("#txt_age1").val(),
     age2: $("#txt_age2").val(),
@@ -301,13 +303,14 @@ $(document).ready(function(){
   $('.modal-trigger').leanModal();
 
   //Definiendo el slider
-  noUiSlider.create(document.getElementById("connect"), {
-  start: [20, 80],
+  sliderIMC = document.getElementById("imc_range")
+  noUiSlider.create(sliderIMC, {
+  start: [10, 50],
   connect: true,
   step: 1,
   range: {
-    'min': 0,
-    'max': 122
+    'min': 10,
+    'max': 50
   },
   format: wNumb({
     decimals: 0

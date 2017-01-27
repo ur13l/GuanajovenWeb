@@ -1,11 +1,12 @@
 <?php
-#Autor: Uriel Infante
-#Servicio para validar un logueo mediante facebook, devuelve un json con
+#Autor: Uriel Infante y Modificado por Luis Garcidueñas
+#Servicio para validar un logueo mediante google, devuelve un json con
 #la información del logueo.
 #Parámetros: correo
 #Fecha: 16/04/2016
 
 include("../conexion/conexion.php");
+include("./enviarCorreoLogueo.php");
 $conexion = connect();
 $correo = $_POST["correo"];
 
@@ -17,9 +18,11 @@ $row = mysqli_fetch_array($result);
 
 if(isset($row)){
   $row['inserted'] = 0;
+  //enviar($correo);
   echo json_encode($row, true);
   $consulta = "INSERT INTO bitacora_login VALUES ('".$row['id_login_app']."', now())";
   $result = mysqli_query($conexion, $consulta);
+  
 }
 
 //Si la consulta no encuentra un registro, lo genera.
@@ -32,6 +35,7 @@ else{
     $row['facebook'] = 0;
     $row['google'] = 1;
     $row['inserted'] = 1;
+    enviar($correo);
     echo json_encode($row, true);
 
   }

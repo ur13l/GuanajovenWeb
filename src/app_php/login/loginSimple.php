@@ -6,6 +6,7 @@
 #Fecha: 16/04/2016
 
 include("../conexion/conexion.php");
+
 $conexion = connect();
 $correo = $_POST["correo"];
 $password = $_POST['password'];
@@ -22,6 +23,7 @@ if(isset($row)){
 else{
   $row = array();
   $row['id_login_app'] = "0";
+ 
   echo json_encode($row, true);
 }
 

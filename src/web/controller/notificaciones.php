@@ -13,7 +13,6 @@ $consulta = "SET NAMES UTF8";
 $titulo = $_POST['titulo'];
 $mensaje = $_POST['mensaje'];
 $enlace = $_POST['enlace'];
-$schedule = $_POST['schedule'];
 $fecha = $_POST['fecha'];
 $hora = $_POST['hora'];
 $hombre = $_POST['hombre'];
@@ -25,6 +24,9 @@ $age1 = $_POST['age1'];
 $age2 = $_POST['age2'];
 $android = $_POST['android'];
 $ios = $_POST['ios'];
+$imcMin = $_POST['imc_min'];
+$imcMax = $_POST['imc_max'];
+$lesion = $_POST['lesion'];
 
 $where = "";
 
@@ -56,22 +58,27 @@ if($android != "true"){
 if($ios != "true"){
   $where .= "AND lt.os != 2 ";
 }
-
+if($lesion != "true"){
+  $where .= "AND dcp.lesion != 1 ";
+}
 
 $consulta = "SET NAMES UTF8";
 mysqli_query($conexion, $consulta);
 
-$query = "SELECT lt.token FROM login_token lt, datos_perfil dp, datos_complementarios_perfil dcp WHERE lt.id_login_app = dp.id_login_app
-AND dp.id_login_app = dcp.id_login_app AND lt.id_login_app = dcp.id_login_app " . $where;
-
-
+$query = "SELECT lt.token, lt.os FROM login_token lt, datos_perfil dp, datos_complementarios_perfil dcp WHERE lt.id_login_app = dp.id_login_app
+AND dp.id_login_app = dcp.id_login_app AND lt.id_login_app = dcp.id_login_app AND dcp.imc >= $imcMin AND dcp.imc <= $imcMax  " . $where;
 
 $result = mysqli_query($conexion, $query);
-$tokens = array();
+
+$tokensIOS = array();
+$tokensAndroid = array();
 
 if (mysqli_num_rows($result) > 0){
    while ($row = mysqli_fetch_array($result)){
-      $tokens[] = $row["token"];
+      if($row['os'] == 1)
+	$tokensAndroid[] = $row["token"];
+      if($row['os'] == 2)
+        $tokensIOS[] = $row["token"];
    }
 }
 
@@ -96,11 +103,13 @@ $message = array(
     'body' => $mensaje,
     'link_url' => $enlace,
     'sound' => 'default',
+   'priority' => 'high',
     'category' => 'URL_CATEGORY',
 		'tag' => $enlace);
 
- $message_status = sendNotification($tokens, $message);
- if(isset($message_status)){
+ $message_status = sendNotification($tokensIOS, $message, 'notification');
+ $message_status2 = sendNotification($tokensAndroid, $message, 'data');
+ if(isset($message_status) && isset($message_status2)){
    $success = array("success" => "true");
    $query = "INSERT INTO notificacion VALUES (0, '$titulo', '$mensaje', now())";
    $result = mysqli_query($conexion, $query);

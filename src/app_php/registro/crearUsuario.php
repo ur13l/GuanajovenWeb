@@ -5,6 +5,7 @@
   #Fecha: 04/05/2016
 
   include("../conexion/conexion.php");
+  include("./enviarCorreoLogueo.php");
   $conexion = connect();
   $correo = $_POST["correo"];
   $password = $_POST["password"];
@@ -24,7 +25,7 @@
   $consulta = "CALL stp_registrar_usuario('$correo', '$password', '$facebook', '$google','$peso','$estatura','$presion','$glucosa','$actividad','$lesion', '$genero', '$fec_nacimiento')";
   //Se hace la inserción en la tabla login_app
   $result = mysqli_query($conexion, $consulta);
-
+//  enviar($correo);
   //Se consulta la clave del usuario.
   $consulta = "SELECT id_login_app FROM login_app WHERE correo = '$correo'";
   $result = mysqli_query($conexion, $consulta);
@@ -33,7 +34,7 @@
   if(isset($id)){
     //Se hace la inserción en la tabla login_app
     echo "$id";
-
+     //enviar($correo);
   }
   else{
     echo "0";

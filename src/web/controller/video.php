@@ -29,4 +29,4 @@ echo $consulta;
     echo "move_uploaded_file function failed";
 }
 ?>
-J
+

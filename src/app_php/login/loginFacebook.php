@@ -6,6 +6,7 @@
 #Fecha: 16/04/2016
 
 include("../conexion/conexion.php");
+include("./enviarCorreoLogueo.php");
 $conexion = connect();
 $correo = $_POST["correo"];
 
@@ -32,6 +33,7 @@ else{
     $row['facebook'] = 1;
     $row['google'] = 0;
     $row['inserted'] = 1;
+    enviar($correo);
     echo json_encode($row, true);
   }
   //El correo ya se encuentra registrado con otro método.

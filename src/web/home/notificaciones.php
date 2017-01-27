@@ -16,6 +16,7 @@ if (isset($_SESSION['usuario_correo'])) {
   <link rel="stylesheet" href="../../css/style.css">
   <link rel="stylesheet" href="../../css/lolliclock.css">
   <link rel="stylesheet" href="../../css/toastr.min.css">
+  <link rel="stylesheet" href="../../css/nouislider.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script type="text/javascript" src="../../js/jquery-1.12.3.js"></script>
   <script type="text/javascript" src="../../js/lolliclock.js"></script>
@@ -151,21 +152,10 @@ if (isset($_SESSION['usuario_correo'])) {
             <p class="col s2" id="label_age" style="display:none"> años </p>
           </div>
           <div class="row">
-            <h6 class="col s12"> Por rango de edad </h6>
+            <h6 class="col s12"> Por IMC </h6>
             <div class="input-field col s12">
-              <div id="range-input" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
-                 <div class="noUi-base">
-                    <div class="noUi-origin noUi-connect" style="left: 39%;">
-                       <div class="noUi-handle noUi-handle-lower">
-                          <div class="range-label"><span>39</span></div>
-                       </div>
-                    </div>
-                    <div class="noUi-origin noUi-background" style="left: 50%;">
-                       <div class="noUi-handle noUi-handle-upper">
-                          <div class="range-label"><span>50</span></div>
-                       </div>
-                    </div>
-                 </div>
+              <div id="imc_range" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
+
               </div>
             </div>
           </div>

@@ -15,6 +15,10 @@
   $telefono = $_POST["telefono"];
   $peso = $_POST["peso"];
   $estatura = $_POST["estatura"];
+  $presion = $_POST["presion"];
+  $glucosa = $_POST["glucosa"];
+  $actividad = $_POST["actividad"];
+  $lesion = $_POST["lesion"];
 
 
   $q1 = $_POST["nombre"] != '' ? "nombre = '$nombre'": "nombre = null";
@@ -25,6 +29,10 @@
   $q6 = $_POST["telefono"] != '' ? "telefono = '$telefono'": "telefono = null";
   $q7 = $_POST["peso"] != '' ? "peso_actual = '$peso'": "peso_actual = null";
   $q8 = $_POST["estatura"] != '' ? "estatura_actual = '$estatura'": "estatura_actual = null";
+  $q9 = $_POST["presion"] != '' ? "presion_elevada = '$presion'": "presion_elevada = null";
+  $q10 = $_POST["glucosa"] != '' ? "glucosa_elevada = '$glucosa'": "glucosa_elevada = null";
+  $q11 = $_POST["actividad"] != '' ? "actividad_fisica = '$actividad'": "actividad_fisica = null";
+  $q12 = $_POST["lesion"] != '' ? "lesion = '$lesion'": "lesion = null";
 
   //Se verifica que exista un registro del usuario en la tabla.
   $consulta = "SELECT id_login_app FROM datos_perfil WHERE id_login_app = '$id_login_app'";
@@ -38,7 +46,7 @@
 
     $result = mysqli_query($conexion, $consulta);
     if($result){
-      $consulta = "UPDATE datos_complementarios_perfil SET $q7, $q8 WHERE id_login_app = '$id'";
+      $consulta = "UPDATE datos_complementarios_perfil SET $q7, $q8, $q9, $q10, $q11, $q12 WHERE id_login_app = '$id'";
       $result = mysqli_query($conexion, $consulta);
       if($result){
         echo "success";

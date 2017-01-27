@@ -1,11 +1,11 @@
 <?php
 
 
-    function sendNotification($tokens, $message){
+    function sendNotification($tokens, $message, $type){
       $url = "https://fcm.googleapis.com/fcm/send";
       $fields = array(
         'registration_ids' => $tokens,
-        'notification' => $message,
+        $type => $message,
         'priority' => 'high',
         'content_available' => true, );
 
