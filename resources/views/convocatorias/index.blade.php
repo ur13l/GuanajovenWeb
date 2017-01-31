@@ -66,41 +66,12 @@
         </div>
     </div>
 
-    <!--Modal Agregar-->
-    <div id="modalPub" class="modal">
-        <div class="modal-content">
-            <h4>Nueva Publicidad</h4>
-            <p>
-            <div class="row">
-                <form class="col s12">
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <input id="titulo" type="text" class="vald">
-                            <label for="titulo">Título</label>
-                        </div>
-                    </div>
-                    <div class="file-field input-field">
-                        <div class="btn">
-                            <span>Imagen</span>
-                            <input type="file" multiple>
-                        </div>
-                        <div class="file-path-wrapper">
-                            <input class="file-path validate" type="text" placeholder="Upload one or more files">
-                        </div>
-                    </div>
-                </form>
-            </div>
-            </p>
-        </div>
-        <div class="modal-footer">
-            <a href="#!" class=" modal-action waves-effect waves-green btn-flat" id="guardar-pub">Guardar</a>
-            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-        </div>
-    </div>
-
     <div class="fixed-action-btn" style="bottom: 10px; right: 24px;">
-        <a href="#modalPub" class="btn-floating btn-large waves-effect waves-light btn modal-trigger" style="background: #BF3364;">
+        <a href="{{url('convocatorias/nueva_convocatoria')}}" class="btn-floating btn-large waves-effect waves-light btn modal-trigger"
+            style="background: #BF3364;">
             <i class="material-icons" id="new-Pub">add</i>
         </a>
     </div>
+
+
 @endsection

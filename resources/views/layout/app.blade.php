@@ -12,15 +12,19 @@ if (isset($_SESSION['usuario_correo'])) {
     <head>
         <meta charset="UTF-8">
         <title>@yield('title')</title>
-        <link rel="stylesheet" href="materialize/css/materialize.min.css">
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="{{url('materialize/css/materialize.min.css')}}">
+        <link rel="stylesheet" href="{{url('css/style.css')}}">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <script type="text/javascript" src="js/jquery-1.12.3.js"></script>
-        <script type="text/javascript" src="materialize/js/materialize.js"></script>
+        <script type="text/javascript" src="{{url('js/jquery-1.12.3.js')}}"></script>
+        <script type="text/javascript" src="{{url('materialize/js/materialize.js')}}"></script>
         <script type="text/javascript">
             $(document).ready(function(){
                 $(".button-collapse").sideNav();
                 $('.modal-trigger').leanModal();
+                $('.datepicker').pickadate({
+                    selectMonths: true,
+                    selectYears: 15
+                });
             });
         </script>
     </head>
@@ -32,26 +36,26 @@ if (isset($_SESSION['usuario_correo'])) {
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 
                 <ul class="right hide-on-med-and-down">
-                    <li><a href="reportes.php">Reportes</a></li>
-                    <li><a href="usuarios.php">Usuarios</a></li>
+                    <li><a href="{{url('web/home/reportes.php')}}">Reportes</a></li>
+                    <li><a href="{{url('web/home/usuarios.php')}}">Usuarios</a></li>
                     <li><a href="{{url('publicidad')}}">Publicidad</a></li>
                     <li><a href="{{url('convocatorias')}}">Convocatorias</a></li>
-                    <li><a href="notificaciones.php">Notificaciones</a></li>
-                    <li><a href="historial.php">Historial Notificaciones</a></li>
-                    <li><a href="eventos.php">Eventos</a></li>
-                    <li><a href="video.php">Video</a></li>
-                    <li><a href="../../logout.php">Cerrar sesión</a></li>
+                    <li><a href="{{url('web/home/notificaciones.php')}}">Notificaciones</a></li>
+                    <li><a href="{{url('web/home/historial.php')}}">Historial Notificaciones</a></li>
+                    <li><a href="{{url('web/home/eventos.php')}}">Eventos</a></li>
+                    <li><a href="{{url('web/home/video.php')}}">Video</a></li>
+                    <li><a href="{{url('logout.php')}}">Cerrar sesión</a></li>
                 </ul>
                 <ul class="side-nav" id="mobile-demo">
-                    <li><a href="reportes.php">Reportes</a></li>
-                    <li><a href="usuarios.php">Usuarios</a></li>
+                    <li><a href="{{url('web/home/reportes.php')}}">Reportes</a></li>
+                    <li><a href="{{url('web/home/usuarios.php')}}">Usuarios</a></li>
                     <li><a href="{{url('publicidad')}}">Publicidad</a></li>
                     <li><a href="{{url('convocatorias')}}">Convocatorias</a></li>
-                    <li><a href="notificaciones.php">Notificaciones</a></li>
-                    <li><a href="historial.php">Historial Notificaciones</a></li>
-                    <li><a href="eventos.php">Eventos</a></li>
-                    <li><a href="video.php">Video</a></li>
-                    <li><a href="../../logout.php">Cerrar sesión</a></li>
+                    <li><a href="{{url('web/home/notificaciones.php')}}">Notificaciones</a></li>
+                    <li><a href="{{url('web/home/historial.php')}}">Historial Notificaciones</a></li>
+                    <li><a href="{{url('web/home/eventos.php')}}">Eventos</a></li>
+                    <li><a href="{{url('web/home/video.php')}}">Video</a></li>
+                    <li><a href="{{url('logout.php')}}">Cerrar sesión</a></li>
                 </ul>
             </div>
         </nav>

@@ -74,9 +74,15 @@
             <div class="row">
                 <form class="col s12">
                     <div class="row">
-                        <div class="input-field col s12">
+                        <div class="input-field col s6">
                             <input id="titulo" type="text" class="vald">
                             <label for="titulo">Título</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input id="url" type="text" class="vald">
+                            <label for="url">URL</label>
                         </div>
                     </div>
                     <div class="file-field input-field">
@@ -85,7 +91,7 @@
                             <input type="file" multiple>
                         </div>
                         <div class="file-path-wrapper">
-                            <input class="file-path validate" type="text" placeholder="Upload one or more files">
+                            <input class="file-path validate" type="text" placeholder="Subir imagen">
                         </div>
                     </div>
                 </form>

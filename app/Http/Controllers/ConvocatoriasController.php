@@ -14,4 +14,9 @@ class ConvocatoriasController {
     public function index(Request $request) {
         return view('convocatorias.index');
     }
+
+    //Función para agregar una convocatoria
+    public function nuevaConvocatoria(Request $request) {
+        return view('convocatorias.nuevaConvocatoria');
+    }
 }

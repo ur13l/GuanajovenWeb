@@ -30,7 +30,7 @@ if (isset($_SESSION['usuario_correo'])) {
   ?>
   <div class="container" style="background:white;  padding:30px; margin-top:50px">
     <div class="row">
-      <img src="../../img/code.png" class="col s9 m6 l3 offset-s2 offset-m3 offset-l4">
+      <img src="../../img/logo_guanajoven.png" class="col s9 m6 l3 offset-s2 offset-m3 offset-l4">
     </div>
 <h1>Reportes</h1>
 
