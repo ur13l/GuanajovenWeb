@@ -9,12 +9,12 @@ body {
  }
  /* label focus color */
  .input-field input[type=email]:focus + label, .input-field input[type=password]:focus + label {
-   color: #126fb7;
+   color: #BF3364;
  }
  /* label underline focus color */
  .input-field input[type=email]:focus,.input-field input[type=password]:focus {
-   border-bottom: 1px solid #126fb7;
-   box-shadow: 0 1px 0 0 #126fb7;
+   border-bottom: 1px solid #BF3364;
+   box-shadow: 0 1px 0 0 #BF3364;
  }
  /* valid color */
  .input-field input[type=email].valid,.input-field input[type=password].valid {
@@ -73,11 +73,19 @@ left: 0%; } }
 }
 
 .green-code{
-  background-color: #8dc63f !important;
+  background-color: #BF3364 !important;
+}
+
+.rose_code {
+    background-color: #BF3364; !important;
+}
+
+.rose_code-text {
+    background-color: #BF3364; !important;
 }
 
 .green-code-text{
-  color: #8dc63f !important;
+  color: #BF3364 !important;
 }
 
 .blue-code-text{
@@ -85,12 +93,12 @@ left: 0%; } }
 }
 
 .checkbox-green-code[type="checkbox"].filled-in:checked + label:after{
-     border: 2px solid #8dc63f;
-     background-color: #8dc63f;
+     border: 2px solid #BF3364;
+     background-color: #BF3364;
 }
 
-.input-field input[type=text]:focus + label { color:  #8dc63f; } /* label underline focus color */
-.input-field input[type=text]:focus { border-bottom: 1px solid  #8dc63f; box-shadow: 0 1px 0 0  #8dc63f; }
+.input-field input[type=text]:focus + label { color:  #BF3364; } /* label underline focus color */
+.input-field input[type=text]:focus { border-bottom: 1px solid  #BF3364; box-shadow: 0 1px 0 0  #BF3364; }
 
 
 textarea + label[data-error]:after {
@@ -100,19 +108,19 @@ textarea + label[data-error]:after {
 }
 
 li.page.active{
-  background-color: #8dc63f !important;
+  background-color: #BF3364 !important;
 }
 
 /*data table color */
 table.table thead .sorting_asc {
-    background-color: #80CC28;
+    background-color: #BF3364;
     color: #fff;
     font-weight:bold;
     font-size: 13px;
 }
 
 table.table thead .sorting_desc {
-    background-color: #80CC28;
+    background-color: #BF3364;
     color: #fff;
     font-weight:bold;
     font-size: 13px;
@@ -138,4 +146,8 @@ table.table thead .sorting {
 
 .anuncio:hover .deleteP {
     display: block;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    z-index: 100;
 }

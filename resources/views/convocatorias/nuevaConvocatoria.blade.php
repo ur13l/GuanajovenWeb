@@ -42,7 +42,7 @@
                 </div>
             </div>
             <div class="row" style="padding-left: 1%;">
-                <a class="waves-effect waves-light btn">
+                <a href="http://jovenes.guanajuato.gob.mx/news/" class="waves-effect waves-light btn">
                     <i class="material-icons left">receipt</i>Documentos
                 </a>
             </div>

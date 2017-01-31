@@ -101,12 +101,12 @@ if (isset($_SESSION['usuario_correo'])) {
        </div>
     </div>
     <div class="fixed-action-btn" style="bottom: 10px; right: 24px;">
-      <a href="#modal1" class="btn-floating btn-large waves-effect waves-light green-code btn modal-trigger" >
+      <a href="#modal1" class="btn-floating btn-large waves-effect waves-light rose_code btn modal-trigger" style="background: #BF3364;">
         <i class="material-icons" id="new-event">add</i>
       </a>
     </div>
     <div class="fixed-action-btn" id="delete-selection" style="display:none; bottom: 10px; right: 100px;">
-      <a class="btn-floating btn-large waves-effect waves-light green-code btn" >
+      <a class="btn-floating btn-large waves-effect waves-light rose-code btn" style="background: #BF3364;">
         <i class="material-icons" id="new-event">delete</i>
       </a>
     </div>

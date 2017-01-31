@@ -70,8 +70,8 @@ if (isset($_SESSION['usuario_correo'])) {
       </div>
       -->
       <div class="row right">
-        <a class="waves-effect waves-light btn modal-trigger green-code" href="#modal1"><i class="material-icons left">settings</i>Configurar Destinatarios</a>
-        <button class="waves-effect waves-light btn green-code" id="enviar"><i class="material-icons left">send</i>Enviar</button>
+        <a class="waves-effect waves-light btn modal-trigger rose-code" href="#modal1" style="background: #BF3364;"><i class="material-icons left">settings</i>Configurar Destinatarios</a>
+        <button class="waves-effect waves-light btn rose-code" id="enviar" style="background: #BF3364;"><i class="material-icons left">send</i>Enviar</button>
 
       </div>
       <div class="row" style="margin-top:110px">
