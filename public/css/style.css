@@ -69,7 +69,7 @@ left: 0%; } }
 
 
 .blue-code{
-  background-color: #126fb7 !important;
+  background-color: #074677 !important;
 }
 
 .green-code{
@@ -130,4 +130,12 @@ table.table thead .sorting {
 .modal {
 	width: 80%;
 	
+}
+
+.deleteP {
+    display: none;
+}
+
+.anuncio:hover .deleteP {
+    display: block;
 }

@@ -13,6 +13,7 @@ echo '<nav>
     <ul class="right hide-on-med-and-down">
       <li><a href="reportes.php">Reportes</a></li>
       <li><a href="usuarios.php">Usuarios</a></li>
+      <li><a href="../../../public/publicidad">Publicidad</a></li>
       <li><a href="notificaciones.php">Notificaciones</a></li>
       <li><a href="historial.php">Historial Notificaciones</a></li>
       <li><a href="eventos.php">Eventos</a></li>
@@ -22,6 +23,7 @@ echo '<nav>
     <ul class="side-nav" id="mobile-demo">
         <li><a href="reportes.php">Reportes</a></li>
         <li><a href="usuarios.php">Usuarios</a></li>
+        <li><a href="../../../public/publicidad">Publicidad</a></li>
         <li><a href="notificaciones.php">Notificaciones</a></li>
         <li><a href="historial.php">Historial Notificaciones</a></li>
         <li><a href="eventos.php">Eventos</a></li>

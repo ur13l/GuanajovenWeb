@@ -14,3 +14,6 @@
 Route::get('/', function () {
     return view('index');
 });
+
+//Publicidad
+Route::get('/publicidad', 'PublicidadController@index');
