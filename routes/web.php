@@ -17,3 +17,5 @@ Route::get('/', function () {
 
 //Publicidad
 Route::get('/publicidad', 'PublicidadController@index');
+//Convocatorias
+Route::get('/convocatorias', 'ConvocatoriasController@index');

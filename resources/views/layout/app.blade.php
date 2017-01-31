@@ -28,13 +28,14 @@ if (isset($_SESSION['usuario_correo'])) {
         <!--Barra de navegación-->
         <nav>
             <div class="nav-wrapper blue-code">
-                <a href="#" class="brand-logo">CODE Guanajuato</a>
+                <a href="#" class="brand-logo" style="padding-left: 2.5%;">Guanajoven</a>
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 
                 <ul class="right hide-on-med-and-down">
                     <li><a href="reportes.php">Reportes</a></li>
                     <li><a href="usuarios.php">Usuarios</a></li>
                     <li><a href="{{url('publicidad')}}">Publicidad</a></li>
+                    <li><a href="{{url('convocatorias')}}">Convocatorias</a></li>
                     <li><a href="notificaciones.php">Notificaciones</a></li>
                     <li><a href="historial.php">Historial Notificaciones</a></li>
                     <li><a href="eventos.php">Eventos</a></li>
@@ -45,6 +46,7 @@ if (isset($_SESSION['usuario_correo'])) {
                     <li><a href="reportes.php">Reportes</a></li>
                     <li><a href="usuarios.php">Usuarios</a></li>
                     <li><a href="{{url('publicidad')}}">Publicidad</a></li>
+                    <li><a href="{{url('convocatorias')}}">Convocatorias</a></li>
                     <li><a href="notificaciones.php">Notificaciones</a></li>
                     <li><a href="historial.php">Historial Notificaciones</a></li>
                     <li><a href="eventos.php">Eventos</a></li>

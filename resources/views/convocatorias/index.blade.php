@@ -1,65 +1,65 @@
 @extends('layout.app')
 
 @section('title')
-    Publicidad
+    Convocatorias
 @endsection
 @section('contenedor')
     <div class="row">
-        <h1>Publicidad</h1>
+        <h1>Convocatorias</h1>
     </div>
     <div class="row">
-        <div class="col s12 m12 l12 anuncio" id="ejemplo1">
+        <div class="col s12 m4 l4 anuncio" id="ejemplo1">
             <div class="card">
                 <div class="card-image">
-                    <img src="{{url('img/publicidad/ejemplo1.jpg')}}">
-                    <span class="card-title" style="background: black; width: 25%;">Ejemplo 1</span>
+                    <img src="{{url('img/convocatorias/ejemplo1.png')}}">
+                    <span class="card-title" style="background: black;">Ejemplo 1</span>
                     <a class="btn-floating halfway-fab waves-effect waves-light red right deleteP"><i class="material-icons">clear</i></a>
                 </div>
             </div>
         </div>
-        <div class="col s12 m12 l12 anuncio" id="ejemplo2">
+        <div class="col s12 m4 l4 anuncio" id="ejemplo2">
             <div class="card">
                 <div class="card-image">
-                    <img src="{{url('img/publicidad/ejemplo2.jpg')}}">
-                    <span class="card-title" style="background: black; width: 25%;">Ejemplo 2</span>
+                    <img src="{{url('img/convocatorias/ejemplo2.png')}}">
+                    <span class="card-title" style="background: black;">Ejemplo 2</span>
                     <a class="btn-floating halfway-fab waves-effect waves-light red right deleteP"><i class="material-icons">clear</i></a>
                 </div>
             </div>
         </div>
-        <div class="col s12 m12 l12 anuncio" id="ejemplo3">
+        <div class="col s12 m4 l4 anuncio" id="ejemplo3">
             <div class="card">
                 <div class="card-image">
-                    <img src="{{url('img/publicidad/ejemplo3.jpg')}}">
-                    <span class="card-title" style="background: black; width: 25%;">Ejemplo 3</span>
+                    <img src="{{url('img/convocatorias/ejemplo3.png')}}">
+                    <span class="card-title" style="background: black;">Ejemplo 3</span>
                     <a class="btn-floating halfway-fab waves-effect waves-light red right deleteP"><i class="material-icons">clear</i></a>
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col s12 m12 l12 anuncio" id="ejemplo4">
+        <div class="col s12 m4 l4 anuncio" id="ejemplo4">
             <div class="card">
                 <div class="card-image">
-                    <img src="{{url('img/publicidad/ejemplo4.jpg')}}">
-                    <span class="card-title" style="background: black; width: 25%;">Ejemplo 4</span>
+                    <img src="{{url('img/convocatorias/ejemplo4.png')}}">
+                    <span class="card-title" style="background: black;">Ejemplo 4</span>
                     <a class="btn-floating halfway-fab waves-effect waves-light red right deleteP"><i class="material-icons">clear</i></a>
                 </div>
             </div>
         </div>
-        <div class="col s12 m12 l12 anuncio" id="ejemplo5">
+        <div class="col s12 m4 l4 anuncio" id="ejemplo5">
             <div class="card">
                 <div class="card-image">
-                    <img src="{{url('img/publicidad/ejemplo5.jpg')}}">
-                    <span class="card-title" style="background: black; width: 25%;">Ejemplo 5</span>
+                    <img src="{{url('img/convocatorias/ejemplo5.png')}}">
+                    <span class="card-title" style="background: black;">Ejemplo 5</span>
                     <a class="btn-floating halfway-fab waves-effect waves-light red right deleteP"><i class="material-icons">clear</i></a>
                 </div>
             </div>
         </div>
-        <div class="col s12 m12 l12 anuncio" id="ejemplo6">
+        <div class="col s12 m4 l4 anuncio" id="ejemplo6">
             <div class="card">
                 <div class="card-image">
-                    <img src="{{url('img/publicidad/ejemplo6.jpg')}}">
-                    <span class="card-title" style="background: black; width: 25%;">Ejemplo 6</span>
+                    <img src="{{url('img/convocatorias/ejemplo6.png')}}">
+                    <span class="card-title" style="background: black;">Ejemplo 6</span>
                     <a class="btn-floating halfway-fab waves-effect waves-light red right deleteP"><i class="material-icons">clear</i></a>
                 </div>
             </div>
