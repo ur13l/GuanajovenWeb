@@ -76,15 +76,13 @@
                             <label for="titulo">Título</label>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="file-field input-field col s6">
-                            <div class="btn" style="cursor: pointer;">
-                                <span>Imagen</span>
-                                <input type="file">
-                            </div>
-                            <div class="file-path-wrapper">
-                                <input type="file-path validate" type="text">
-                            </div>
+                    <div class="file-field input-field">
+                        <div class="btn">
+                            <span>Imagen</span>
+                            <input type="file" multiple>
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text" placeholder="Upload one or more files">
                         </div>
                     </div>
                 </form>
