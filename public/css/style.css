@@ -5,7 +5,7 @@ body {
 
 /* label color */
  .input-field label {
-   color: #126fb7;
+   color: #BF3364;
  }
  /* label focus color */
  .input-field input[type=email]:focus + label, .input-field input[type=password]:focus + label {
@@ -18,22 +18,22 @@ body {
  }
  /* valid color */
  .input-field input[type=email].valid,.input-field input[type=password].valid {
-   border-bottom: 1px solid #126fb7;
-   box-shadow: 0 1px 0 0 #126fb7;
+   border-bottom: 1px solid #074677;
+   box-shadow: 0 1px 0 0 #074677;
  }
  /* invalid color */
  .input-field input[type=email].invalid, .input-field input[type=password].invalid {
-   border-bottom: 1px solid #126fb7;
-   box-shadow: 0 1px 0 0 #126fb7;
+   border-bottom: 1px solid #074677;
+   box-shadow: 0 1px 0 0 #074677;
  }
  /* icon prefix focus color */
  .input-field .prefix.active {
-   color: #126fb7;
+   color: #074677;
  }
 
  /* Color del datepicker */
  .picker__date-display, .picker__weekday-display{
-    background-color: #2196F3;
+    background-color: #074677;
 }
 
 select.invalid ~ .select-dropdown {
@@ -89,7 +89,7 @@ left: 0%; } }
 }
 
 .blue-code-text{
-  color: #126fb7 !important;
+  color: #074677 !important;
 }
 
 .checkbox-green-code[type="checkbox"].filled-in:checked + label:after{
@@ -128,7 +128,7 @@ table.table thead .sorting_desc {
 
 
 table.table thead .sorting {
-    background-color: #337ab7;
+    background-color: #074677;
     color: #fff;
     font-weight:bold;
     font-size: 13px;

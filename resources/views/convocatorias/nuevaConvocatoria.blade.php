@@ -22,7 +22,7 @@
             </div>
             <div class="row">
                 <div class="file-field input-field col s6">
-                    <div class="btn">
+                    <div class="btn" style="background: #BF3364;">
                         <span>Imagen</span>
                         <input type="file" multiple>
                     </div>
@@ -42,7 +42,7 @@
                 </div>
             </div>
             <div class="row" style="padding-left: 1%;">
-                <a href="http://jovenes.guanajuato.gob.mx/news/" class="waves-effect waves-light btn">
+                <a href="http://jovenes.guanajuato.gob.mx/news/" style="background: #BF3364;" class="waves-effect waves-light btn">
                     <i class="material-icons left">receipt</i>Documentos
                 </a>
             </div>
