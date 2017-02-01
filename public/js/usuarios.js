@@ -286,7 +286,7 @@ $(document).ready(function(){
    });
 
    //Cambiar el mensaje de la interfaz
-   $(".brand-logo").html("&nbsp Eventos");
+   //$(".brand-logo").html("&nbsp Eventos");
 
    //Se trae el número de hojas y elementos.
    definirPaginacion();

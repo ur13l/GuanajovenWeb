@@ -4,11 +4,11 @@
     Convocatorias
 @endsection
 
-@section('contenedor')
-    <div class="row">
-        <h1>Convocatorias</h1>
-    </div>
+@section('cabecera')
+    Convocatorias
+@endsection
 
+@section('contenedor')
     <!--Modal eliminar-->
     <div id="deleteModalConv" class="modal">
         <div class="modal-content">

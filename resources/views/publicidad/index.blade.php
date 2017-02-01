@@ -3,11 +3,12 @@
 @section('title')
     Publicidad
 @endsection
-@section('contenedor')
-    <div class="row">
-        <h1>Publicidad</h1>
-    </div>
 
+@section('cabecera')
+    Publicidad
+@endsection
+
+@section('contenedor')
     <!--Modal eliminar-->
     <div id="deleteModalPub" class="modal">
         <div class="modal-content">

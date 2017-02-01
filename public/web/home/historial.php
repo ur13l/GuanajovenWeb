@@ -55,7 +55,7 @@ if (isset($_SESSION['usuario_correo'])) {
  ?>
 
   <div class="container"  >
-    <div class="section">   
+    <!--<div class="section">
          <button onClick="reg_tip(0)" class="btn rose_code" style="background: #BF3364;">Tip Nuevo</button>
      <div class="row">
         <div class="col s12 m12">
@@ -75,23 +75,25 @@ if (isset($_SESSION['usuario_correo'])) {
       </div>
 
       </div>
+
       
 
       
       
 
 	<!-- Modal -->
-	<div class="modal" id="myModal">
+	<!--<div class="modal" id="myModal">
 
 			<div class="modal-content" id='modalData'>
 
 			</div> <!-- /.modal-content -->
 
-	</div> <!-- /.modal -->                 
+	<!--</div> <!-- /.modal -->
 
       
       
-	</div>
-  </div><!-- container -->    
+	<!--</div>-->
+
+  </div><!-- container -->
 </body>
 </html>
