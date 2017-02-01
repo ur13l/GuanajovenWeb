@@ -15,4 +15,8 @@ class EventosController {
     public function index(Request $request) {
         return view('eventos.index');
     }
+
+    public function editarEvento(Request $request) {
+        return view('eventos.editarEvento');
+    }
 }
