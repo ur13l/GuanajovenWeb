@@ -4,6 +4,10 @@
     Video
 @endsection
 
+@section('head')
+    <script type="text/javascript" src="{{url('/js/video.js')}}"> </script>
+@endsection
+
 @section('cabecera')
     Video
 @endsection

@@ -4,6 +4,10 @@ var notificaciones;
 var paginaActiva = 0;
 var eliminarIds;
 var sliderIMC;
+var url = $("#url").val() + '/web/controller/readNotifications.php';
+var url2 = $("#url").val() + '/web/controller/paginacionNotificaciones.php';
+var url3 = $("#url").val() + '/web/controller/deleteNotification.php';
+var url4 = $("#url").val() + '/web/controller/notificaciones.php';
 
 /**
  * Función que valida si un campo de texto está vacío, marca el error en la interfaz.
@@ -46,7 +50,7 @@ function getNotifications(page){
     page: page
   };
   $.ajax({
-      url : '../controller/readNotifications.php',
+      url : url,
       data : obj,
       type : 'POST',
       dataType : 'json',
@@ -113,7 +117,7 @@ function definirPaginacion(){
     $("#pagination-demo").twbsPagination('destroy');
   }
   $.ajax({
-      url : '../controller/paginacionNotificaciones.php',
+      url : url2,
       type : 'POST',
       dataType : 'json',
       success : function(json) {
@@ -157,7 +161,7 @@ function deleteNotifications(){
     ids: JSON.stringify(eliminarIds)
   };
   $.ajax({
-      url : '../controller/deleteNotification.php',
+      url : url3,
       data : obj,
       type : 'POST',
       dataType : 'json',
@@ -263,7 +267,7 @@ function newNotification(){
   };
 
   $.ajax({
-      url : '../controller/notificaciones.php',
+      url : url4,
       data : obj,
       type : 'POST',
       dataType : 'json',

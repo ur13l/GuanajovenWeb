@@ -10,6 +10,6 @@
 
 @section('contenedor')
     <div class="row">
-        <h3>Detalles del Evento</h3>
+        <h2>Detalles del Evento</h2>
     </div>
 @endsection

@@ -4,6 +4,10 @@
     Notificaciones
 @endsection
 
+@section('head')
+    <script type="text/javascript" src="{{url('/js/notificaciones.js')}}"> </script>
+@endsection
+
 @section('cabecera')
     Notificaciones
 @endsection

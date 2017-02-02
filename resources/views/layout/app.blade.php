@@ -1,17 +1,9 @@
-<?php
-session_start();
-if (isset($_SESSION['usuario_correo'])) {
-    $correo = $_SESSION['usuario_correo'];
-} else {
-    header("Locationheader:../../index.html");
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <title>@yield('title')</title>
+        <input type="hidden" id="url" name="url" value="{{url('/')}}">
         <link rel="stylesheet" href="{{url('materialize/css/materialize.min.css')}}">
         <link rel="stylesheet" href="{{url('css/style.css')}}">
         <link rel="stylesheet" href="{{url('/css/lolliclock.css')}}">
@@ -25,12 +17,8 @@ if (isset($_SESSION['usuario_correo'])) {
         <script type="text/javascript" src="{{url('/js/moment.js')}}"></script>
         <script type="text/javascript" src="{{url('/js/toastr.min.js')}}"></script>
         <script type="text/javascript" src="{{url('/js/jquery.twbsPagination.min.js')}}"></script>
-        <script type="text/javascript" src="{{url('/js/usuarios.js')}}"> </script>
         <script type="text/javascript" src="{{url('/js/nouislider.min.js')}}"></script>
         <script type="text/javascript" src="{{url('/js/jquery.twbsPagination.min.js')}}"></script>
-        <script type="text/javascript" src="{{url('/js/notificaciones.js')}}"> </script>
-        <script type="text/javascript" src="{{url('/js/eventos.js')}}"> </script>
-        <script type="text/javascript" src="{{url('/js/video.js')}}"> </script>
         <script type="text/javascript">
             $(document).ready(function(){
                 $(".button-collapse").sideNav();
@@ -41,8 +29,9 @@ if (isset($_SESSION['usuario_correo'])) {
                 });
             });
         </script>
+        @yield('head')
     </head>
-    <body style="background: #f1f1f1">
+    <body style="background: #f1f1f1" id="body">
         <!--Barra de navegación-->
         <nav>
             <div class="nav-wrapper blue-code">

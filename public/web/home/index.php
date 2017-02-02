@@ -14,9 +14,7 @@
      console.log("NO");
    });
  </script>
-    <?php
-      include('../defines/checkLogin.php');
-   ?>    
+
 </head>
 <body>
   <?php

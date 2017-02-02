@@ -3,6 +3,7 @@ var id;
 var eventos;
 var paginaActiva = 0;
 var eliminarIds;
+var url = $("#url").val() + '/web/controller/eventos.php';
 
 
 /**
@@ -71,7 +72,7 @@ function getEvents(page){
     action: 'read'
   };
   $.ajax({
-      url : '../controller/eventos.php',
+      url : url,
       data : obj,
       type : 'POST',
       dataType : 'json',
@@ -169,7 +170,7 @@ function definirPaginacion(){
     action: 'count'
   };
   $.ajax({
-      url : '../controller/eventos.php',
+      url : url,
       data : obj,
       type : 'POST',
       dataType : 'json',
@@ -216,7 +217,7 @@ function deleteEvents(){
     ids: JSON.stringify(eliminarIds)
   };
   $.ajax({
-      url : '../controller/eventos.php',
+      url : url,
       data : obj,
       type : 'POST',
       dataType : 'json',
@@ -254,7 +255,7 @@ function guardarEvento(){
          };
          $.ajax({
              // la URL para la petición
-             url : '../controller/eventos.php',
+             url : url,
 
              // la información a enviar
              // (también es posible utilizar una cadena de datos)

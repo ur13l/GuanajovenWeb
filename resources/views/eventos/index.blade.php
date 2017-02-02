@@ -8,6 +8,10 @@
     Eventos
 @endsection
 
+@section('head')
+    <script type="text/javascript" src="{{url('/js/eventos.js')}}"> </script>
+@endsection
+
 @section('contenedor')
     <div class="row">
         <table class="highlight">

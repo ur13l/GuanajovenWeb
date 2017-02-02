@@ -4,6 +4,10 @@
     Usuarios
 @endsection
 
+@section('head')
+    <script type="text/javascript" src="{{url('/js/usuarios.js')}}"> </script>
+@endsection
+
 @section('cabecera')
     Usuarios
 @endsection
