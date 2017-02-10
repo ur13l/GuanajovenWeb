@@ -100,7 +100,7 @@
                         </div>
                     </div>
                     <div class="file-field input-field">
-                        <div class="btn">
+                        <div class="btn rose-code" style="background: #BF3364;">
                             <span>Imagen</span>
                             <input type="file" multiple>
                         </div>

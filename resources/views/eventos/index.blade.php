@@ -22,7 +22,6 @@
                 <th data-field="descripcion">Descripción</th>
                 <th data-field="fecha_inicio">Inicia</th>
                 <th data-field="fecha_fin">Termina</th>
-                <th data-field="editar">Editar</th>
                 <th data-field="eliminar">Eliminar</th>
 
             </tr>
@@ -102,12 +101,12 @@
             <p id="delete-message">¿Desea eliminar el evento seleccionado?</p>
         </div>
         <div class="modal-footer">
-            <a href="#" class="waves-effect waves-red btn-flat" onclick="$('#md1').closeModal(); return false;">Cancelar</a>
+            <a href="#" class="waves-effect waves-red btn-flat" onclick="$('#deleteModal').closeModal(); return false;">Cancelar</a>
             <a href="#" class="waves-effect waves-green btn-flat" onclick="deleteEvents()" id="md1_YesBtn">Sí</a>
         </div>
     </div>
     <div class="fixed-action-btn" style="bottom: 10px; right: 24px;">
-        <a href="{{url('eventos/editar')}}" class="btn-floating btn-large waves-effect waves-light btn modal-trigger" style="background: #BF3364;">
+        <a href="{{url('eventos/nuevo')}}" class="btn-floating btn-large waves-effect waves-light btn modal-trigger" style="background: #BF3364;">
             <i class="material-icons" id="new-event">add</i>
         </a>
     </div>

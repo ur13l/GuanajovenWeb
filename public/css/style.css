@@ -5,7 +5,7 @@ body {
 
 /* label color */
  .input-field label {
-   color: #BF3364;
+   color: #074677;
  }
  /* label focus color */
  .input-field input[type=email]:focus + label, .input-field input[type=password]:focus + label {
@@ -33,7 +33,7 @@ body {
 
  /* Color del datepicker */
  .picker__date-display, .picker__weekday-display{
-    background-color: #074677;
+    background-color: #BF3364;
 }
 
 select.invalid ~ .select-dropdown {

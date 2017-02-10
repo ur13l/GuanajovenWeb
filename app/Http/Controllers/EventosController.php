@@ -16,7 +16,7 @@ class EventosController {
         return view('eventos.index');
     }
 
-    public function editarEvento(Request $request) {
-        return view('eventos.editarEvento');
+    public function nuevoEvento(Request $request) {
+        return view('eventos.nuevoEvento');
     }
 }
