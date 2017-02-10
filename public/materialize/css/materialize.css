@@ -5809,7 +5809,7 @@ textarea.materialize-textarea + label:after {
 }
 
 .input-field .prefix.active {
-  color: #26a69a;
+  color: #BF3364;
 }
 
 .input-field .prefix ~ input,

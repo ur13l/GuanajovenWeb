@@ -34,7 +34,7 @@ if (isset($_SESSION['usuario_correo'])) {
 
   <div class="container" style="background:white;  padding:50px; margin-top:50px">
     <div class="row">
-      <img src="../../img/code.png" class="col s9 m6 l3 offset-s2 offset-m3 offset-l4">
+      <img src="../../img/logo_guanajoven.png" class="col s9 m6 l3 offset-s2 offset-m3 offset-l4">
       <table class="highlight">
         <thead>
           <tr>
@@ -128,12 +128,12 @@ if (isset($_SESSION['usuario_correo'])) {
        </div>
     </div>
     <div class="fixed-action-btn" style="bottom: 10px; right: 24px;">
-      <a href="#modal1" class="btn-floating btn-large waves-effect waves-light green-code btn modal-trigger" >
+      <a href="#modal1" class="btn-floating btn-large waves-effect waves-light btn modal-trigger" style="background: #BF3364;">
         <i class="material-icons" id="new-event">add</i>
       </a>
     </div>
     <div class="fixed-action-btn" id="delete-selection" style="display:none; bottom: 10px; right: 100px;">
-      <a class="btn-floating btn-large waves-effect waves-light green-code btn" >
+      <a class="btn-floating btn-large waves-effect waves-light btn" style="background: #BF3364;">
         <i class="material-icons" id="new-event">delete</i>
       </a>
     </div>

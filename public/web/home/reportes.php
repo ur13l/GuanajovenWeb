@@ -30,7 +30,7 @@ if (isset($_SESSION['usuario_correo'])) {
   ?>
   <div class="container" style="background:white;  padding:30px; margin-top:50px">
     <div class="row">
-      <img src="../../img/code.png" class="col s9 m6 l3 offset-s2 offset-m3 offset-l4">
+      <img src="../../img/logo_guanajoven.png" class="col s9 m6 l3 offset-s2 offset-m3 offset-l4">
     </div>
 <h1>Reportes</h1>
 
@@ -40,7 +40,7 @@ if (isset($_SESSION['usuario_correo'])) {
       <div class="row">
         <h5 class="col s9" style="display:inline">Reporte de usuarios global</h5>
 
-          <input type="submit" name="export_excel" class="waves-effect waves-light btn green-code col s3" value="Descargar Reporte">
+          <input type="submit" name="export_excel" class="waves-effect waves-light rose_code btn col s3" style="background: #BF3364;" value="Descargar Reporte">
       </div>
 
     </form></li>

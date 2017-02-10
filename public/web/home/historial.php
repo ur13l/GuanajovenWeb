@@ -56,7 +56,7 @@ if (isset($_SESSION['usuario_correo'])) {
 
   <div class="container"  >
     <div class="section">   
-         <button onClick="reg_tip(0)" class="btn">Tip Nuevo</button> 
+         <button onClick="reg_tip(0)" class="btn rose_code" style="background: #BF3364;">Tip Nuevo</button>
      <div class="row">
         <div class="col s12 m12">
           

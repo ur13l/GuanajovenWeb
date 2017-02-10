@@ -13,6 +13,7 @@
 
 function connect(){
 
+
     $user = "root";
     $password = "info2000";
     $dbname = "appbd";
