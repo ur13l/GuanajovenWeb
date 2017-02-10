@@ -31,5 +31,6 @@ Route::get('/notificaciones', 'NotificacionesController@index');
 //Eventos
 Route::get('/eventos', 'EventosController@index');
 Route::get('/eventos/nuevo', 'EventosController@nuevoEvento');
+Route::get('/eventos/editar', 'EventosController@editarEvento');
 //Video
 Route::get('/video', 'VideoController@index');
