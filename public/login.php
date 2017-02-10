@@ -10,7 +10,7 @@ $row = mysqli_fetch_array($result);
 
 if(isset($row)) {
   $_SESSION['usuario_correo'] = $correo;
-  header("Location:web/home/eventos.php");
+  header("Location:eventos");
 }
 else{
   header("Location:indexError.html");

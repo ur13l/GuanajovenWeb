@@ -3,11 +3,12 @@
 @section('title')
     Publicidad
 @endsection
-@section('contenedor')
-    <div class="row">
-        <h1>Publicidad</h1>
-    </div>
 
+@section('cabecera')
+    Publicidad
+@endsection
+
+@section('contenedor')
     <!--Modal eliminar-->
     <div id="deleteModalPub" class="modal">
         <div class="modal-content">
@@ -99,7 +100,7 @@
                         </div>
                     </div>
                     <div class="file-field input-field">
-                        <div class="btn">
+                        <div class="btn rose-code" style="background: #BF3364;">
                             <span>Imagen</span>
                             <input type="file" multiple>
                         </div>

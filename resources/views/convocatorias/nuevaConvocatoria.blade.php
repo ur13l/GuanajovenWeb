@@ -4,9 +4,13 @@
     Nueva Convocatoria
 @endsection
 
+@section('cabecera')
+    Convocatorias
+@endsection
+
 @section('contenedor')
     <div class="row">
-        <h1>Nueva Convocatoria</h1>
+        <h2>Nueva Convocatoria</h2>
     </div>
     <div class="row">
         <form class="col s12">

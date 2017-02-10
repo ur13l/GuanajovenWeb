@@ -3,6 +3,7 @@ var id;
 var eventos;
 var paginaActiva = 0;
 var eliminarIds;
+var url = $("#url").val() + '/web/controller/eventos.php';
 
 
 /**
@@ -42,6 +43,7 @@ function noOpcion(select){
  * @return {Boolean} true si las fechas son válidas, false de lo contrario
  */
 function compararFechas(inputF1, inputH1, inputF2, inputH2){
+    console.log("Compara fechas");
     var fInicio = inputF1.val();
     var hInicio = inputH1.val();
     var fFin = inputF2.val();
@@ -71,7 +73,7 @@ function getEvents(page){
     action: 'read'
   };
   $.ajax({
-      url : '../controller/eventos.php',
+      url : url,
       data : obj,
       type : 'POST',
       dataType : 'json',
@@ -96,15 +98,15 @@ function renderizarEventos(){
     var fInicio = moment(eventos[i].fecha_inicio, "YYYY-MM-DD HH:mm:ss").format("DD/MM/YYYY [a las] HH:mm");
     var fFin = moment(eventos[i].fecha_fin, "YYYY-MM-DD HH:mm:ss").format("DD/MM/YYYY [a las] HH:mm");
 
-    var elem = "<tr  class='item-evento'>" +
-    "<input type='hidden' value='"+eventos[i].id_evento+"'>" +
-    "<td> <input type='checkbox' id='chk"+eventos[i].id_evento+"' class='filled-in chk checkbox-green-code'/>  <label for='chk"+eventos[i].id_evento+"'></label></td>" +
-    "<td>"+eventos[i].titulo+"</td>" +
-    "<td>"+eventos[i].descripcion+"</td>" +
-    "<td>"+fInicio+"</td>" +
-    "<td>"+fFin+"</td>" +
-    "<input type='hidden' value='"+eventos[i].tipo+"'>" +
-    "<td class='edit' style='cursor:pointer'><i class='material-icons'>edit</i></td>" +
+    var elem = "<tr  class='item-evento' style='cursor: pointer;'>" +
+    "<input class='id' type='hidden' value='"+eventos[i].id_evento+"'>" +
+    "<td class='check'> <input type='checkbox' id='chk"+eventos[i].id_evento+"' class='filled-in chk checkbox-green-code'/>  <label for='chk"+eventos[i].id_evento+"'></label></td>" +
+    "<td class='titulo'>"+eventos[i].titulo+"</td>" +
+    "<td class='descripcion'>"+eventos[i].descripcion+"</td>" +
+    "<td class='fInicio'>"+fInicio+"</td>" +
+    "<td class='fFin'>"+fFin+"</td>" +
+    "<input class='tipo' type='hidden' value='"+eventos[i].tipo+"'>" +
+    //"<td class='edit' style='cursor:pointer'><i class='material-icons'>edit</i></td>" +
     "<td class='delete' style='cursor:pointer'><i class='material-icons'>delete</i></td>" +
     "</tr>";
     $("#tabla-eventos").append(elem);
@@ -112,18 +114,19 @@ function renderizarEventos(){
 
   }
   //Cuando se selecciona un elemento de la tabla debe mostrarse el modal
-  $(".edit").on('click', function(){
+  $(".item-evento").on('click', function(){
     action = 'update';
-    id= $($(this).parent().children()[0]).val()
+    id= $($(this).children()[0]).val()
     $('#modal1').openModal();
-    $($("#titulo").val($($(this).parent().children()[2]).html()).siblings()[0]).addClass("active");
-    $($("#descripcion").val($($(this).parent().children()[3]).html()).siblings()[0]).addClass("active");
 
-    var f1 = $($(this).parent().children()[4]).html();
+    $($("#titulo").val($($(this).children()[2]).html()).siblings()[0]).addClass("active");
+    $($("#descripcion").val($($(this).children()[3]).html()).siblings()[0]).addClass("active");
+
+    var f1 = $($(this).children()[4]).html();
     $("#fecha-inicio").val(moment(f1,"DD/MM/YYYY [a las] HH:mm").format("DD/MM/YYYY"));
     $($("#fecha-inicio").siblings("label")[0]).addClass("active");
 
-    var f2 = $($(this).parent().children()[5]).html();
+    var f2 = $($(this).children()[5]).html();
     $("#fecha-fin").val(moment(f2,"DD/MM/YYYY [a las] HH:mm").format("DD/MM/YYYY"));
     $($("#fecha-fin").siblings("label")[0]).addClass("active");
 
@@ -133,8 +136,13 @@ function renderizarEventos(){
     $("#hora-fin").val(moment(f2,"DD/MM/YYYY [a las] HH:mm").format("HH:mm"));
     $($("#hora-fin").siblings("label")[0]).addClass("active");
 
-    $('#tipo').val($($(this).parent().children()[6]).val());
+    $('#tipo').val($($(this).children()[6]).val());
     $('#tipo').material_select();
+
+      console.log($("#titulo").val());
+      console.log($("#fecha-inicio").val());
+      console.log($("#fecha-fin").val());
+      console.log($("#tipo").val());
   });
 
   $(".delete").on('click', function(){
@@ -169,7 +177,7 @@ function definirPaginacion(){
     action: 'count'
   };
   $.ajax({
-      url : '../controller/eventos.php',
+      url : url,
       data : obj,
       type : 'POST',
       dataType : 'json',
@@ -216,7 +224,7 @@ function deleteEvents(){
     ids: JSON.stringify(eliminarIds)
   };
   $.ajax({
-      url : '../controller/eventos.php',
+      url : url,
       data : obj,
       type : 'POST',
       dataType : 'json',
@@ -254,7 +262,7 @@ function guardarEvento(){
          };
          $.ajax({
              // la URL para la petición
-             url : '../controller/eventos.php',
+             url : url,
 
              // la información a enviar
              // (también es posible utilizar una cadena de datos)
@@ -337,11 +345,11 @@ $(document).ready(function(){
    $('select').material_select();
 
   //Se ejecuta al darle click al botón de más, permite configurar la acción a 'create'
-   $('#new-event').on('click', function(){
+   /*$('#new-event').on('click', function(){
      action = 'create';
      id = null;
      limpiarCampos();
-   });
+   });*/
 
    $('#guardar-evento').on('click', guardarEvento);
 
@@ -361,9 +369,16 @@ $(document).ready(function(){
    //Cambiar el mensaje de la interfaz
    $(".brand-logo").html("&nbsp Eventos");
 
+    $('#guardar-n-evento').on('click', function () {
+        action = 'create';
+        id = null;
+        guardarEvento();
+    });
+
    //Se trae el número de hojas y elementos.
    definirPaginacion();
     //Llamar a la primera página de eventos cuando se inicializa.
     getEvents(paginaActiva);
 
 });
+

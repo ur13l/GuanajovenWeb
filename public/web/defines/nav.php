@@ -11,25 +11,25 @@ echo '<nav>
     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 
     <ul class="right hide-on-med-and-down">
-      <li><a href="reportes.php">Reportes</a></li>
-      <li><a href="usuarios.php">Usuarios</a></li>
+      <li><a href="../../../public/reportes">Reportes</a></li>
+      <li><a href="../../../public/usuarios">Usuarios</a></li>
       <li><a href="../../../public/publicidad">Publicidad</a></li>
       <li><a href="../../../public/convocatorias">Convocatorias</a></li>
-      <li><a href="notificaciones.php">Notificaciones</a></li>
-      <li><a href="historial.php">Historial Notificaciones</a></li>
-      <li><a href="eventos.php">Eventos</a></li>
-      <li><a href="video.php">Video</a></li>
+      <li><a href="../../../public/notificaciones">Notificaciones</a></li>
+      <li><a href="../../../public/historial">Historial Notificaciones</a></li>
+      <li><a href="../../../public/eventos">Eventos</a></li>
+      <li><a href="../../../public/video">Video</a></li>
       <li><a href="../../logout.php">Cerrar sesión</a></li>
     </ul>
     <ul class="side-nav" id="mobile-demo">
-        <li><a href="reportes.php">Reportes</a></li>
-        <li><a href="usuarios.php">Usuarios</a></li>
+        <li><a href="../../../public/reportes">Reportes</a></li>
+        <li><a href="../../../public/usuarios">Usuarios</a></li>
         <li><a href="../../../public/publicidad">Publicidad</a></li>
         <li><a href="../../../public/convocatorias">Convocatorias</a></li>
-        <li><a href="notificaciones.php">Notificaciones</a></li>
-        <li><a href="historial.php">Historial Notificaciones</a></li>
-        <li><a href="eventos.php">Eventos</a></li>
-        <li><a href="video.php">Video</a></li>
+        <li><a href="../../../public/notificaciones">Notificaciones</a></li>
+        <li><a href="../../../public/historial">Historial Notificaciones</a></li>
+        <li><a href="../../../public/eventos">Eventos</a></li>
+        <li><a href="../../../public/video">Video</a></li>
         <li><a href="../../logout.php">Cerrar sesión</a></li>
    </ul>
   </div>

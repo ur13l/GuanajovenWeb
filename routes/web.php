@@ -20,3 +20,16 @@ Route::get('/publicidad', 'PublicidadController@index');
 //Convocatorias
 Route::get('/convocatorias', 'ConvocatoriasController@index');
 Route::get('/convocatorias/nueva_convocatoria', 'ConvocatoriasController@nuevaConvocatoria');
+//Historial de notificaciones
+Route::get('/historial', 'HistorialController@index');
+//Reportes
+Route::get('/reportes', 'ReportesController@index');
+//Usuarios
+Route::get('/usuarios', 'UsuariosController@index');
+//Notificaciones
+Route::get('/notificaciones', 'NotificacionesController@index');
+//Eventos
+Route::get('/eventos', 'EventosController@index');
+Route::get('/eventos/nuevo', 'EventosController@nuevoEvento');
+//Video
+Route::get('/video', 'VideoController@index');

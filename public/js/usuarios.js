@@ -3,7 +3,7 @@ var id;
 var eventos;
 var paginaActiva = 0;
 var eliminarIds;
-
+var url = $("#url").val() + '/web/controller/usuarios.php';
 
 /**
  * Función que valida si un campo de texto está vacío, marca el error en la interfaz.
@@ -54,7 +54,7 @@ function getEvents(page){
     action: 'read'
   };
   $.ajax({
-      url : '../controller/usuarios.php',
+      url : url,
       data : obj,
       type : 'POST',
       dataType : 'json',
@@ -132,7 +132,7 @@ function definirPaginacion(){
     action: 'count'
   };
   $.ajax({
-      url : '../controller/usuarios.php',
+      url : url,
       data : obj,
       type : 'POST',
       dataType : 'json',
@@ -179,7 +179,7 @@ function deleteEvents(){
     ids: JSON.stringify(eliminarIds)
   };
   $.ajax({
-      url : '../controller/usuarios.php',
+      url : url,
       data : obj,
       type : 'POST',
       dataType : 'json',
@@ -213,7 +213,7 @@ function guardarEvento(){
            };
            $.ajax({
                // la URL para la petición
-               url : '../controller/usuarios.php',
+               url : url,
 
                // la información a enviar
                // (también es posible utilizar una cadena de datos)
@@ -286,7 +286,7 @@ $(document).ready(function(){
    });
 
    //Cambiar el mensaje de la interfaz
-   $(".brand-logo").html("&nbsp Eventos");
+   //$(".brand-logo").html("&nbsp Eventos");
 
    //Se trae el número de hojas y elementos.
    definirPaginacion();
