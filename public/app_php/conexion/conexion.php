@@ -13,18 +13,19 @@
 
 function connect(){
 
-	$user = "root";
-	$password = "info2000";
-	$dbname = "appbd";
-	$port = 3306;
-	$host = "10.0.7.40"; //Ip Externa
-        // Create connection
-	$conn = mysqli_connect($host, $user, $password, $dbname);
-	// Check connection
-	if (!$conn) {
-	    echo "Connection failed: " . mysqli_connect_error();
-	}
-	return $conn;
+
+    $user = "root";
+    $password = "info2000";
+    $dbname = "appbd";
+    $port = 3306;
+    $host = "10.0.7.40"; //Ip Externa
+    // Create connection
+    $conn = mysqli_connect($host, $user, $password, $dbname);
+    // Check connection
+    if (!$conn) {
+        echo "Connection failed: " . mysqli_connect_error();
+    }
+    return $conn;
 }
 
 ?>
