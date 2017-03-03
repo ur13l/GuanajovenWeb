@@ -17,7 +17,7 @@
                 <div class="card-image ">
                     <img src="./img/background.png">
                     <span class="card-title">Inicio de sesión</span>
-                    <span class="card-title"><img class="col s5" style="margin-left:-20px" src="./img/code.png"></span>
+                    <span class="card-title"><img class="col s5" style="margin-left:-25px; margin-bottom: 50px;" src="./img/logo_guanajoven.png"></span>
                 </div>
 
                 <div class="card-content">
@@ -32,7 +32,7 @@
                         </div>
                         <div class="input-field col right s5">
                             <div class="row">
-                                <input class="waves-effect waves-light blue btn" type="submit" name="Iniciar Sesión"/>
+                                <input class="waves-effect waves-light rose-code btn" style="background: #BF3364;" type="submit" name="Iniciar Sesión" value="Iniciar Sesión"/>
                             </div>
                         </div>
                     </form>

@@ -115,7 +115,7 @@ function renderizarEventos(){
   }
   //Cuando se selecciona un elemento de la tabla debe mostrarse el modal
   $(".item-evento").on('click', function(){
-    action = 'update';
+    /*action = 'update';
     id= $($(this).children()[0]).val()
     $('#modal1').openModal();
 
@@ -142,7 +142,7 @@ function renderizarEventos(){
       console.log($("#titulo").val());
       console.log($("#fecha-inicio").val());
       console.log($("#fecha-fin").val());
-      console.log($("#tipo").val());
+      console.log($("#tipo").val());*/
   });
 
   $(".delete").on('click', function(){
