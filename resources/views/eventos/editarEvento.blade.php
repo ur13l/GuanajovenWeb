@@ -10,27 +10,35 @@
 
 @section('head')
     <script type="text/javascript" src="{{url('/js/eventos.js')}}"> </script>
-
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #map {
+            height: 100%;
+        }
+    </style>
 @endsection
 
 @section('contenedor')
+    <div class="row">
+        <h5>Detalles del Evento</h5>
+    </div>
+
+    <div id="map"></div>
     <script>
+
+        var map;
         function initMap() {
-            var map = new google.maps.Map(document.getElementById('mapa_evento'), {
+            map = new google.maps.Map(document.getElementById('map'), {
                 center: {lat: -34.397, lng: 150.644},
-                scrollwheel: false,
                 zoom: 8
             });
         }
+
     </script>
-
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBj2RIXuHivK_9TFIdJ7-5akys3yskX5K4&callback=initMap"
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBHm6Cez6yYXKGHBxPBGFZtFUuJ_O8FOwI&callback=initMap"
             async defer></script>
-
-    <div class="row">
-        <h2>Detalles del Evento</h2>
-    </div>
-    <div class="row">
-        <div id="mapa_evento"></div>
-    </div>
 @endsection
