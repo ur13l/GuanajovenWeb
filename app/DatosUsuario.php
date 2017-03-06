@@ -34,18 +34,22 @@ class DatosUsuario extends Model {
 
     //Relaciones
     public function usuario() {
-        return $this->hasOne('App\Usuario', 'id_usuario', 'id_usuario');
+        return $this->hasOne('App\Usuario', 'id_usuario');
+    }
+
+    public function genero() {
+        return $this->hasOne('App\Genero', 'id_genero');
     }
 
     public function ocupacion() {
-        return $this->hasOne('App\Ocupacion', 'id_ocupacion', 'id_ocupacion');
+        return $this->hasOne('App\Ocupacion', 'id_ocupacion');
     }
 
     public function estado() {
-        return $this->hasOne('App\Estado', 'id_estado', 'id_estado');
+        return $this->hasOne('App\Estado', 'id_estado');
     }
 
     public function municipio() {
-        return $this->hasOne('App\Municipio', 'id_municipio', 'id_municipio');
+        return $this->hasOne('App\Municipio', 'id_municipio');
     }
 }

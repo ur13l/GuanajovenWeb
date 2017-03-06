@@ -5,25 +5,27 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Region extends Model {
+class Publicidad extends Model {
     use SoftDeletes;
 
-    protected $table = 'region';
-    protected $primaryKey = 'id_region';
+    protected $table = 'publicidad';
+    protected $primaryKey = 'id_publicidad';
 
     protected $dates = [
+        'fecha_inicio',
+        'fecha_fin',
         'created_at',
         'updated_at',
         'deleted_at'
     ];
 
     protected $fillable = [
-        'id_region',
-        'nombre',
-        'direccion',
-        'responsable',
+        'id_publicidad',
+        'titulo',
         'descripcion',
-        'latitud',
-        'longitud'
+        'ruta_imagen',
+        'url',
+        'fecha_inicio',
+        'fecha_fin'
     ];
 }

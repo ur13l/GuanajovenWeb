@@ -20,16 +20,16 @@ class Evento extends Model {
 
     protected $fillable = [
         'id_evento',
-        'id_tipo_evento',
         'titulo',
         'descripcion',
         'fecha_inicio',
         'fecha_fin',
+        'id_tipo_evento',
         'latitud',
         'longitud'
     ];
 
     public function tipoEvento() {
-        return $this->hasOne("App\TipoEvento", "id_tipo_evento", "id_tipo_evento");
+        return $this->hasOne('App\TipoEvento', 'id_tipo_evento');
     }
 }

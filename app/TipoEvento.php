@@ -3,8 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TipoEvento extends Model {
+    use SoftDeletes;
+
     protected $table = 'tipo_evento';
     protected $primaryKey = 'id_tipo_evento';
 
@@ -18,9 +21,4 @@ class TipoEvento extends Model {
         'id_tipo_evento',
         'nombre'
     ];
-
-    //Relaciones
-    public function evento() {
-        return $this->hasOne('App\Evento', 'id_tipo_evento', 'id_tipo_evento');
-    }
 }

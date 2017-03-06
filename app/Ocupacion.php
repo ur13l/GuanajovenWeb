@@ -3,13 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Municipio extends Model {
-    use SoftDeletes;
-
-    protected $table = 'municipio';
-    protected $primaryKey = 'id_municipio';
+class Ocupacion extends Model {
+    protected $table = 'ocupacion';
+    protected $primaryKey = 'id_ocupacion';
 
     protected $dates = [
         'created_at',
@@ -18,7 +15,7 @@ class Municipio extends Model {
     ];
 
     protected $fillable = [
-        'id_municipio',
+        'id_ocupacion',
         'nombre'
     ];
 }

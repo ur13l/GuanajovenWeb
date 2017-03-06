@@ -5,11 +5,11 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Region extends Model {
+class Genero extends Model {
     use SoftDeletes;
 
-    protected $table = 'region';
-    protected $primaryKey = 'id_region';
+    protected $table = 'genero';
+    protected $primaryKey = 'id_genero';
 
     protected $dates = [
         'created_at',
@@ -18,12 +18,7 @@ class Region extends Model {
     ];
 
     protected $fillable = [
-        'id_region',
-        'nombre',
-        'direccion',
-        'responsable',
-        'descripcion',
-        'latitud',
-        'longitud'
+        'id_genero',
+        'nombre'
     ];
 }

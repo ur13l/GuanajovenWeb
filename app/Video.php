@@ -5,11 +5,11 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Region extends Model {
+class Video extends Model {
     use SoftDeletes;
 
-    protected $table = 'region';
-    protected $primaryKey = 'id_region';
+    protected $table = 'video';
+    protected $primaryKey = 'id_video';
 
     protected $dates = [
         'created_at',
@@ -18,12 +18,10 @@ class Region extends Model {
     ];
 
     protected $fillable = [
-        'id_region',
-        'nombre',
-        'direccion',
-        'responsable',
+        'id_video',
+        'titulo',
         'descripcion',
-        'latitud',
-        'longitud'
+        'ruta_video',
+        'tamano'
     ];
 }
