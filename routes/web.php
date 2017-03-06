@@ -18,6 +18,11 @@ Route::get('/', function () {
 //Usuarios
 Route::post('/usuarios/login', 'Auth\LoginController@login');
 
+//Autenticación API
+Route::group(['prefix' => 'api/usuarios'], function () {
+    Route::post('login', 'Auth\LoginApiController@login');
+});
+
 //Publicidad
 Route::get('/publicidad', 'PublicidadController@index');
 //Convocatorias
