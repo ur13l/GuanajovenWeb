@@ -18,10 +18,19 @@
                     <img src="./img/background.png">
                     <span class="card-title">Inicio de sesión</span>
                     <span class="card-title"><img class="col s5" style="margin-left:-25px; margin-bottom: 50px;" src="./img/logo_guanajoven.png"></span>
+                    @if(isset($errors))
+                        @foreach($errors as $error)
+                            <div class="col s12 red" style="height:30px; padding-top:5px;">
+                                <span class="white-text">
+                                    {{$error}}
+                                </span>
+                            </div>
+                        @endforeach
+                    @endif
                 </div>
 
                 <div class="card-content">
-                    <form method="POST" action="login.php">
+                    <form method="POST" action="{{url('/usuarios/login')}}">
                         <div class="input-field col s12 ">
                             <label for="correo">Correo</label>
                             <input type="email" class="validate" name="correo"/><br>

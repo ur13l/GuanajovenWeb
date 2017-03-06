@@ -15,6 +15,9 @@ Route::get('/', function () {
     return view('index');
 });
 
+//Usuarios
+Route::post('/usuarios/login', 'Auth\LoginController@login');
+
 //Publicidad
 Route::get('/publicidad', 'PublicidadController@index');
 //Convocatorias

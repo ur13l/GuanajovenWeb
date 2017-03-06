@@ -2,13 +2,16 @@
 
 namespace App;
 
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Usuario extends Model {
+class Usuario extends Authenticatable {
     protected $table = 'usuario';
     protected $primaryKey = 'id_usuario';
     use SoftDeletes;
+    use Notifiable;
 
     protected $dates = [
         'created_at',
@@ -18,8 +21,8 @@ class Usuario extends Model {
 
     protected $fillable = [
         'id_usuario',
-        'correo',
-        'contrasena',
+        'email',
+        'password',
         'admin'
     ];
 }
