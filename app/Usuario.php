@@ -23,6 +23,7 @@ class Usuario extends Model {
         'admin'
     ];
 
+    //Relaciones
     public function datosUsuario() {
         return $this->hasOne('App\DatosUsuario', 'id_usuario', 'id_usuario');
     }

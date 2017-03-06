@@ -32,6 +32,7 @@ class DatosUsuario extends Model {
         'ruta_imagen'
     ];
 
+    //Relaciones
     public function usuario() {
         return $this->hasOne('App\Usuario', 'id_usuario', 'id_usuario');
     }
