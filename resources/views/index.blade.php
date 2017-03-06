@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" href="materialize/css/materialize.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="{{url('materialize/css/materialize.min.css')}}">
+    <link rel="stylesheet" href="{{url('css/style.css')}}">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script type="text/javascript" src="js/jquery-1.12.3.js"></script>
-    <script type="text/javascript" src="materialize/js/materialize.js"></script>
+    <script type="text/javascript" src="{{url('js/jquery-1.12.3.js')}}"></script>
+    <script type="text/javascript" src="{{url('materialize/js/materialize.js')}}"></script>
 </head>
 <body class="valign-wrapper">
 <div class="container">
@@ -15,9 +15,9 @@
         <div class="col l6 m9 s12 offset-l3 offset-m2">
             <div class="card">
                 <div class="card-image ">
-                    <img src="./img/background.png">
+                    <img src="{{url('img/background.png')}}">
                     <span class="card-title">Inicio de sesión</span>
-                    <span class="card-title"><img class="col s5" style="margin-left:-25px; margin-bottom: 50px;" src="./img/logo_guanajoven.png"></span>
+                    <span class="card-title"><img class="col s5" style="margin-left:-25px; margin-bottom: 50px;" src="{{url('img/logo_guanajoven.png')}}"></span>
                     @if(isset($errors))
                         @foreach($errors as $error)
                             <div class="col s12 red" style="height:30px; padding-top:5px;">
