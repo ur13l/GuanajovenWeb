@@ -15,7 +15,6 @@ use App\Usuario;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\MessageBag;
 use Validator;
 
 class LoginApiController extends Controller
@@ -29,11 +28,23 @@ class LoginApiController extends Controller
 
         if (Auth::once(['email' => $correo, 'password' => $password])) {
             $usuario = Auth::user();
+            $datosUsuario = DatosUsuario::where("id_usuario", $usuario->id_usuario)->first();
+
             $data = [
                 "id_usuario" => $usuario->id_usuario,
                 "correo" => $usuario->email,
-                "admin" => $usuario->admin,
-                "api_token" => $usuario->api_token
+                "api_token" => $usuario->api_token,
+                "id_datos_usuario" => $datosUsuario->id_datos_usuario,
+                "nombre" => $datosUsuario->nombre,
+                "id_genero" => $datosUsuario->id_genero,
+                "fecha_nacimiento" => $datosUsuario->fecha_nacimiento,
+                "id_ocupacion" => $datosUsuario->id_ocupacion,
+                "codigo_postal" => $datosUsuario->codigo_postal,
+                "telefono" => $datosUsuario->telefono,
+                "curp" => $datosUsuario->curp,
+                "id_estado" => $datosUsuario->id_estado,
+                "id_municipio" => $datosUsuario->id_municipio,
+                "ruta_imagen" => $datosUsuario->ruta_imagen
             ];
 
             return response()->json([
