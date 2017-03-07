@@ -15,7 +15,7 @@ use App\Usuario;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\MessageBag;
 use Validator;
 
 class LoginApiController extends Controller
@@ -25,40 +25,68 @@ class LoginApiController extends Controller
     function login(Request $request){
         $correo = $request->input("email");
         $password = $request->input("password");
+        $data = [];
 
         if (Auth::once(['email' => $correo, 'password' => $password])) {
+            $usuario = Auth::user();
+            $data = [
+                "id_usuario" => $usuario->id_usuario,
+                "correo" => $usuario->email,
+                "admin" => $usuario->admin,
+                "api_token" => $usuario->api_token
+            ];
+
             return response()->json([
                 "success" => true,
                 "errors" => [],
-                "status" => 200
+                "status" => 200,
+                "data" => $data
             ]);
         } else {
             return response()->json([
                 "success" => false,
                 "errors" => ["Usuario o contraseña incorrectos"],
-                "status" => 200
+                "status" => 500,
+                "data" => $data
             ]);
         }
     }
 
     function registrar(Request $request) {
         $errors = [];
-        $regla = [ 'email' => 'email|unique:usuario' ];
-        $input = [ 'email' => $request->input("email") ];
-        $validacion = Validator::make($input, $regla);
+        $data = [];
+
+        $reglas = [
+            'email' => 'required|email|unique:usuario',
+            'password' => 'required|confirmed',
+            'nombre' => 'required|string',
+            'id_genero' => 'required|integer',
+            'codigo_postal' => 'required|integer|',
+            'curp' => 'required|string'
+        ];
+        $input = [
+            'email' => $request->input("email"),
+            'password' => $request->input("password"),
+            'password_confirmation' => $request->input("confirmar_password"),
+            'nombre' => $request->input("nombre"),
+            'id_genero' => $request->input("id_genero"),
+            'codigo_postal' => $request->input("codigo_postal"),
+            'curp' => $request->input("curp")
+        ];
+        $validacion = Validator::make($input, $reglas);
 
         if ($validacion->fails()) {
-            array_push($errors, "Este correo ya está registrado. Verifíca tu información");
+            foreach ($validacion->errors()->all() as $error) {
+                array_push($errors, $error);
+            }
         } else {
             //Usuario
             $correo = $request->input("email");
             $password = $request->input("password");
-            $admin = $request->input("admin");
 
             $usuario = Usuario::create([
                 'email' => $correo,
                 'password' => $password,
-                'admin' => $admin
             ]);
 
             //Datos Usuario
@@ -87,15 +115,13 @@ class LoginApiController extends Controller
                 'id_municipio' => $id_municipio,
                 'ruta_imagen' => $ruta_imagen
             ]);
-        }
 
-        if (isset($usuario) && isset($datosUsuario)) {
-            $data = [
-                "usuario" => [
+            if (isset($usuario) && isset($datosUsuario)) {
+                $data = [
+                    "id_usuario" => $usuario->id_usuario,
                     "correo" => $usuario->email,
-                    "api_token" => $usuario->api_token
-                ],
-                "datosUsuario" => [
+                    "api_token" => $usuario->api_token,
+                    "id_datos_usuario" => $datosUsuario->id_datos_usuario,
                     "nombre" => $datosUsuario->nombre,
                     "id_genero" => $datosUsuario->id_genero,
                     "fecha_nacimiento" => $datosUsuario->fecha_nacimiento,
@@ -106,22 +132,25 @@ class LoginApiController extends Controller
                     "id_estado" => $datosUsuario->id_estado,
                     "id_municipio" => $datosUsuario->id_municipio,
                     "ruta_imagen" => $datosUsuario->ruta_imagen
-                ]
-            ];
+                ];
+            } else {
+                array_push($errors, "¡Ops!, parece que algo salió mal. Verifíca que todos tus datos sean correctos.");
+            }
+        }
 
+        if (count($errors) > 0) {
+            return response()->json([
+                "success" => false,
+                "errors" => $errors,
+                "status" => 500,
+                "data" => $data
+            ]);
+        } else {
             return response()->json([
                 "success" => true,
                 "errors" => $errors,
                 "status" => 200,
                 "data" => $data
-            ]);
-        } else {
-            array_push($errors, "¡Ops!, parece que algo salió mal. Verifíca que todos tus datos sean correctos.");
-
-            return response()->json([
-                "success" => false,
-                "errors" => $errors,
-                "status" => 200
             ]);
         }
     }
