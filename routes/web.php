@@ -22,6 +22,7 @@ Route::post('/usuarios/login', 'Auth\LoginController@login');
 Route::group(['prefix' => 'api/usuarios'], function () {
     Route::post('login', 'Auth\LoginApiController@login');
     Route::post('registrar', 'Auth\LoginApiController@registrar');
+    Route::post('actualizar', 'Auth\LoginApiController@actualizar');
 });
 
 //Publicidad

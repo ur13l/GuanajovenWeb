@@ -31,7 +31,6 @@ class Usuario extends Authenticatable {
 
     ];
 
-
     public function save(array $options = array())
     {
         if(empty($this->api_token)) {
