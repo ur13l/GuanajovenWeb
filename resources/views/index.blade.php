@@ -33,11 +33,11 @@
                     <form method="POST" action="{{url('/usuarios/login')}}">
                         <div class="input-field col s12 ">
                             <label for="correo">Correo</label>
-                            <input type="email" class="validate" id="correo"/><br>
+                            <input type="email" class="validate" name="email" id="email"/><br>
                         </div>
                         <div class="input-field col s12">
                             <label for="password" class="validate">Contraseña</label>
-                            <input type="password" id="password"/><br>
+                            <input type="password" name="password" id="password"/><br>
                         </div>
                         <div class="input-field col right s5">
                             <div class="row">

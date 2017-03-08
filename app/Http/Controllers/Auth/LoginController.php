@@ -10,14 +10,14 @@ use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
 
-    use AuthenticatesUsers;
+    //use AuthenticatesUsers;
 
     public function login(Request $request) {
-        $correo = $request->input("correo");
+        $correo = $request->input("email");
         $password = $request->input("password");
 
         if (Auth::attempt(['email' => $correo, 'password' => $password])) {
-            return redirect()->intended('eventos');
+            return redirect()->intended('/eventos');
         } else {
             return view('index', ["errors" => ["Usuario o contraseña incorrecto"]]);
         }
