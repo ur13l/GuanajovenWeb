@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
 
-    //use AuthenticatesUsers;
+    use AuthenticatesUsers;
 
     public function login(Request $request) {
         $correo = $request->input("email");
