@@ -44,7 +44,6 @@
                     <li><a href="{{url('publicidad')}}">Publicidad</a></li>
                     <li><a href="{{url('convocatorias')}}">Convocatorias</a></li>
                     <li><a href="{{url('notificaciones')}}">Notificaciones</a></li>
-                    <li><a href="{{url('historial')}}">Historial Notificaciones</a></li>
                     <li><a href="{{url('eventos')}}">Eventos</a></li>
                     <li><a href="{{url('video')}}">Video</a></li>
                     <li><a href="{{url('logout.php')}}">Cerrar sesión</a></li>
@@ -55,7 +54,6 @@
                     <li><a href="{{url('publicidad')}}">Publicidad</a></li>
                     <li><a href="{{url('convocatorias')}}">Convocatorias</a></li>
                     <li><a href="{{url('notificaciones')}}">Notificaciones</a></li>
-                    <li><a href="{{url('historial')}}">Historial Notificaciones</a></li>
                     <li><a href="{{url('eventos')}}">Eventos</a></li>
                     <li><a href="{{url('video')}}">Video</a></li>
                     <li><a href="{{url('logout.php')}}">Cerrar sesión</a></li>
