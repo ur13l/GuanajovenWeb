@@ -28,14 +28,16 @@ class LoginApiController extends Controller
 
         if (Auth::once(['email' => $correo, 'password' => $password])) {
             $usuario = Auth::user();
-            $datosUsuario = DatosUsuario::where("id_usuario", $usuario->id_usuario)->first();
+            $datosUsuario = DatosUsuario::where("id", $usuario->id)->first();
 
             $data = [
-                "id_usuario" => $usuario->id_usuario,
+                "id" => $usuario->id,
                 "correo" => $usuario->email,
                 "api_token" => $usuario->api_token,
                 "id_datos_usuario" => $datosUsuario->id_datos_usuario,
                 "nombre" => $datosUsuario->nombre,
+                "apellido_paterno" => $datosUsuario->apellido_paterno,
+                "apellido_materno" => $datosUsuario->apellido_materno,
                 "id_genero" => $datosUsuario->id_genero,
                 "fecha_nacimiento" => $datosUsuario->fecha_nacimiento,
                 "id_ocupacion" => $datosUsuario->id_ocupacion,
@@ -71,6 +73,7 @@ class LoginApiController extends Controller
             'email' => 'required|email|unique:usuario',
             'password' => 'required|confirmed',
             'nombre' => 'required|string',
+            'apellido_paterno' => 'required|string',
             'id_genero' => 'required|integer',
             'codigo_postal' => 'required|integer|',
             'curp' => 'required|string'
@@ -80,6 +83,7 @@ class LoginApiController extends Controller
             'password' => $request->input("password"),
             'password_confirmation' => $request->input("confirmar_password"),
             'nombre' => $request->input("nombre"),
+            'apellido_paterno' => $request->input('apellido_paterno'),
             'id_genero' => $request->input("id_genero"),
             'codigo_postal' => $request->input("codigo_postal"),
             'curp' => $request->input("curp")
@@ -102,8 +106,10 @@ class LoginApiController extends Controller
 
             //Datos Usuario
             $ruta_imagen = "";
-            $id_usuario = $usuario->id_usuario;
+            $id = $usuario->id;
             $nombre = $request->input("nombre");
+            $apellido_paterno = $request->input('apellido_paterno');
+            $apellido_materno = $request->input('apellido_materno');
             $id_genero = $request->input("id_genero");
             $fecha_nacimiento = $request->input("fecha_nacimiento");
             $id_ocupacion = $request->input("id_ocupacion");
@@ -120,8 +126,10 @@ class LoginApiController extends Controller
             }
 
             $datosUsuario = DatosUsuario::create([
-                'id_usuario' => $id_usuario,
+                'id' => $id,
                 'nombre' => $nombre,
+                'apellido_paterno' => $apellido_paterno,
+                'apellido_materno' => $apellido_materno,
                 'id_genero' => $id_genero,
                 'fecha_nacimiento' => $fecha_nacimiento,
                 'id_ocupacion' => $id_ocupacion,
@@ -135,11 +143,13 @@ class LoginApiController extends Controller
 
             if (isset($usuario) && isset($datosUsuario)) {
                 $data = [
-                    "id_usuario" => $usuario->id_usuario,
+                    "id" => $usuario->id,
                     "correo" => $usuario->email,
                     "api_token" => $usuario->api_token,
                     "id_datos_usuario" => $datosUsuario->id_datos_usuario,
                     "nombre" => $datosUsuario->nombre,
+                    "apellido_paterno" => $datosUsuario->apellido_paterno,
+                    "apellido_materno" => $datosUsuario->apellido_materno,
                     "id_genero" => $datosUsuario->id_genero,
                     "fecha_nacimiento" => $datosUsuario->fecha_nacimiento,
                     "id_ocupacion" => $datosUsuario->id_ocupacion,
@@ -181,12 +191,14 @@ class LoginApiController extends Controller
             'nombre' => 'required|string',
             'id_genero' => 'required|integer',
             'codigo_postal' => 'required|integer|',
+            'apellido_paterno' => 'required|string',
             'curp' => 'required|string'
         ];
         $input = [
             'nombre' => $request->input("nombre"),
             'id_genero' => $request->input("id_genero"),
             'codigo_postal' => $request->input("codigo_postal"),
+            'apellido_paterno' => $request->input('apellido_paterno'),
             'curp' => $request->input("curp")
         ];
         $validacion = Validator::make($input, $reglas);
@@ -198,6 +210,8 @@ class LoginApiController extends Controller
         } else {
             //Datos Usuario
             $nombre = $request->input("nombre");
+            $apellido_paterno = $request->input('apellido_paterno');
+            $apellido_materno = $request->input('apellido_materno');
             $id_genero = $request->input("id_genero");
             $fecha_nacimiento = $request->input("fecha_nacimiento");
             $id_ocupacion = $request->input("id_ocupacion");
@@ -206,11 +220,23 @@ class LoginApiController extends Controller
             $curp = $request->input("curp");
             $id_estado = $request->input("id_estado");
             $id_municipio = $request->input("id_municipio");
-            $ruta_imagen = $request->input("ruta_imagen");
 
-            $actualiza = DatosUsuario::where("id_usuario", $usuario->id_usuario)
+            $datosUsuario = DatosUsuario::where("id", $usuario->id)->first();
+
+            //Imagen
+            $ruta_imagen = '';
+            ImageController::eliminarImagen($datosUsuario->ruta_imagen);
+            $datos = $request->input('ruta_imagen');
+            if (isset($datos)) {
+                $ruta = "storage/usuarios/";
+                $ruta_imagen = url(ImageController::guardarImagen($datos, $ruta, uniqid("usuario_")));
+            }
+
+            $actualiza = DatosUsuario::where("id", $usuario->id)
                 ->update([
                     'nombre' => $nombre,
+                    "apellido_paterno" => $apellido_paterno,
+                    "apellido_materno" => $apellido_materno,
                     'id_genero' => $id_genero,
                     'fecha_nacimiento' => $fecha_nacimiento,
                     'id_ocupacion' => $id_ocupacion,
@@ -222,15 +248,15 @@ class LoginApiController extends Controller
                     'ruta_imagen' => $ruta_imagen
                 ]);
 
-            $datosUsuario = DatosUsuario::where("id_usuario", $usuario->id_usuario)->first();
-
             if (isset($actualiza)) {
                 $data = [
-                    "id_usuario" => $usuario->id_usuario,
+                    "id" => $usuario->id,
                     "correo" => $usuario->email,
                     "api_token" => $usuario->api_token,
                     "id_datos_usuario" => $datosUsuario->id_datos_usuario,
                     "nombre" => $datosUsuario->nombre,
+                    "apellido_paterno" => $datosUsuario->apellido_paterno,
+                    "apellido_materno" => $datosUsuario->apellido_materno,
                     "id_genero" => $datosUsuario->id_genero,
                     "fecha_nacimiento" => $datosUsuario->fecha_nacimiento,
                     "id_ocupacion" => $datosUsuario->id_ocupacion,
