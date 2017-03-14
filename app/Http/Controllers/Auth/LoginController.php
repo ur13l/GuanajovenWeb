@@ -12,7 +12,8 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
         $correo = $request->input("email");
         $password = $request->input("password");
 

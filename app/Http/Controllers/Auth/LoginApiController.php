@@ -101,6 +101,7 @@ class LoginApiController extends Controller
             ]);
 
             //Datos Usuario
+            $ruta_imagen = "";
             $id_usuario = $usuario->id_usuario;
             $nombre = $request->input("nombre");
             $id_genero = $request->input("id_genero");
@@ -111,7 +112,12 @@ class LoginApiController extends Controller
             $curp = $request->input("curp");
             $id_estado = $request->input("id_estado");
             $id_municipio = $request->input("id_municipio");
-            $ruta_imagen = $request->input("ruta_imagen");
+
+            $datos = $request->input('ruta_imagen');
+            if (isset($datos)) {
+                $ruta = "storage/usuarios/";
+                $ruta_imagen = url(ImageController::guardarImagen($datos, $ruta, uniqid("usuario_")));
+            }
 
             $datosUsuario = DatosUsuario::create([
                 'id_usuario' => $id_usuario,

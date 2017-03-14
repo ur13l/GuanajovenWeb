@@ -20,12 +20,12 @@ class BitacoraUsuario extends Model {
 
     protected $fillable = [
         'id_bitacora',
-        'id_usuario',
+        'id',
         'fecha'
     ];
 
     //Relaciones
     public function usuario() {
-        return $this->hasOne('App\Usuario', 'id_usuario');
+        return $this->hasOne('App\Usuario', 'id');
     }
 }

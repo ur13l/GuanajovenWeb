@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Usuario extends Authenticatable {
     protected $table = 'usuario';
-    protected $primaryKey = 'id_usuario';
+    protected $primaryKey = 'id';
     use SoftDeletes;
     use Notifiable;
 
@@ -20,7 +20,7 @@ class Usuario extends Authenticatable {
     ];
 
     protected $fillable = [
-        'id_usuario',
+        'id',
         'email',
         'password',
         'admin'
