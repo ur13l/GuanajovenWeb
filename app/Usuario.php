@@ -44,4 +44,8 @@ class Usuario extends Authenticatable {
         $this->attributes['password'] = bcrypt($value);
     }
 
+    public function datosUsuario(){
+        return $this->hasOne('App\DatosUsuario', 'id_usuario');
+    }
+
 }
