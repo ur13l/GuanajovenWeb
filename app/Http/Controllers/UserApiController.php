@@ -266,10 +266,10 @@ class UserApiController extends Controller {
     /* Función para calcular CURP mediante los datos personales */
     private  function calcularCurp($nombre, $ap_paterno, $ap_materno, $fecha_nac, $estado, $genero) {
         /*
-         * Primera letra y primera vocal del primer apellido
-         * Primer letra del segundo apellido
-         * Primera letra del nombre, si el primer nombre es Jose/Maria, se tomara el segundo nombre si lo tiene
-         * Fecha de nacimiento (ultimos dos dígitos del año, mes y día)
+          Primera letra y primera vocal del primer apellido
+          Primer letra del segundo apellido
+          Primera letra del nombre, si el primer nombre es Jose/Maria, se tomara el segundo nombre si lo tiene
+          Fecha de nacimiento (ultimos dos dígitos del año, mes y día)
          * Sexo (se usara la letra H o M)
          * Dos letras correspondientes al estado de nacimiento, si es extranjero se usa NE
          * Primera consonante interna del segundo apellido
@@ -282,10 +282,19 @@ class UserApiController extends Controller {
         $primer_letra = $ap_paterno{0};
         for ($j = count($ap_paterno); $j > 0; $j++) {
             for ($i = 0; $i < count($vocales); $i++) {
-                if ($ap_paterno{$i}.equalToIgnoringCase($vocales)) {
-
-                }
+                if ($ap_paterno{$j}.equalToIgnoringCase($vocales{$i})) $segunda_letra = "";
+                else $segunda_letra = $ap_paterno{$j};
             }
         }
+
+        $tercer_letra = $ap_materno{0};
+        list($primer_nombre, $segundo_nombre) = explode(' ', $nombre);
+        if ($primer_nombre.equalToIgnoringCase("Jose") || $primer_nombre.equalToIgnoringCase("Maria")) $cuarta_letra = $segundo_nombre{0};
+        else $cuarta_letra = $primer_nombre{0};
+
+        list($dia, $mes, $anio) = explode('/', $fecha_nac);
+        $fecha = $anio{2} . $anio{3} . $mes . $dia;
+
+
     }
 }
