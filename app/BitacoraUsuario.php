@@ -20,7 +20,7 @@ class BitacoraUsuario extends Model {
 
     protected $fillable = [
         'id_bitacora',
-        'id',
+        'id_usuario',
         'fecha'
     ];
 

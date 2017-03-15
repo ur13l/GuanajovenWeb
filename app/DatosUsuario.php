@@ -19,7 +19,7 @@ class DatosUsuario extends Model {
 
     protected $fillable = [
         'id_datos_usuario',
-        'id',
+        'id_usuario',
         'nombre',
         'id_genero',
         'id_ocupacion',
@@ -34,7 +34,7 @@ class DatosUsuario extends Model {
 
     //Relaciones
     public function usuario() {
-        return $this->hasOne('App\Usuario', 'id');
+        return $this->hasOne('App\Usuario', 'id_usuario');
     }
 
     public function genero() {
