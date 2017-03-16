@@ -19,6 +19,7 @@ class Municipio extends Model {
 
     protected $fillable = [
         'id_municipio',
-        'nombre'
+        'nombre',
+        'abreviatura'
     ];
 }

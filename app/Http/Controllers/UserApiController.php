@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 
 use App\Estado;
 use App\DatosUsuario;
+use App\Genero;
 use App\Http\Controllers\Auth\ImageController;
 use App\Municipio;
 use App\Usuario;
+use Carbon\Carbon;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -58,73 +61,90 @@ class UserApiController extends Controller {
             ]);
 
             //Datos Usuario
-            $ruta_imagen = "";
-            $id_estado = "";
-            $curp = "";
             $id = $usuario->id;
             $nombre = $request->input("nombre");
             $apellido_paterno = $request->input('apellido_paterno');
             $apellido_materno = $request->input('apellido_materno');
-            $id_genero = $request->input("id_genero");
+            $genero = $request->input("genero");
             $fecha_nacimiento = $request->input("fecha_nacimiento");
-            $id_estado_nacimiento = $request->input("estado_nacimiento");
+            $fecha_nacimiento = Carbon::createFromFormat('d/m/Y', $fecha_nacimiento)->toDateString();
+            $estado_nacimiento = $request->input("estado_nacimiento");
             $id_ocupacion = $request->input("id_ocupacion");
-            $codigo_postal = $request->input("codigo_postal");
             $telefono = $request->input("telefono");
-            $id_municipio = $request->input("id_municipio");
+            $estado = $request->input("estado");
+            $municipio = $request->input("municipio");
 
+            $curp = $this->calcularCurp($apellido_paterno, $apellido_materno, $nombre, $genero, $fecha_nacimiento, $estado);
 
+            if ($curp) {
+                $id_estado = "";
+                $id_municipio = "";
+                $codigo_postal = $request->input("codigo_postal");
+                if (isset($codigo_postal)) {
+                    $objeto = $this->obtenerEstadoMunicipio($codigo_postal);
+                    list($id_estado, $id_municipio) = explode(",", $objeto);
+                }
 
-            $abre_estado = $request->input("id_estado");
-            if (isset($abre_estado)) {
-                $id_estado = $this->consultaEstado($abre_estado);
-            }
+                if ($id_estado || $id_municipio) {
+                    $genero = $request->input("genero");
+                    $id_genero = "";
+                    if (isset($genero)) {
+                        $id_genero = $this->revisarGenero($genero);
+                    }
 
-            $datos = $request->input('ruta_imagen');
-            if (isset($datos)) {
-                $ruta = "storage/usuarios/";
-                $ruta_imagen = url(ImageController::guardarImagen($datos, $ruta, uniqid("usuario_")));
-            }
+                    $id_estado_nacimiento = "";
+                    if (isset($estado_nacimiento)) {
+                        $id_estado_nacimiento = $this->consultaEstado($estado_nacimiento);
+                    }
 
-            $datosUsuario = DatosUsuario::create([
-                'id' => $id,
-                'nombre' => $nombre,
-                'apellido_paterno' => $apellido_paterno,
-                'apellido_materno' => $apellido_materno,
-                'id_genero' => $id_genero,
-                'fecha_nacimiento' => $fecha_nacimiento,
-                'id_estado_nacimiento' => $id_estado_nacimiento,
-                'id_ocupacion' => $id_ocupacion,
-                'codigo_postal' => $codigo_postal,
-                'telefono' => $telefono,
-                'curp' => $curp,
-                'id_estado' => $id_estado,
-                'id_municipio' => $id_municipio,
-                'ruta_imagen' => $ruta_imagen
-            ]);
+                    $ruta_imagen = "";
+                    $datos = $request->input('ruta_imagen');
+                    if (isset($datos)) {
+                        $ruta = "storage/usuarios/";
+                        $ruta_imagen = url(ImageController::guardarImagen($datos, $ruta, uniqid("usuario_")));
+                    }
 
-            if (isset($usuario) && isset($datosUsuario)) {
-                $data = [
-                    "id" => $usuario->id,
-                    "correo" => $usuario->email,
-                    "api_token" => $usuario->api_token,
-                    "id_datos_usuario" => $datosUsuario->id_datos_usuario,
-                    "nombre" => $datosUsuario->nombre,
-                    "apellido_paterno" => $datosUsuario->apellido_paterno,
-                    "apellido_materno" => $datosUsuario->apellido_materno,
-                    "id_genero" => $datosUsuario->id_genero,
-                    "fecha_nacimiento" => $datosUsuario->fecha_nacimiento,
-                    "id_estado_nacimiento" => $datosUsuario->id_estado_nacimiento,
-                    "id_ocupacion" => $datosUsuario->id_ocupacion,
-                    "codigo_postal" => $datosUsuario->codigo_postal,
-                    "telefono" => $datosUsuario->telefono,
-                    "curp" => $datosUsuario->curp,
-                    "id_estado" => $datosUsuario->id_estado,
-                    "id_municipio" => $datosUsuario->id_municipio,
-                    "ruta_imagen" => $datosUsuario->ruta_imagen
-                ];
-            } else {
-                array_push($errors, "¡Ops!, parece que algo salió mal. Verifíca que todos tus datos sean correctos.");
+                    $datosUsuario = DatosUsuario::create([
+                        'id_usuario' => $id,
+                        'nombre' => $nombre,
+                        'apellido_paterno' => $apellido_paterno,
+                        'apellido_materno' => $apellido_materno,
+                        'id_genero' => $id_genero,
+                        'fecha_nacimiento' => $fecha_nacimiento,
+                        'id_estado_nacimiento' => $id_estado_nacimiento,
+                        'id_ocupacion' => $id_ocupacion,
+                        'codigo_postal' => $codigo_postal,
+                        'telefono' => $telefono,
+                        'curp' => $curp,
+                        'id_estado' => $id_estado,
+                        'id_municipio' => $id_municipio,
+                        'ruta_imagen' => $ruta_imagen
+                    ]);
+
+                    if (isset($usuario) && isset($datosUsuario)) {
+                        $data = [
+                            "id_usuario" => $usuario->id,
+                            "correo" => $usuario->email,
+                            "api_token" => $usuario->api_token,
+                            "id_datos_usuario" => $datosUsuario->id_datos_usuario,
+                            "nombre" => $datosUsuario->nombre,
+                            "apellido_paterno" => $datosUsuario->apellido_paterno,
+                            "apellido_materno" => $datosUsuario->apellido_materno,
+                            "id_genero" => $datosUsuario->id_genero,
+                            "fecha_nacimiento" => $datosUsuario->fecha_nacimiento,
+                            "id_estado_nacimiento" => $datosUsuario->id_estado_nacimiento,
+                            "id_ocupacion" => $datosUsuario->id_ocupacion,
+                            "codigo_postal" => $datosUsuario->codigo_postal,
+                            "telefono" => $datosUsuario->telefono,
+                            "curp" => $datosUsuario->curp,
+                            "id_estado" => $datosUsuario->id_estado,
+                            "id_municipio" => $datosUsuario->id_municipio,
+                            "ruta_imagen" => $datosUsuario->ruta_imagen
+                        ];
+                    } else {
+                        array_push($errors, "¡Ops!, parece que algo salió mal. Verifíca que todos tus datos sean correctos.");
+                    }
+                }
             }
         }
 
@@ -260,58 +280,52 @@ class UserApiController extends Controller {
 
     /* Función para obtener el id_estado mediante su abreviatura */
     private function consultaEstado($abreviatura) {
-        $id_estado = Estado::where("abreviatura", $abreviatura)->first();
-        return $id_estado->id_estado;
+        $estado = Estado::where("abreviatura", $abreviatura)->first();
+        return $estado->id_estado;
     }
 
-    /* Función para obtener estadp y municipio a partir de CP */
-    function obtenerEstadoMunicipio(Request $request) {
-        $cliente = new \GuzzleHttp\Client();
-        $respuesta = $cliente->request('GET', 'https://api-codigos-postales.herokuapp.com/v2/codigo_postal/' . $request->codigo_postal);
+    /* Función para obtener el id_municipio mediante su abreviatura */
+    /*private function consultaMunicipio($abreviatura) {
+        $municipio = Municipio::where("abreviatura", $abreviatura)->first();
+        return $municipio->id_municipio;
+    }*/
 
-        $status = $respuesta->getStatusCode();
+    /* Función para obtener estadp y municipio a partir de CP */
+    private function obtenerEstadoMunicipio($codigo_postal) {
+        $cliente = new Client();
+        $respuesta = $cliente->request('GET', 'https://api-codigos-postales.herokuapp.com/v2/codigo_postal/' . $codigo_postal);
+
         $datos = json_decode($respuesta->getBody());
 
         $estado = Estado::where("nombre", $datos->estado)->first();
         $municipio = Municipio::where("nombre", $datos->municipio)->first();
 
-        $id_estado = $estado->id_estado;
-        $id_municipio = $municipio->id_municipio;
+        if (isset($estado) && isset($municipio)) return $estado->id_estado . "," . $municipio->id_municipio;
+        else return false;
+    }
 
-        return response()->json([
-            "success" => true,
-            "errors" => [],
-            "status" => $status,
-            "data" => [
-                "id_estado" => $id_estado,
-                "id_municipio" => $id_municipio
-            ]
-        ]);
+    /* Función que devuelve el id_genero mediante su abreviatura */
+    private function revisarGenero($genero) {
+        $objetoGenero = Genero::where("abreviatura", $genero)->first();
+        if (isset($objetoGenero)) return $objetoGenero->id_genero;
+        else return false;
     }
 
     /* Función que verifica si ya existe el correo en la base de datos */
     private function verificarEmail($email) {
         $correo = Usuario::where("email", $email)->first();
-
-        if (isset($correo)) {
-            return response()->json([
-                "success" => true,
-                "errors" => [],
-                "status" => 200,
-                "data" => true
-            ]);
-        } else {
-            return response()->json([
-                "success" => true,
-                "errors" => [],
-                "status" => 200,
-                "data" => false
-            ]);
-        }
+        if (isset($correo)) return true;
+        else return false;
     }
 
     /* Función para calcular CURP mediante los datos personales */
-    private  function calcularCurp($nombre, $ap_paterno, $ap_materno, $fecha_nac, $estado, $genero) {
+    private function calcularCurp($ap_paterno, $ap_materno, $nombre, $genero, $fecha_nac, $estado) {
+        list($anio, $mes, $dia) = explode("-", $fecha_nac);
 
+        $data = $ap_paterno{0} . $ap_paterno{1} . $ap_materno{0} . $nombre{0} . $anio . $mes . $dia . $genero . $estado . "RCN" . rand(10, 99);
+        $curpBD = DatosUsuario::where("curp", $data)->first();
+
+        if (isset($data) && !isset($curpBD)) return $data;
+        else return false;
     }
 }
