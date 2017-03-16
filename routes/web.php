@@ -23,6 +23,7 @@ Route::group(['prefix' => 'api/usuarios'], function () {
     Route::post('login', 'Auth\LoginApiController@login');
     Route::post('registrar', 'Auth\LoginApiController@registrar');
     Route::post('actualizar', 'Auth\LoginApiController@actualizar');
+    Route::post('checarEstadoMunicipio', 'UserApiController@obtenerEstadoMunicipio');
 });
 
 //Publicidad

@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Estado;
 use App\DatosUsuario;
 use App\Http\Controllers\Auth\ImageController;
+use App\Municipio;
 use App\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -263,6 +264,49 @@ class UserApiController extends Controller {
         return $id_estado->id_estado;
     }
 
+    /* Función para obtener estadp y municipio a partir de CP */
+    function obtenerEstadoMunicipio(Request $request) {
+        $cliente = new \GuzzleHttp\Client();
+        $respuesta = $cliente->request('GET', 'https://api-codigos-postales.herokuapp.com/v2/codigo_postal/' . $request->codigo_postal);
+
+        $status = $respuesta->getStatusCode();
+        $datos = json_decode($respuesta->getBody());
+
+        //$estado = Estado::where("nombre", $datos->estado)->first();
+        //$municipio = Municipio::where("nombre", $datos->municipio)->first();
+
+        return response()->json([
+            "success" => true,
+            "errors" => [],
+            "status" => $status,
+            "data" => [
+                "id_estado" => $datos->estado,
+                "id_municipio" => $datos->municipio
+            ]
+        ]);
+    }
+
+    /* Función que verifica si ya existe el correo en la base de datos */
+    private function verificarEmail($email) {
+        $correo = Usuario::where("email", $email)->first();
+
+        if (isset($correo)) {
+            return response()->json([
+                "success" => true,
+                "errors" => [],
+                "status" => 200,
+                "data" => true
+            ]);
+        } else {
+            return response()->json([
+                "success" => true,
+                "errors" => [],
+                "status" => 200,
+                "data" => false
+            ]);
+        }
+    }
+
     /* Función para calcular CURP mediante los datos personales */
     private  function calcularCurp($nombre, $ap_paterno, $ap_materno, $fecha_nac, $estado, $genero) {
         /*
@@ -275,7 +319,7 @@ class UserApiController extends Controller {
          * Primera consonante interna del segundo apellido
          * Primer consonante interna del nombre
          * Dos digitos para evitar duplicaciones
-        */
+
 
         $vocales = ["A", "E", "I", "O", "U"];
 
@@ -295,6 +339,6 @@ class UserApiController extends Controller {
         list($dia, $mes, $anio) = explode('/', $fecha_nac);
         $fecha = $anio{2} . $anio{3} . $mes . $dia;
 
-
+        */
     }
 }
