@@ -272,16 +272,19 @@ class UserApiController extends Controller {
         $status = $respuesta->getStatusCode();
         $datos = json_decode($respuesta->getBody());
 
-        //$estado = Estado::where("nombre", $datos->estado)->first();
-        //$municipio = Municipio::where("nombre", $datos->municipio)->first();
+        $estado = Estado::where("nombre", $datos->estado)->first();
+        $municipio = Municipio::where("nombre", $datos->municipio)->first();
+
+        $id_estado = $estado->id_estado;
+        $id_municipio = $municipio->id_municipio;
 
         return response()->json([
             "success" => true,
             "errors" => [],
             "status" => $status,
             "data" => [
-                "id_estado" => $datos->estado,
-                "id_municipio" => $datos->municipio
+                "id_estado" => $id_estado,
+                "id_municipio" => $id_municipio
             ]
         ]);
     }
@@ -309,36 +312,6 @@ class UserApiController extends Controller {
 
     /* Función para calcular CURP mediante los datos personales */
     private  function calcularCurp($nombre, $ap_paterno, $ap_materno, $fecha_nac, $estado, $genero) {
-        /*
-          Primera letra y primera vocal del primer apellido
-          Primer letra del segundo apellido
-          Primera letra del nombre, si el primer nombre es Jose/Maria, se tomara el segundo nombre si lo tiene
-          Fecha de nacimiento (ultimos dos dígitos del año, mes y día)
-         * Sexo (se usara la letra H o M)
-         * Dos letras correspondientes al estado de nacimiento, si es extranjero se usa NE
-         * Primera consonante interna del segundo apellido
-         * Primer consonante interna del nombre
-         * Dos digitos para evitar duplicaciones
 
-
-        $vocales = ["A", "E", "I", "O", "U"];
-
-        $primer_letra = $ap_paterno{0};
-        for ($j = count($ap_paterno); $j > 0; $j++) {
-            for ($i = 0; $i < count($vocales); $i++) {
-                if ($ap_paterno{$j}.equalToIgnoringCase($vocales{$i})) $segunda_letra = "";
-                else $segunda_letra = $ap_paterno{$j};
-            }
-        }
-
-        $tercer_letra = $ap_materno{0};
-        list($primer_nombre, $segundo_nombre) = explode(' ', $nombre);
-        if ($primer_nombre.equalToIgnoringCase("Jose") || $primer_nombre.equalToIgnoringCase("Maria")) $cuarta_letra = $segundo_nombre{0};
-        else $cuarta_letra = $primer_nombre{0};
-
-        list($dia, $mes, $anio) = explode('/', $fecha_nac);
-        $fecha = $anio{2} . $anio{3} . $mes . $dia;
-
-        */
     }
 }

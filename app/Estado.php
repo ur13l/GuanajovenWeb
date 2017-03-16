@@ -19,6 +19,7 @@ class Estado extends Model {
 
     protected $fillable = [
         'id_estado',
-        'nombre'
+        'nombre',
+        'abreviatura'
     ];
 }
