@@ -233,7 +233,7 @@ class UserApiController extends Controller {
                 $ruta_imagen = url(ImageController::guardarImagen($datos, $ruta, uniqid("usuario_")));
             }
 
-            $actualiza = DatosUsuario::where("id", $usuario->id)
+            $actualiza = DatosUsuario::where("id_usuario", $usuario->id)
                 ->update([
                     'nombre' => $nombre,
                     "apellido_paterno" => $apellido_paterno,
@@ -253,7 +253,7 @@ class UserApiController extends Controller {
             if (isset($actualiza)) {
                 $data = [
                     "id" => $usuario->id,
-                    "correo" => $usuario->email,
+                    "email" => $usuario->email,
                     "api_token" => $usuario->api_token,
                     "id_datos_usuario" => $datosUsuario->id_datos_usuario,
                     "nombre" => $datosUsuario->nombre,
