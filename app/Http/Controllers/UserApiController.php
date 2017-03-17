@@ -131,7 +131,7 @@ class UserApiController extends Controller {
                             "apellido_paterno" => $datosUsuario->apellido_paterno,
                             "apellido_materno" => $datosUsuario->apellido_materno,
                             "id_genero" => $datosUsuario->id_genero,
-                            "fecha_nacimiento" => $datosUsuario->fecha_nacimiento,
+                            "fecha_nacimiento" => $request->input("fecha_nacimiento"),
                             "id_estado_nacimiento" => $datosUsuario->id_estado_nacimiento,
                             "id_ocupacion" => $datosUsuario->id_ocupacion,
                             "codigo_postal" => $datosUsuario->codigo_postal,
