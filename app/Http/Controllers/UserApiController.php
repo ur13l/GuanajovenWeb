@@ -82,7 +82,11 @@ class UserApiController extends Controller {
                 $codigo_postal = $request->input("codigo_postal");
                 if (isset($codigo_postal)) {
                     $objeto = $this->obtenerEstadoMunicipio($codigo_postal);
-                    list($id_estado, $id_municipio) = explode(",", $objeto);
+                    if ($objeto == false){
+                        array_push($errors, "No se pudo verificar tu código postal. Por favor verifica que es correcto.");
+                    } else {
+                        list($id_estado, $id_municipio) = explode(",", $objeto);
+                    }
                 }
 
                 if ($id_estado || $id_municipio) {
@@ -90,61 +94,71 @@ class UserApiController extends Controller {
                     $id_genero = "";
                     if (isset($genero)) {
                         $id_genero = $this->revisarGenero($genero);
-                    }
 
-                    $id_estado_nacimiento = "";
-                    if (isset($estado_nacimiento)) {
-                        $id_estado_nacimiento = $this->consultaEstado($estado_nacimiento);
-                    }
+                        if ($id_genero == false) {
+                            array_push($errors, "No se pudo validar el genero. Por favor verifica tus datos");
+                        } else {
+                            $id_estado_nacimiento = "";
+                            if (isset($estado_nacimiento)) {
+                                $id_estado_nacimiento = $this->consultaEstado($estado_nacimiento);
 
-                    $ruta_imagen = "";
-                    $datos = $request->input('ruta_imagen');
-                    if (isset($datos)) {
-                        $ruta = "storage/usuarios/";
-                        $ruta_imagen = url(ImageController::guardarImagen($datos, $ruta, uniqid("usuario_")));
-                    }
+                                if ($id_estado_nacimiento == false) {
+                                    array_push($errors, "No se pudo encontrar el estado de nacimiento. Por favor verifica tus datos");
+                                } else {
+                                    $ruta_imagen = "";
+                                    $datos = $request->input('ruta_imagen');
+                                    if (isset($datos)) {
+                                        $ruta = "storage/usuarios/";
+                                        $ruta_imagen = url(ImageController::guardarImagen($datos, $ruta, uniqid("usuario_")));
+                                    }
 
-                    $datosUsuario = DatosUsuario::create([
-                        'id_usuario' => $id,
-                        'nombre' => $nombre,
-                        'apellido_paterno' => $apellido_paterno,
-                        'apellido_materno' => $apellido_materno,
-                        'id_genero' => $id_genero,
-                        'fecha_nacimiento' => $fecha_nacimiento,
-                        'id_estado_nacimiento' => $id_estado_nacimiento,
-                        'id_ocupacion' => $id_ocupacion,
-                        'codigo_postal' => $codigo_postal,
-                        'telefono' => $telefono,
-                        'curp' => $curp,
-                        'id_estado' => $id_estado,
-                        'id_municipio' => $id_municipio,
-                        'ruta_imagen' => $ruta_imagen
-                    ]);
+                                    $datosUsuario = DatosUsuario::create([
+                                        'id_usuario' => $id,
+                                        'nombre' => $nombre,
+                                        'apellido_paterno' => $apellido_paterno,
+                                        'apellido_materno' => $apellido_materno,
+                                        'id_genero' => $id_genero,
+                                        'fecha_nacimiento' => $fecha_nacimiento,
+                                        'id_estado_nacimiento' => $id_estado_nacimiento,
+                                        'id_ocupacion' => $id_ocupacion,
+                                        'codigo_postal' => $codigo_postal,
+                                        'telefono' => $telefono,
+                                        'curp' => $curp,
+                                        'id_estado' => $id_estado,
+                                        'id_municipio' => $id_municipio,
+                                        'ruta_imagen' => $ruta_imagen
+                                    ]);
 
-                    if (isset($usuario) && isset($datosUsuario)) {
-                        $data = [
-                            "id_usuario" => $usuario->id,
-                            "correo" => $usuario->email,
-                            "api_token" => $usuario->api_token,
-                            "id_datos_usuario" => $datosUsuario->id_datos_usuario,
-                            "nombre" => $datosUsuario->nombre,
-                            "apellido_paterno" => $datosUsuario->apellido_paterno,
-                            "apellido_materno" => $datosUsuario->apellido_materno,
-                            "id_genero" => $datosUsuario->id_genero,
-                            "fecha_nacimiento" => $request->input("fecha_nacimiento"),
-                            "id_estado_nacimiento" => $datosUsuario->id_estado_nacimiento,
-                            "id_ocupacion" => $datosUsuario->id_ocupacion,
-                            "codigo_postal" => $datosUsuario->codigo_postal,
-                            "telefono" => $datosUsuario->telefono,
-                            "curp" => $datosUsuario->curp,
-                            "id_estado" => $datosUsuario->id_estado,
-                            "id_municipio" => $datosUsuario->id_municipio,
-                            "ruta_imagen" => $datosUsuario->ruta_imagen
-                        ];
-                    } else {
-                        array_push($errors, "¡Ops!, parece que algo salió mal. Verifíca que todos tus datos sean correctos.");
+                                    if (isset($usuario) && isset($datosUsuario)) {
+                                        $data = [
+                                            "id" => $usuario->id,
+                                            "email" => $usuario->email,
+                                            "api_token" => $usuario->api_token,
+                                            "id_datos_usuario" => $datosUsuario->id_datos_usuario,
+                                            "nombre" => $datosUsuario->nombre,
+                                            "apellido_paterno" => $datosUsuario->apellido_paterno,
+                                            "apellido_materno" => $datosUsuario->apellido_materno,
+                                            "id_genero" => $datosUsuario->id_genero,
+                                            "fecha_nacimiento" => $request->input("fecha_nacimiento"),
+                                            "id_estado_nacimiento" => $datosUsuario->id_estado_nacimiento,
+                                            "id_ocupacion" => $datosUsuario->id_ocupacion,
+                                            "codigo_postal" => $datosUsuario->codigo_postal,
+                                            "telefono" => $datosUsuario->telefono,
+                                            "curp" => $datosUsuario->curp,
+                                            "id_estado" => $datosUsuario->id_estado,
+                                            "id_municipio" => $datosUsuario->id_municipio,
+                                            "ruta_imagen" => $datosUsuario->ruta_imagen
+                                        ];
+                                    } else {
+                                        array_push($errors, "¡Ops!, parece que algo salió mal. Verifíca que todos tus datos sean correctos.");
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
+            } else {
+                array_push($errors, "No se pudo comprobar tu CURP. Por favor verifica tus datos.");
             }
         }
 
@@ -281,14 +295,9 @@ class UserApiController extends Controller {
     /* Función para obtener el id_estado mediante su abreviatura */
     private function consultaEstado($abreviatura) {
         $estado = Estado::where("abreviatura", $abreviatura)->first();
-        return $estado->id_estado;
+        if (isset($estado)) return $estado->id_estado;
+        else return false;
     }
-
-    /* Función para obtener el id_municipio mediante su abreviatura */
-    /*private function consultaMunicipio($abreviatura) {
-        $municipio = Municipio::where("abreviatura", $abreviatura)->first();
-        return $municipio->id_municipio;
-    }*/
 
     /* Función para obtener estadp y municipio a partir de CP */
     private function obtenerEstadoMunicipio($codigo_postal) {
