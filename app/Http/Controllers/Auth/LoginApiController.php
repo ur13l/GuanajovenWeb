@@ -74,14 +74,18 @@ class LoginApiController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function loginGoogle(Request $request) {
         $correo = $request->input("email");
         $id_google = $request->input("id_google");
         $data = null;
         $user = Usuario::where("email", $correo)->first();
 
-        if ($user->id_google != null) {
-            if (Auth::once(['email' => $correo, 'id_google' => $id_google])) {
+        if (isset($user) && $user->id_google != null) {
+            if (Auth::once(['email' => $correo, 'password' => ' ', 'id_google' => $id_google])) {
                 $usuario = Auth::user();
                 $datosUsuario = DatosUsuario::where("id_usuario", $usuario->id)->first();
 
