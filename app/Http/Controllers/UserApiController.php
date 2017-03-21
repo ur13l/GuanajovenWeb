@@ -74,6 +74,7 @@ class UserApiController extends Controller {
             $estado = $request->input("estado");
             $municipio = $request->input("municipio");
 
+
             $curp = $this->calcularCurp($apellido_paterno, $apellido_materno, $nombre, $genero, $fecha_nacimiento, $estado);
 
             if ($curp) {
@@ -321,10 +322,23 @@ class UserApiController extends Controller {
     }
 
     /* Función que verifica si ya existe el correo en la base de datos */
-    private function verificarEmail($email) {
-        $correo = Usuario::where("email", $email)->first();
-        if (isset($correo)) return true;
-        else return false;
+    public function verificarEmail(Request $request) {
+        $correo = Usuario::where("email", $request->email)->first();
+        if (isset($correo)) {
+            return response()->json([
+                "success" => true,
+                "errors" => [],
+                "status" => 200,
+                "data" => true
+            ]);
+        } else {
+            return response()->json([
+                "success" => false,
+                "errors" => ["Correo no encontrado"],
+                "status" => 500,
+                "data" => false
+            ]);
+        }
     }
 
     /* Función para calcular CURP mediante los datos personales */
