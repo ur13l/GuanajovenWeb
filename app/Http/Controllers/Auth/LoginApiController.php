@@ -20,13 +20,18 @@ class LoginApiController extends Controller
 {
     use AuthenticatesUsers;
 
+    /**
+     * Función para verificar el acceso de un usuario API
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function login(Request $request) {
         $correo = $request->input("email");
         $password = $request->input("password");
         $data = null;
         $user = Usuario::where("email", $correo)->first();
 
-        if ($user->id_facebook == null && $user->id_google == null) {
+        if (isset($user) && $user->id_facebook == null && $user->id_google == null) {
             if (Auth::once(['email' => $correo, 'password' => $password])) {
                 $usuario = Auth::user();
                 $datosUsuario = DatosUsuario::where("id_usuario", $usuario->id)->first();
@@ -75,6 +80,7 @@ class LoginApiController extends Controller
     }
 
     /**
+     * Función para verificar el acceso de usuario mediante Google
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -125,20 +131,25 @@ class LoginApiController extends Controller
         } else {
             return response()->json([
                 "success" => false,
-                "errors" => ["No se puede iniciar sesión de esta manera"],
+                "errors" => ["No existe este usuario"],
                 "status" => 200,
                 "data" => []
             ]);
         }
     }
 
+    /**
+     * Función para verificar el acceso de usuario mediante Facebook
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function loginFacebook(Request $request) {
         $correo = $request->input("email");
         $id_facebook = $request->input("id_facebook");
         $data = null;
         $user = Usuario::where("email", $correo)->first();
 
-        if ($user->id_facebook != null) {
+        if (isset($user) && $user->id_facebook != null) {
             if (Auth::once(['email' => $correo, 'id_facebook' => $id_facebook])) {
                 $usuario = Auth::user();
                 $datosUsuario = DatosUsuario::where("id_usuario", $usuario->id)->first();
@@ -179,7 +190,7 @@ class LoginApiController extends Controller
         } else {
             return response()->json([
                 "success" => false,
-                "errors" => ["No se puede iniciar sesión de esta manera"],
+                "errors" => ["No existe este usuario"],
                 "status" => 200,
                 "data" => []
             ]);
