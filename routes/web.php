@@ -24,8 +24,8 @@ Route::group(['prefix' => 'api/usuarios'], function () {
     Route::post('registrar', 'UserApiController@registrar');
     Route::post('actualizar', 'UserApiController@actualizar');
     Route::post('verificarcorreo', 'UserApiController@verificarEmail');
-    Route::post('logingoogle', 'LoginApiController@loginGoogle');
-    Route::post('loginfacebook', 'LoginApiController@loginFacebook');
+    Route::post('logingoogle', 'Auth\LoginApiController@loginGoogle');
+    Route::post('loginfacebook', 'Auth\LoginApiController@loginFacebook');
     Route::group(['prefix' => 'token'], function () {
         Route::post('registrar', 'NotificacionesController@registrar');
         Route::post('cancelar', 'NotificacionesController@cancelar');
