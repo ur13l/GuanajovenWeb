@@ -54,10 +54,14 @@ class UserApiController extends Controller {
             //Usuario
             $correo = $request->input("email");
             $password = $request->input("password");
+            $id_google = $request->input("id_google");
+            $id_facebook = $request->input("id_facebook");
 
             $usuario = Usuario::create([
                 'email' => $correo,
                 'password' => $password,
+                'id_google' => $id_google,
+                'id_facebook' => $id_facebook
             ]);
 
             //Datos Usuario
@@ -73,7 +77,6 @@ class UserApiController extends Controller {
             $telefono = $request->input("telefono");
             $estado = $request->input("estado");
             $municipio = $request->input("municipio");
-
 
             $curp = $this->calcularCurp($apellido_paterno, $apellido_materno, $nombre, $genero, $fecha_nacimiento, $estado);
 
@@ -132,7 +135,7 @@ class UserApiController extends Controller {
 
                                     if (isset($usuario) && isset($datosUsuario)) {
                                         $data = [
-                                            "id" => $usuario->id,
+                                            "id_usuario" => $usuario->id,
                                             "email" => $usuario->email,
                                             "api_token" => $usuario->api_token,
                                             "id_datos_usuario" => $datosUsuario->id_datos_usuario,
@@ -335,7 +338,7 @@ class UserApiController extends Controller {
             return response()->json([
                 "success" => false,
                 "errors" => ["Correo no encontrado"],
-                "status" => 500,
+                "status" => 200,
                 "data" => false
             ]);
         }
