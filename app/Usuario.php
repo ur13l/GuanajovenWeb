@@ -22,13 +22,16 @@ class Usuario extends Authenticatable {
     protected $fillable = [
         'id',
         'email',
+        'id_google',
+        'id_facebook',
         'password',
         'admin'
     ];
 
     protected $hidden = [
-        'password'
-
+        'password',
+        'id_google',
+        'id_facebook'
     ];
 
     public function save(array $options = array())
@@ -42,6 +45,14 @@ class Usuario extends Authenticatable {
 
     public function setPasswordAttribute($value) {
         $this->attributes['password'] = bcrypt($value);
+    }
+
+    public function setIdGoogleAttribute($value) {
+        $this->attributes['id_google'] = bcrypt($value);
+    }
+
+    public function setIdFacebookAttribute($value) {
+        $this->attributes['id_facebook'] = bcrypt($value);
     }
 
     public function datosUsuario(){
