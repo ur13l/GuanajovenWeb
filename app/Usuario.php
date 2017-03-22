@@ -34,6 +34,11 @@ class Usuario extends Authenticatable {
         'id_facebook'
     ];
 
+    protected $encrypted = [
+        'id_google',
+        'id_facebook'
+    ];
+
     public function save(array $options = array())
     {
         if(empty($this->api_token)) {
@@ -45,14 +50,6 @@ class Usuario extends Authenticatable {
 
     public function setPasswordAttribute($value) {
         $this->attributes['password'] = bcrypt($value);
-    }
-
-    public function setIdGoogleAttribute($value) {
-        $this->attributes['id_google'] = bcrypt($value);
-    }
-
-    public function setIdFacebookAttribute($value) {
-        $this->attributes['id_facebook'] = bcrypt($value);
     }
 
     public function datosUsuario(){

@@ -16,6 +16,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
 
 class LoginApiController extends Controller
 {
@@ -88,12 +89,11 @@ class LoginApiController extends Controller
     public function loginGoogle(Request $request) {
         $correo = $request->input("email");
         $id_google = $request->input("id_google");
-        $password = "_";
         $data = null;
         $user = Usuario::where("email", $correo)->first();
 
         if (isset($user) && $user->id_google != null) {
-            if (Auth::once(['email' => $correo, 'password' => $password, 'id_google' => $id_google])) {
+            if (Auth::once(['email' => $correo, 'password' => '_']) && Hash::check($id_google, $user->id_google)) {
                 $usuario = Auth::user();
                 $datosUsuario = DatosUsuario::where("id_usuario", $usuario->id)->first();
 
@@ -148,12 +148,11 @@ class LoginApiController extends Controller
     public function loginFacebook(Request $request) {
         $correo = $request->input("email");
         $id_facebook = $request->input("id_facebook");
-        $password = "_";
         $data = null;
         $user = Usuario::where("email", $correo)->first();
 
         if (isset($user) && $user->id_facebook != null) {
-            if (Auth::once(['email' => $correo, 'password' => $password, 'id_facebook' => $id_facebook])) {
+            if (Auth::once(['email' => $correo, 'password' => '_']) && Hash::check($id_facebook, $user->id_facebook)) {
                 $usuario = Auth::user();
                 $datosUsuario = DatosUsuario::where("id_usuario", $usuario->id)->first();
 
