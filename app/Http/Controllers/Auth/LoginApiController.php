@@ -81,8 +81,9 @@ class LoginApiController extends Controller
         }
     }
 
+
     /**
-     * Función para verificar el acceso de usuario mediante Google
+     * Función para verificar el acceso de usuario mediante Googl
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
