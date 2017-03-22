@@ -74,7 +74,7 @@ class LoginApiController extends Controller
         }
     }
 
-    /**
+    /**Hash
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
