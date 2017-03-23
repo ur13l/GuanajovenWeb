@@ -25,6 +25,6 @@ class LoginToken extends Model {
 
     //Relacione con usuario
     public function usuario() {
-        return $this->hasMany('App\Usuario', 'id_usuario');
+        return $this->hasMany('App\User', 'id_usuario');
     }
 }

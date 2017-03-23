@@ -11,7 +11,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\DatosUsuario;
 use App\Http\Controllers\Controller;
-use App\Usuario;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -32,7 +32,7 @@ class LoginApiController extends Controller
         $correo = $request->input("email");
         $password = $request->input("password");
         $data = null;
-        $user = Usuario::where("email", $correo)->first();
+        $user = User::where("email", $correo)->first();
 
         if (isset($user) && $user->id_facebook == null && $user->id_google == null) {
             if (Auth::once(['email' => $correo, 'password' => $password])) {
@@ -67,7 +67,7 @@ class LoginApiController extends Controller
             } else {
                 return response()->json([
                     "success" => false,
-                    "errors" => ["Usuario o contraseña incorrectos"],
+                    "errors" => ["User o contraseña incorrectos"],
                     "status" => 500,
                     "data" => $data
                 ]);
@@ -92,7 +92,7 @@ class LoginApiController extends Controller
         $correo = $request->input("email");
         $id_google = $request->input("id_google");
         $data = null;
-        $user = Usuario::where("email", $correo)->first();
+        $user = User::where("email", $correo)->first();
 
         if (isset($user) && $user->id_google != null) {
             if (Auth::once(['email' => $correo, 'password' => '_']) && Hash::check($id_google, $user->id_google)) {
@@ -127,7 +127,7 @@ class LoginApiController extends Controller
             } else {
                 return response()->json([
                     "success" => false,
-                    "errors" => ["Usuario o Google incorrectos"],
+                    "errors" => ["User o Google incorrectos"],
                     "status" => 500,
                     "data" => $data
                 ]);
@@ -151,7 +151,7 @@ class LoginApiController extends Controller
         $correo = $request->input("email");
         $id_facebook = $request->input("id_facebook");
         $data = null;
-        $user = Usuario::where("email", $correo)->first();
+        $user = User::where("email", $correo)->first();
 
         if (isset($user) && $user->id_facebook != null) {
             if (Auth::once(['email' => $correo, 'password' => '_']) && Hash::check($id_facebook, $user->id_facebook)) {
@@ -186,7 +186,7 @@ class LoginApiController extends Controller
             } else {
                 return response()->json([
                     "success" => false,
-                    "errors" => ["Usuario o Facebook incorrectos"],
+                    "errors" => ["User o Facebook incorrectos"],
                     "status" => 500,
                     "data" => $data
                 ]);

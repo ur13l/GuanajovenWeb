@@ -26,6 +26,6 @@ class BitacoraUsuario extends Model {
 
     //Relaciones
     public function usuario() {
-        return $this->hasOne('App\Usuario', 'id');
+        return $this->hasOne('App\User', 'id');
     }
 }

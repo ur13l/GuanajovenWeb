@@ -158,7 +158,7 @@ function login_($user, $paswd){
 	
 	}else{
 		$resp[0] = false;
-		$resp[1] =  utf8_encode('Usuario o contraseña incorrecto');	
+		$resp[1] =  utf8_encode('User o contraseï¿½a incorrecto');
 		return $js->encode($resp);	
 	}
 }
@@ -212,7 +212,7 @@ function logError($numero, $texto){
 		
 	}else{ 
 		//enviar_error($texto);
-		//echo "<strong> NO SE PUDO PROCESAR LA INFORMACIÓN, POR FAVOR INTENTELO MAS TARDE SE ESTA CORRIGIENDO EL PROBLEMA </strong>\n";
+		//echo "<strong> NO SE PUDO PROCESAR LA INFORMACIï¿½N, POR FAVOR INTENTELO MAS TARDE SE ESTA CORRIGIENDO EL PROBLEMA </strong>\n";
 	
 		$txt = "ERROR: $texto \n";
 		echo $txt;	
@@ -419,7 +419,7 @@ function UltimoDia($anho,$mes){
 function edad($fecha_nac){
 //Esta funcion toma una fecha de nacimiento 
 	
-	//en formato aaaa/mm/dd y calcula la edad en números enteros
+	//en formato aaaa/mm/dd y calcula la edad en nï¿½meros enteros
 	//echo $fecha_nac;
 	$dia=date("j");
 	$mes=date("n");
@@ -802,7 +802,7 @@ function create_menu_boot($modulo){
 			<div class='navbar-header' >
 			<button type='button' class='navbar-toggle' data-toggle='collapse'
             data-target='.navbar-ex1-collapse'>
-      			<span class='sr-only'>Desplegar navegación</span>
+      			<span class='sr-only'>Desplegar navegaciï¿½n</span>
       			<span class='icon-bar'></span>
       			<span class='icon-bar'></span>
       			<span class='icon-bar'></span>

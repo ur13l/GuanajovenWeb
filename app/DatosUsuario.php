@@ -37,7 +37,7 @@ class DatosUsuario extends Model {
 
     //Relaciones
     public function usuario() {
-        return $this->hasOne('App\Usuario', 'id_usuario');
+        return $this->hasOne('App\User', 'id_usuario');
     }
 
     public function genero() {

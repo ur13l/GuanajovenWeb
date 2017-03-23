@@ -8,7 +8,7 @@ use App\DatosUsuario;
 use App\Genero;
 use App\Http\Controllers\Auth\ImageController;
 use App\Municipio;
-use App\Usuario;
+use App\User;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -51,20 +51,20 @@ class UserApiController extends Controller {
                 array_push($errors, $error);
             }
         } else {
-            //Usuario
+            //User
             $correo = $request->input("email");
             $password = $request->input("password");
             $id_google = $request->input("id_google");
             $id_facebook = $request->input("id_facebook");
 
-            $usuario = Usuario::create([
+            $usuario = User::create([
                 'email' => $correo,
                 'password' => $password,
                 'id_google' => $id_google,
                 'id_facebook' => $id_facebook
             ]);
 
-            //Datos Usuario
+            //Datos User
             $id = $usuario->id;
             $nombre = $request->input("nombre");
             $apellido_paterno = $request->input('apellido_paterno');
@@ -212,7 +212,7 @@ class UserApiController extends Controller {
                 array_push($errors, $error);
             }
         } else {
-            //Datos Usuario
+            //Datos User
             $nombre = $request->input("nombre");
             $apellido_paterno = $request->input('apellido_paterno');
             $apellido_materno = $request->input('apellido_materno');
@@ -326,7 +326,7 @@ class UserApiController extends Controller {
 
     /* Función que verifica si ya existe el correo en la base de datos */
     public function verificarEmail(Request $request) {
-        $correo = Usuario::where("email", $request->email)->first();
+        $correo = User::where("email", $request->email)->first();
         if (isset($correo)) {
             return response()->json([
                 "success" => true,

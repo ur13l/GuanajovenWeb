@@ -58,7 +58,7 @@ if (isset($_SESSION['usuario_correo'])) {
     <!-- Modal Structure -->
     <div id="modal1" class="modal">
       <div class="modal-content">
-        <h4>Detalles de Usuario</h4>
+        <h4>Detalles de User</h4>
         <p>
           <div class="row">
             <form class="col s12">
