@@ -54,3 +54,14 @@ Route::group(['prefix' => 'eventos'], function () {
 });
 //Video
 Route::get('/video', 'VideoController@index');
+
+//Reset password
+Route::group(['prefix'=>'password'], function(){
+    Route::post('/email', 'Auth\PasswordController@postEmail');
+    Route::post('/reset', 'Auth\PasswordController@postReset');
+});
+
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');

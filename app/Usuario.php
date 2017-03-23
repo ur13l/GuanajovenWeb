@@ -7,8 +7,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Contracts\Auth\CanResetPassword;
 
-class Usuario extends Authenticatable {
+class Usuario extends Authenticatable implements CanResetPassword {
     protected $table = 'usuario';
     protected $primaryKey = 'id';
     use SoftDeletes;
