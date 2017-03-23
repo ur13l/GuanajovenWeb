@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Hash;
 
 class Usuario extends Authenticatable {
     protected $table = 'usuario';
@@ -43,6 +44,14 @@ class Usuario extends Authenticatable {
     {
         if(empty($this->api_token)) {
             $this->api_token = str_random(60);
+        }
+
+        if(!empty($this->id_google)){
+            $this->id_google = Hash::make($this->id_google);
+        }
+
+        if(!empty($this->id_facebook)){
+            $this->id_facebook = Hash::make($this->id_facebook);
         }
         return parent::save($options);
     }
