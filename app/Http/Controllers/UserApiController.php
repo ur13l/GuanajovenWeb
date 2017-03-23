@@ -336,7 +336,7 @@ class UserApiController extends Controller {
             ]);
         } else {
             return response()->json([
-                "success" => false,
+                "success" => true,
                 "errors" => ["Correo no encontrado"],
                 "status" => 200,
                 "data" => false
