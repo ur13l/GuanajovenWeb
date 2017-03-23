@@ -35,11 +35,6 @@ class Usuario extends Authenticatable {
         'id_facebook'
     ];
 
-    protected $encrypted = [
-        'id_google',
-        'id_facebook'
-    ];
-
     public function save(array $options = array())
     {
         if(empty($this->api_token)) {

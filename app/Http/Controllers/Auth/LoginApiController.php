@@ -12,6 +12,7 @@ namespace App\Http\Controllers\Auth;
 use App\DatosUsuario;
 use App\Http\Controllers\Controller;
 use App\Usuario;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,7 +48,7 @@ class LoginApiController extends Controller
                     "apellido_paterno" => $datosUsuario->apellido_paterno,
                     "apellido_materno" => $datosUsuario->apellido_materno,
                     "id_genero" => $datosUsuario->id_genero,
-                    "fecha_nacimiento" => $datosUsuario->fecha_nacimiento,
+                    "fecha_nacimiento" => $datosUsuario->fecha_nacimiento->format('d/m/Y'),
                     "id_ocupacion" => $datosUsuario->id_ocupacion,
                     "codigo_postal" => $datosUsuario->codigo_postal,
                     "telefono" => $datosUsuario->telefono,
@@ -107,7 +108,7 @@ class LoginApiController extends Controller
                     "apellido_paterno" => $datosUsuario->apellido_paterno,
                     "apellido_materno" => $datosUsuario->apellido_materno,
                     "id_genero" => $datosUsuario->id_genero,
-                    "fecha_nacimiento" => $datosUsuario->fecha_nacimiento,
+                    "fecha_nacimiento" => $datosUsuario->fecha_nacimiento->format('d/m/Y'),
                     "id_ocupacion" => $datosUsuario->id_ocupacion,
                     "codigo_postal" => $datosUsuario->codigo_postal,
                     "telefono" => $datosUsuario->telefono,
@@ -166,7 +167,7 @@ class LoginApiController extends Controller
                     "apellido_paterno" => $datosUsuario->apellido_paterno,
                     "apellido_materno" => $datosUsuario->apellido_materno,
                     "id_genero" => $datosUsuario->id_genero,
-                    "fecha_nacimiento" => $datosUsuario->fecha_nacimiento,
+                    "fecha_nacimiento" => $datosUsuario->fecha_nacimiento->format('d/m/Y'),
                     "id_ocupacion" => $datosUsuario->id_ocupacion,
                     "codigo_postal" => $datosUsuario->codigo_postal,
                     "telefono" => $datosUsuario->telefono,
