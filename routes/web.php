@@ -46,8 +46,11 @@ Route::get('/usuarios', 'UsuariosController@index');
 //Notificaciones
 Route::get('/notificaciones', 'NotificacionesController@index');
 //Eventos
-Route::get('/eventos', 'EventosController@index');
-Route::get('/eventos/nuevo', 'EventosController@nuevoEvento');
-Route::get('/eventos/editar', 'EventosController@editarEvento');
+Route::group(['prefix' => 'eventos'], function () {
+    Route::get('/inicio', 'EventosController@index');
+    Route::get('/nuevo', 'EventosController@nuevoEvento');
+    Route::get('/editar', 'EventosController@editarEvento');
+    Route::post('/guardar', 'EventosController@guardarEvento');
+});
 //Video
 Route::get('/video', 'VideoController@index');

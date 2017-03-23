@@ -3,7 +3,7 @@ var id;
 var eventos;
 var paginaActiva = 0;
 var eliminarIds;
-var url = $("#url").val() + '/web/controller/eventos.php';
+var url = $("#url").val() + '/eventos/guardarEvento';
 
 
 /**
@@ -277,7 +277,6 @@ function guardarEvento(){
              // código a ejecutar si la petición es satisfactoria;
              // la respuesta es pasada como argumento a la función
              success : function(json) {
-                 $("#modal1").closeModal();
                  getEvents(paginaActiva);
                  definirPaginacion();
              },
