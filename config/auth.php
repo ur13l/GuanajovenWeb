@@ -68,12 +68,12 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class
-        ],
+        ]
 
-         'users' => [
+         /*'users' => [
              'driver' => 'database',
              'table' => 'usuario',
-         ],
+         ],*/
     ],
 
     /*
