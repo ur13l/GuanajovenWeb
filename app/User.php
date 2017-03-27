@@ -33,8 +33,16 @@ class User extends Authenticatable implements CanResetPassword {
     protected $hidden = [
         'password',
         'id_google',
-        'id_facebook'
+        'id_facebook',
+        'remember_token'
     ];
+
+
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
+    }
+
 
     public function save(array $options = array())
     {
@@ -52,10 +60,6 @@ class User extends Authenticatable implements CanResetPassword {
         return parent::save($options);
     }
 
-
-    public function setPasswordAttribute($value) {
-        $this->attributes['password'] = bcrypt($value);
-    }
 
     public function datosUsuario(){
         return $this->hasOne('App\DatosUsuario', 'id_usuario');
