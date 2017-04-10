@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Notifications\MyResetPassword;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
@@ -63,6 +64,17 @@ class User extends Authenticatable implements CanResetPassword {
 
     public function datosUsuario(){
         return $this->hasOne('App\DatosUsuario', 'id_usuario');
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new MyResetPassword($token));
     }
 
 }
