@@ -38,7 +38,7 @@ class LoginApiController extends Controller
             if (Auth::once(['email' => $correo, 'password' => $password])) {
                 $usuario = Auth::user();
                 $datosUsuario = DatosUsuario::where("id_usuario", $usuario->id)->first();
-                $estado = $datosUsuario->estado();
+                $estado = $datosUsuario->estado;
 
                 $data = [
                     "id_usuario" => $usuario->id,

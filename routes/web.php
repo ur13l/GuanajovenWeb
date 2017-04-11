@@ -33,7 +33,13 @@ Route::group(['prefix' => 'api/usuarios'], function () {
 });
 
 //Publicidad
-Route::get('/publicidad', 'PublicidadController@index');
+Route::group(['prefix' => 'publicidad'], function () {
+    Route::get('/', 'PublicidadController@index');
+    Route::post('/eliminar', 'PublicidadController@eliminar');
+    Route::post('/crear', 'PublicidadController@crear');
+    Route::post('/actualizar', 'PublicidadController@actualizar');
+    Route::get('/detalle/{id}', 'PublicidadController@detalle');
+});
 //Convocatorias
 Route::get('/convocatorias', 'ConvocatoriasController@index');
 Route::get('/convocatorias/nueva_convocatoria', 'ConvocatoriasController@nuevaConvocatoria');
