@@ -54,6 +54,7 @@ class LoginApiController extends Controller
                     "telefono" => $datosUsuario->telefono,
                     "curp" => $datosUsuario->curp,
                     "id_estado" => $datosUsuario->id_estado,
+                    "estado" => $datosUsuario->estado(),
                     "id_municipio" => $datosUsuario->id_municipio,
                     "ruta_imagen" => $datosUsuario->ruta_imagen
                 ];
@@ -114,6 +115,7 @@ class LoginApiController extends Controller
                     "telefono" => $datosUsuario->telefono,
                     "curp" => $datosUsuario->curp,
                     "id_estado" => $datosUsuario->id_estado,
+                    "estado" => $datosUsuario->estado(),
                     "id_municipio" => $datosUsuario->id_municipio,
                     "ruta_imagen" => $datosUsuario->ruta_imagen
                 ];
@@ -173,6 +175,7 @@ class LoginApiController extends Controller
                     "telefono" => $datosUsuario->telefono,
                     "curp" => $datosUsuario->curp,
                     "id_estado" => $datosUsuario->id_estado,
+                    "estado" => $datosUsuario->estado(),
                     "id_municipio" => $datosUsuario->id_municipio,
                     "ruta_imagen" => $datosUsuario->ruta_imagen
                 ];
