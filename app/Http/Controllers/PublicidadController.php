@@ -40,7 +40,7 @@ class PublicidadController {
         $imagen = $request->file('imagen');
 
         if ($request->file('imagen')->isValid()) {
-            $destinationPath = 'storage/publicidad'; // upload path
+            $destinationPath = 'storage/publicidad/'; // upload path
             $extension = $request->file('imagen')->getClientOriginalExtension(); // getting image extension
             $fileName = rand(11111,99999).'.'.$extension; // renameing image
             $request->file('imagen')->move($destinationPath, $fileName); // uploading file to given path

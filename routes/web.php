@@ -34,7 +34,7 @@ Route::group(['prefix' => 'api/usuarios'], function () {
 
 //Publicidad
 Route::group(['prefix' => 'publicidad'], function () {
-    Route::get('/', 'PublicidadController@index');
+    Route::get('/', 'PublicidadController@index')->name('publicidad');
     Route::post('/eliminar', 'PublicidadController@eliminar');
     Route::post('/crear', 'PublicidadController@crear');
     Route::post('/actualizar', 'PublicidadController@actualizar');
