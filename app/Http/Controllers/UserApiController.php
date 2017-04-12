@@ -133,6 +133,8 @@ class UserApiController extends Controller {
                                         'ruta_imagen' => $ruta_imagen
                                     ]);
 
+                                    $estado = $datosUsuario->estado;
+
                                     if (isset($usuario) && isset($datosUsuario)) {
                                         $data = [
                                             "id_usuario" => $usuario->id,
@@ -150,6 +152,7 @@ class UserApiController extends Controller {
                                             "telefono" => $datosUsuario->telefono,
                                             "curp" => $datosUsuario->curp,
                                             "id_estado" => $datosUsuario->id_estado,
+                                            "estado" => $estado->nombre,
                                             "id_municipio" => $datosUsuario->id_municipio,
                                             "ruta_imagen" => $datosUsuario->ruta_imagen
                                         ];
