@@ -104,7 +104,7 @@ class LoginApiController extends Controller
 
                 $data = [
                     "id_usuario" => $usuario->id,
-                    "correo" => $usuario->email,
+                    "email" => $usuario->email,
                     "api_token" => $usuario->api_token,
                     "id_datos_usuario" => $datosUsuario->id_datos_usuario,
                     "nombre" => $datosUsuario->nombre,
@@ -165,7 +165,7 @@ class LoginApiController extends Controller
 
                 $data = [
                     "id_usuario" => $usuario->id,
-                    "correo" => $usuario->email,
+                    "email" => $usuario->email,
                     "api_token" => $usuario->api_token,
                     "id_datos_usuario" => $datosUsuario->id_datos_usuario,
                     "nombre" => $datosUsuario->nombre,
