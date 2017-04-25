@@ -100,11 +100,11 @@ class LoginApiController extends Controller
             if (Auth::once(['email' => $correo, 'password' => '_']) && Hash::check($id_google, $user->id_google)) {
                 $usuario = Auth::user();
                 $datosUsuario = DatosUsuario::where("id_usuario", $usuario->id)->first();
-                $estado = $datosUsuario->estado();
+                $estado = $datosUsuario->estado;
 
                 $data = [
                     "id_usuario" => $usuario->id,
-                    "correo" => $usuario->email,
+                    "email" => $usuario->email,
                     "api_token" => $usuario->api_token,
                     "id_datos_usuario" => $datosUsuario->id_datos_usuario,
                     "nombre" => $datosUsuario->nombre,
@@ -161,11 +161,11 @@ class LoginApiController extends Controller
             if (Auth::once(['email' => $correo, 'password' => '_']) && Hash::check($id_facebook, $user->id_facebook)) {
                 $usuario = Auth::user();
                 $datosUsuario = DatosUsuario::where("id_usuario", $usuario->id)->first();
-                $estado = $datosUsuario->estado();
+                $estado = $datosUsuario->estado;
 
                 $data = [
                     "id_usuario" => $usuario->id,
-                    "correo" => $usuario->email,
+                    "email" => $usuario->email,
                     "api_token" => $usuario->api_token,
                     "id_datos_usuario" => $datosUsuario->id_datos_usuario,
                     "nombre" => $datosUsuario->nombre,
