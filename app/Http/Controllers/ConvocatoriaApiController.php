@@ -15,10 +15,10 @@ class ConvocatoriaApiController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function obtenerConvocatorias(Request $request) {
-        $timestamp = $request->input('timestamp') + 0;
-        $lastUpdate = Carbon::createFromTimestampUTC($timestamp);
+        $timestamp = $request->input('timestamp');
+
         $convocatorias = Convocatoria::where('fecha_cierre', '>=', Carbon::now('America/Mexico_City'))
-            //->where('updated_at', '>', $lastUpdate)
+            ->where('updated_at', '>', $timestamp)
             ->orderBy('fecha_cierre')
             ->with('documentos')
             ->withTrashed()

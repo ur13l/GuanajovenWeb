@@ -17,8 +17,11 @@ class PublicidadApiController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function obtenerPublicidad(Request $request) {
+        $timestamp = $request->input('timestamp');
         $anuncios = Publicidad::where('fecha_inicio', '<=', Carbon::now())
             ->where('fecha_fin', '>=', Carbon::now())
+            ->where('updated_at', '>', $timestamp)
+            ->withTrashed()
             ->orderBy('fecha_fin')
             ->get();
         return response()->json(array(
