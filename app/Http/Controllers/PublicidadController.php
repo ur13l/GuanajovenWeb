@@ -23,13 +23,23 @@ class PublicidadController {
         return view('publicidad.index',array("anuncios" => $anuncios));
     }
 
+    /**
+     * Función que permite eliminar un elemento de publicidad desde la parte web.
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function eliminar(Request $request) {
         $id = $request->input('id-eliminar');
         $publicidad = Publicidad::find($id);
         $publicidad->delete();
-        redirect()->route('publicidad');
+       return  redirect()->route('publicidad');
     }
 
+    /**
+     * Método para la creación de un elemento de publicidad desde la interfaz web.
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function crear(Request $request) {
         $titulo = $request->input('titulo');
         $descripcion = $request->input('descripcion');
@@ -56,7 +66,7 @@ class PublicidadController {
             'ruta_imagen' => $rutaImagen
         ));
 
-        redirect()->route('publicidad');
+        return redirect('/publicidad');
     }
 
 

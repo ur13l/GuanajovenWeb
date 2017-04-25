@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Convocatoria extends Model
 {
@@ -28,7 +29,7 @@ class Convocatoria extends Model
         'deleted_at'
     ];
 
-    public function documento(){
-        return $this->hasMany('App\Documento', 'id_documento');
+    public function documentos(){
+        return $this->hasMany('App\Documento', 'id_convocatoria')->with('formato');
     }
 }

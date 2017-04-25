@@ -63,11 +63,11 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s6">
-                            <input id="fecha-inicio" type="text" class="datepicker vald" >
+                            <input id="fecha-inicio" name="fecha-inicio" type="text" class="datepicker vald" >
                             <label for="fecha-inicio">Fecha de inicio</label>
                         </div>
                         <div class="input-field col s6">
-                            <input id="fecha-fin" type="text" class="datepicker vald" >
+                            <input id="fecha-fin" type="text" name="fecha-fin" class="datepicker vald" >
                             <label for="fecha-fin">Fecha de fin</label>
                         </div>
                     </div>

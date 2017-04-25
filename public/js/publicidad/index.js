@@ -12,6 +12,11 @@ $(function(){
 
     //Validación de formulario para nueva publicidad
     $("#form-nuevo").validate({
+        submitHandler: function(form) {
+            $("#fecha-inicio").val(moment($("#fecha-inicio").val(), "DD MMM, YYYY").format("YYYY-MM-DD"));
+            $("#fecha-fin").val(moment($("#fecha-fin").val(), "DD MMM, YYYY").format("YYYY-MM-DD"));
+            form.submit();
+        },
         rules: {
             titulo: {
                 required: true
@@ -20,6 +25,9 @@ $(function(){
                 required: true
             },
             "fecha-fin": {
+                required: true
+            },
+            url: {
                 required: true
             },
             imagen: {
@@ -34,6 +42,9 @@ $(function(){
                 required: "Este campo es obligatorio"
             },
             "fecha-fin": {
+                required: "Este campo es obligatorio"
+            },
+            url: {
                 required: "Este campo es obligatorio"
             },
             imagen: {
@@ -51,6 +62,7 @@ $(function(){
                 error.insertAfter(element);
             }
         }
-    })
+    });
+
 
 });
