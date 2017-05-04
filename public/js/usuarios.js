@@ -80,7 +80,7 @@ function renderizarEventos(){
 
     var elem = "<tr  class='item-evento'>" +
     "<input type='hidden' value='"+eventos[i].id+"'>" +
-    "<td> <input type='checkbox' id='chk"+eventos[i].id+"' class='filled-in chk checkbox-green-code'/>  <label for='chk"+eventos[i].id+"'></label></td>" +
+    "<td> <input type='checkbox' id='chk"+eventos[i].id+"' class='filled-in chk checkbox-accent-color'/>  <label for='chk"+eventos[i].id+"'></label></td>" +
     "<td>"+eventos[i].correo+"</td>" +
     "<td class='edit' style='cursor:pointer'><i class='material-icons'>edit</i></td>" +
     "<td class='delete' style='cursor:pointer'><i class='material-icons'>delete</i></td>" +

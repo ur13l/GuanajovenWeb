@@ -79,7 +79,7 @@
         </div>
     </div>
     <div class="fixed-action-btn" style="bottom: 10px; right: 24px;">
-        <a href="#modal1" class="btn-floating btn-large waves-effect waves-light rose_code btn modal-trigger" style="background: #BF3364;">
+        <a href="#modal1" class="btn-floating btn-large waves-effect waves-light accent-color-dark btn modal-trigger" style="background: #BF3364;">
             <i class="material-icons" id="new-event">add</i>
         </a>
     </div>

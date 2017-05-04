@@ -6,7 +6,7 @@ Fecha: 01/05/16
 
 <?php
 echo '<nav>
-  <div class="nav-wrapper blue-code">
+  <div class="nav-wrapper primary-color">
     <a href="#" class="brand-logo" style="padding-left: 2.5%;">Guanajoven</a>
     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 

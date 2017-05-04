@@ -61,39 +61,39 @@
         <div id="modal1" class="modal col s12 m8 l4 offset-m2 offset-l4">
 
             <div class="modal-content">
-                <h4 class="blue-code-text">Personalizar destinatarios</h4>
+                <h4 class="primary-color-text">Personalizar destinatarios</h4>
                 <p>
                 <div class="row">
                     <h6 class="col s12"> Por género </h6>
                     <div class="input-field col s6">
-                        <input type="checkbox" id="chk_hombre" class="filled-in checkbox-green-code" checked>
+                        <input type="checkbox" id="chk_hombre" class="filled-in checkbox-accent-color" checked>
                         <label for="chk_hombre">Hombres</label>
                     </div>
                     <div class="input-field col s6">
-                        <input type="checkbox" id="chk_mujer" class="filled-in checkbox-green-code" checked>
+                        <input type="checkbox" id="chk_mujer" class="filled-in checkbox-accent-color" checked>
                         <label for="chk_mujer">Mujeres</label>
                     </div>
                 </div>
                 <div class="row">
                     <h6 class="col s12"> Condiciones especiales </h6>
                     <div class="input-field col s4">
-                        <input type="checkbox" id="chk_presion" class="filled-in checkbox-green-code" checked>
+                        <input type="checkbox" id="chk_presion" class="filled-in checkbox-accent-color" checked>
                         <label for="chk_presion">Presión elevada</label>
                     </div>
                     <div class="input-field col s4">
-                        <input type="checkbox" id="chk_glucosa" class="filled-in checkbox-green-code" checked>
+                        <input type="checkbox" id="chk_glucosa" class="filled-in checkbox-accent-color" checked>
                         <label for="chk_glucosa">Glucosa elevada</label>
                     </div>
 
                     <div class="input-field col s4">
-                        <input type="checkbox" id="chk_lesion" class="filled-in checkbox-green-code" checked>
+                        <input type="checkbox" id="chk_lesion" class="filled-in checkbox-accent-color" checked>
                         <label for="chk_lesion">Lesionado</label>
                     </div>
                 </div>
                 <div class="row">
                     <h6 class="col s12"> Por rango de edad </h6>
                     <div class="input-field col s5">
-                        <select required id="sl_rango_edad" class="validate blue-code-text">
+                        <select required id="sl_rango_edad" class="validate primary-color-text">
                             <option value="" disabled>Elige una opción</option>
                             <option value="1" selected>Todos</option>
                             <option value="2">Entre</option>
@@ -121,11 +121,11 @@
                 <div class="row">
                     <h6 class="col s12"> Sistema operativo </h6>
                     <div class="input-field col s6">
-                        <input type="checkbox" id="chk_android" class="filled-in checkbox-green-code" checked>
+                        <input type="checkbox" id="chk_android" class="filled-in checkbox-accent-color" checked>
                         <label for="chk_android">Android</label>
                     </div>
                     <div class="input-field col s6">
-                        <input type="checkbox" id="chk_ios" class="filled-in checkbox-green-code" checked>
+                        <input type="checkbox" id="chk_ios" class="filled-in checkbox-accent-color" checked>
                         <label for="chk_ios">iOS</label>
                     </div>
                 </div>
@@ -149,7 +149,7 @@
     </div>
 
     <div class="fixed-action-btn" id="delete-selection" style="display:none; bottom: 10px; right: 100px;">
-        <a class="btn-floating btn-large waves-effect waves-light green-code btn" >
+        <a class="btn-floating btn-large waves-effect waves-light accent-color btn" >
             <i class="material-icons" id="new-event">delete</i>
         </a>
     </div>

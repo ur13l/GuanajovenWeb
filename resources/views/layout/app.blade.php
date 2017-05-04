@@ -34,7 +34,7 @@
     <body style="background: #f1f1f1" id="body">
         <!--Barra de navegación-->
         <nav>
-            <div class="nav-wrapper blue-code">
+            <div class="nav-wrapper primary-color">
                 <a href="#" class="brand-logo" style="padding-left: 2.5%;">@yield('cabecera')</a>
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 
@@ -61,9 +61,7 @@
             </div>
         </nav>
         <div class="container" id="container" style="background:white;  padding:30px; margin-top:50px;">
-            <div class="row">
-                <img src="{{url('img/logo_guanajoven.png')}}" class="col s9 m6 l3 offset-s2 offset-m3 offset-l4">
-            </div>
+
             @yield('contenedor')
         </div>
     </body>

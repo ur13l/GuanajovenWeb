@@ -19,6 +19,14 @@ use Validator;
 class UserApiController extends Controller {
     use AuthenticatesUsers;
 
+
+    /**
+     * Registrar
+     * params: [email, password, password_confirmation, nombre, apellido_paterno, apellido_materno, genero, codigo_postal, fecha_nacimiento, estado_nacimiento].
+     * Método que sirve para registrar usuarios.
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     function registrar(Request $request) {
         $errors = [];
         $data = null;

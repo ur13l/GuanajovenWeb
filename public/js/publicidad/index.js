@@ -5,7 +5,6 @@ $(function(){
         var btn = $(this),
             yesButton = null,
             id;
-        console.log(btn.data('id'));
         $('#deleteModalPub').openModal();
         $("#id-eliminar").val(btn.data('id'));
     });

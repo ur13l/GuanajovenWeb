@@ -18,13 +18,13 @@ if (isset($_SESSION['usuario_correo'])) {
   <link rel="stylesheet" type="text/css" href="../../js/Bootstrap/css/bootstrap-theme-blue-mode.css"/>-->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script type="text/javascript" src="../../js/jquery-1.12.3.js"></script>
-  
+
 
   <script type="text/javascript" src="../../materializeb/js/materialize.js"></script>
- <!-- <script src="../../js/Bootstrap/js/bootstrap.js"></script>--> 
+ <!-- <script src="../../js/Bootstrap/js/bootstrap.js"></script>-->
     <script type="text/javascript" src="../../js/js_historial.js"></script>
-  
-  
+
+
   <!-- DataTables -->
 <!--<script src="../../js/jquery-1.12.3.js"></script>-->
 <script src="../../js/DataTables/js/jquery.dataTables.js"></script>
@@ -42,10 +42,10 @@ if (isset($_SESSION['usuario_correo'])) {
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.1.0/material.min.css">
 
 <!-- -->
- 
 
-  
- 
+
+
+
 
 </head>
 <body style="background:#f1f1f1">
@@ -56,10 +56,10 @@ if (isset($_SESSION['usuario_correo'])) {
 
   <div class="container"  >
     <!--<div class="section">
-         <button onClick="reg_tip(0)" class="btn rose_code" style="background: #BF3364;">Tip Nuevo</button>
+         <button onClick="reg_tip(0)" class="btn accent-color-dark" style="background: #BF3364;">Tip Nuevo</button>
      <div class="row">
         <div class="col s12 m12">
-          
+
           <table id='example'  class='table table-striped table-bordered table-hover dt-responsive ' cellspacing='0' width='100%' >
   <thead><tr>
           <th class=''>Nombre</th>
@@ -68,18 +68,18 @@ if (isset($_SESSION['usuario_correo'])) {
           <th class=''>Texto</th>
           <th class=''>Fecha Pub</th>
           <th class=''>Fecha Reg</th>
-          <th class=''>Acciones</th>    
-           
+          <th class=''>Acciones</th>
+
     </tr></thead>
-</table>    
+</table>
       </div>
 
       </div>
 
-      
 
-      
-      
+
+
+
 
 	<!-- Modal -->
 	<!--<div class="modal" id="myModal">
@@ -90,8 +90,8 @@ if (isset($_SESSION['usuario_correo'])) {
 
 	<!--</div> <!-- /.modal -->
 
-      
-      
+
+
 	<!--</div>-->
 
   </div><!-- container -->

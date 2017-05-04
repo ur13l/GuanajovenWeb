@@ -9,6 +9,7 @@ class Formato extends Model
 {
     use SoftDeletes;
 
+    const OTRO = 5;
     protected $table = "formato";
     protected $primaryKey = "id_formato";
     protected $fillable = [

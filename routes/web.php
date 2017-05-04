@@ -27,8 +27,8 @@ Route::group(['prefix' => 'api/usuarios'], function () {
     Route::post('logingoogle', 'Auth\LoginApiController@loginGoogle');
     Route::post('loginfacebook', 'Auth\LoginApiController@loginFacebook');
     Route::group(['prefix' => 'token'], function () {
-        Route::post('registrar', 'NotificacionesController@registrar');
-        Route::post('cancelar', 'NotificacionesController@cancelar');
+    Route::post('registrar', 'NotificacionesController@registrar');
+    Route::post('cancelar', 'NotificacionesController@cancelar');
     });
 });
 
@@ -40,9 +40,19 @@ Route::group(['prefix' => 'publicidad'], function () {
     Route::post('/actualizar', 'PublicidadController@actualizar');
     Route::get('/detalle/{id}', 'PublicidadController@detalle');
 });
+
+
 //Convocatorias
-Route::get('/convocatorias', 'ConvocatoriasController@index');
-Route::get('/convocatorias/nueva_convocatoria', 'ConvocatoriasController@nuevaConvocatoria');
+Route::group(['prefix' => 'convocatorias'], function() {
+    Route::get('/', 'ConvocatoriasController@index')->name('convocatorias');
+    Route::get('/nueva', 'ConvocatoriasController@nueva');
+    Route::post('/eliminar', 'ConvocatoriasController@eliminar');
+    Route::post('/crear', 'ConvocatoriasController@crear');
+    Route::get('/editar/{id_convocatoria}', 'ConvocatoriasController@vistaEditar');
+    Route::post('/editar', 'ConvocatoriasController@editar');
+});
+
+
 //Historial de notificaciones
 Route::get('/historial', 'HistorialController@index');
 //Reportes

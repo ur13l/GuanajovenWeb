@@ -8,10 +8,11 @@
 namespace App\Http\Controllers;
 
 use App\Publicidad;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 
 class PublicidadController {
-
+    use ValidatesRequests;
     /**
      * Función que devuelve la vista del index de la sección de publicidad para el cargado de imágenes.
      * @route /publicidad/
@@ -41,6 +42,14 @@ class PublicidadController {
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function crear(Request $request) {
+
+        $this->validate($request, [
+            'titulo' => 'required',
+            'fecha-inicio' => 'required',
+            'fecha-fin' => 'required',
+            'imagen' => 'required'
+        ]);
+
         $titulo = $request->input('titulo');
         $descripcion = $request->input('descripcion');
         $fechaInicio = $request->input('fecha-inicio');
@@ -52,7 +61,7 @@ class PublicidadController {
         if ($request->file('imagen')->isValid()) {
             $destinationPath = 'storage/publicidad/'; // upload path
             $extension = $request->file('imagen')->getClientOriginalExtension(); // getting image extension
-            $fileName = rand(11111,99999).'.'.$extension; // renameing image
+            $fileName = uniqid('pub_').'.'.$extension; // renameing image
             $request->file('imagen')->move($destinationPath, $fileName); // uploading file to given path
             $rutaImagen = url($destinationPath . $fileName);
         }

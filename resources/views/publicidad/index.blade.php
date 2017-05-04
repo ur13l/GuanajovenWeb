@@ -24,23 +24,29 @@
                 <input type="hidden" name="_token" id="_token" value="{{csrf_token()}}">
             </div>
             <div class="modal-footer">
-                <a href="#" class="waves-effect waves-red btn-flat" onclick="$(this).parent().parent().closeModal();">Cancelar</a>
-                <input type="submit" href="#" class="waves-effect waves-green btn-flat"  value="Sí" id="mdPub_YesBtn"/>
+                <a href="#" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancelar</a>
+                <input type="submit" href="#" class="waves-effect waves-green btn-flat"  value="Sí" id="yesBtn"/>
             </div>
         </form>
     </div>
 
+    <!-- Iteración para mostrar los anuncios -->
     @foreach($anuncios as $anuncio)
         <div class="col s12 m12 l12 anuncio" id="ejemplo1">
             <div class="card">
                 <div class="card-image">
                     <img src="{{$anuncio->ruta_imagen}}">
                     <span class="card-title" style="background: black; width: 25%;">{{$anuncio->titulo}}</span>
-                    <a data-id="{{$anuncio->id_publicidad}}" class="btn-floating halfway-fab waves-effect waves-light modal-trigger red right deleteP"><i class="material-icons">clear</i></a>
+                    <a data-id="{{$anuncio->id_publicidad}}" class="btn-floating halfway-fab waves-effect waves-light red right deleteP"><i class="material-icons">clear</i></a>
                 </div>
             </div>
         </div>
     @endforeach
+
+    <!-- Cuando no se encuentra ningún anuncio -->
+    @if(count($anuncios) == 0 )
+        <p>No se encontraron anuncios, para agregar uno presione el botón de +</p>
+    @endif
 
     <!--Modal Agregar-->
     <div id="modalPub" class="modal">

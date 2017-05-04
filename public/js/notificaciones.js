@@ -77,7 +77,7 @@ function renderizarNotificaciones(){
 
     var elem = "<tr  class='item-notificacion'>" +
     "<input type='hidden' value='"+notificaciones[i].id_notificacion+"'>" +
-    "<td> <input type='checkbox' id='chk"+notificaciones[i].id_notificacion+"' class='filled-in checkbox-green-code chk'/>  <label for='chk"+notificaciones[i].id_notificacion+"'></label></td>" +
+    "<td> <input type='checkbox' id='chk"+notificaciones[i].id_notificacion+"' class='filled-in checkbox-accent-color chk'/>  <label for='chk"+notificaciones[i].id_notificacion+"'></label></td>" +
     "<td>"+notificaciones[i].titulo+"</td>" +
     "<td>"+notificaciones[i].mensaje+"</td>" +
     "<td>"+fInicio+"</td>" +

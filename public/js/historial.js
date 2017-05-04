@@ -95,11 +95,11 @@ function renderizarEventos(){
   for (var i = 0 ; i < eventos.length; i++){
     var fInicio = moment(eventos[i].fecha, "YYYY-MM-DD HH:mm:ss").format("DD/MM/YYYY [a las] HH:mm");
      var fFin = moment(eventos[i].fecha_lan, "YYYY-MM-DD HH:mm:ss").format("DD/MM/YYYY [a las] HH:mm");
-    
+
 
     var elem = "<tr  class='item-evento'>" +
     "<input type='hidden' value='"+eventos[i].id_tips+"'>" +
-    "<td> <input type='checkbox' id='chk"+eventos[i].id_tips+"' class='filled-in chk checkbox-green-code'/>  <label for='chk"+eventos[i].id_tips+"'></label></td>" +
+    "<td> <input type='checkbox' id='chk"+eventos[i].id_tips+"' class='filled-in chk checkbox-accent-color'/>  <label for='chk"+eventos[i].id_tips+"'></label></td>" +
     "<td>"+eventos[i].nombre+"</td>" +
     "<td>"+eventos[i].tipo+"</td>" +
     "<td>"+fInicio+"</td>" +
@@ -114,7 +114,7 @@ function renderizarEventos(){
 
 
   }
-  
+
   //Cuando se selecciona un elemento de la tabla debe mostrarse el modal
   $(".edit").on('click', function(){
     action = 'update';

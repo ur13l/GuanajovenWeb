@@ -13,6 +13,7 @@ class Documento extends Model
     protected $primaryKey = "id_documento";
     protected $fillable = [
         "id_documento",
+        "id_convocatoria",
         "titulo",
         "ruta_documento",
         "id_formato"

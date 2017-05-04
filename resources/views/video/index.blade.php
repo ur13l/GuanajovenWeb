@@ -24,7 +24,7 @@
 
             <div class="row">
                 <div class="file-field input-field class col s5 offset-s3">
-                    <div class="btn green-code">
+                    <div class="btn accent-color">
                         <span>Examinar</span>
                         <input type="file" value="EXAMINAR"  name="file1" id="file1">
                     </div>
@@ -35,7 +35,7 @@
             </div>
 
             <div>
-                <a class="waves-effect green-code waves-light btn col s3 offset-s4" onclick="uploadFile()"><i class="material-icons left">cloud</i>Subir video</a>
+                <a class="waves-effect accent-color waves-light btn col s3 offset-s4" onclick="uploadFile()"><i class="material-icons left">cloud</i>Subir video</a>
             </div>
 
             <div class="progress">

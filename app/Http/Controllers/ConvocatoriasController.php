@@ -8,15 +8,171 @@
 namespace App\Http\Controllers;
 
 
+use App\Convocatoria;
+use App\Documento;
+use App\Formato;
+use App\Utils\FileUtils;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 
 class ConvocatoriasController {
+    use ValidatesRequests;
+
+    /**
+     * Index [GET]
+     * Carga el index de convocatorias con el listado de estas para revisar detalles, crear y eliminar
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(Request $request) {
-        return view('convocatorias.index');
+        $convocatorias = Convocatoria::orderBy('fecha_cierre')->get();
+        return view('convocatorias.index', array('convocatorias' => $convocatorias));
     }
 
-    //Función para agregar una convocatoria
-    public function nuevaConvocatoria(Request $request) {
-        return view('convocatorias.nuevaConvocatoria');
+    /**
+     * Nueva Convocatoria [GET]
+     * Método para mostrar la vista con el formulario para nueva convocatoria.
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function nueva(Request $request) {
+        return view('convocatorias.nueva');
     }
+
+    /**
+     * Editar convocatoria [GET]
+     * Este método devuelve la vista para editar una convocatoria seleccionada de acuerdo a su id.
+     * @param $id_convocatoria
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function vistaEditar($id_convocatoria) {
+        $convocatoria = Convocatoria::find($id_convocatoria);
+        return view('convocatorias.editar', array('convocatoria' => $convocatoria));
+    }
+
+
+    /**
+     * Eliminar convocatoria [POST]
+     * Función que permite eliminar una convocatoria del sistema.
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function eliminar(Request $request) {
+        $id = $request->input('id-eliminar');
+        $convocatoria = Convocatoria::find($id);
+        $convocatoria->delete();
+        return  redirect()->route('convocatorias');
+    }
+
+
+    /**
+     * Crear convocatoria [POST]
+     * Funcionalidad para crear una convocatoria en la interfaz web.
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function crear(Request $request) {
+        $this->validate($request, [
+            'titulo' => 'required',
+            'descripcion' => 'required',
+            'fecha_inicio' => 'required',
+            'fecha_cierre' => 'required',
+            'imagen' => 'required',
+            'documentos' => 'required'
+        ]);
+
+        $titulo = $request->input('titulo');
+        $descripcion = $request->input('descripcion');
+        $fechaInicio = $request->input('fecha_inicio');
+        $fechaCierre = $request->input('fecha_cierre');
+        $rutaImagen = null;
+
+        $imagen = $request->file('imagen');
+        $documentos = $request->file('documentos');
+
+        //Cargado de la imagen principal de la convocatoria.
+        $rutaImagen = FileUtils::guardar($request->file('imagen'), 'storage/convocatorias/', 'conv_');
+
+        //Creación de la convocatoria.
+        $convocatoria = Convocatoria::create(array(
+            'titulo' => $titulo,
+            'descripcion' => $descripcion,
+            'fecha_inicio' => $fechaInicio,
+            'fecha_cierre' => $fechaCierre,
+            'estatus' => 1,
+            'ruta_imagen' => $rutaImagen
+        ));
+
+        foreach ($documentos as $documento) {
+            if ($documento->isValid()) {
+                $rutaDoc = FileUtils::guardar($documento, 'storage/docs', 'doc_');
+
+                //Obtener nombre
+                $titulo = $documento->getClientOriginalName();
+
+                //Obtener el formato del documento
+                $formato = Formato::where('nombre',$documento->getClientOriginalExtension())->get()->first();
+
+
+                //Se guarda el documento en BD
+                Documento::create(array(
+                   'id_convocatoria' => $convocatoria->id_convocatoria,
+                    'titulo' => $titulo,
+                    'id_formato' => isset($formato) ? $formato->id_formato : Formato::OTRO,
+                    'ruta_documento' => $rutaDoc
+                ));
+            }
+        }
+
+
+
+        return redirect('/convocatorias');
+    }
+
+
+    public function editar(Request $request) {
+        //Se actualiza la convocatoria seleccionada
+        $id = $request->input('id_convocatoria');
+        $convocatoria = Convocatoria::find($id);
+        $convocatoria->update($request->all());
+
+        //Se elimina la imagen anterior (en caso de haberse cambiado)
+        $file = $request->file('imagen');
+        if(isset($file)) {
+            ImageUtils::eliminarImagen($convocatoria->ruta_imagen);
+            $convocatoria->ruta_imagen = ImageUtils::guardarImagen($file, 'storage/convocatorias/', 'conv_');
+        }
+
+        //Se revisan los documentos que hay que eliminar
+        $idsEliminar = \GuzzleHttp\json_decode($request->input('input-deleted-docs'));
+        for($i = 0, $max = count($idsEliminar); $i < $max; $i++) {
+            $documento = Documento::find($idsEliminar[$i]);
+            $documento->delete();
+        }
+
+        //Se revisan los documentos que hay que actualizar
+        foreach($request->input('doc-id') as $index => $id_documento) {
+            //Se revisa si existe el documento
+            $documento = Documento::find($id_documento);
+            $titulo = $request->input('doc-titulo')[$index];
+            $file = $request->file('doc-file-' . $id_documento);
+
+            $documento->titulo = $titulo;
+            FileUtils::eliminar($documento->ruta_documento);
+            $documento->ruta_documento = FileUtils::guardar($file, 'storage/docs/', 'doc_');
+
+            //Actualizando el formato
+            $formato = Formato::where('nombre',$file->getClientOriginalExtension())->get()->first();
+            $documento->id_formato = isset($formato->id_formato) ? $formato->id_formato : Formato::OTRO; //El 5 representa otro formato
+            $documento->save();
+        }
+
+        //Se cargan los nuevos documentos
+
+        $convocatoria->save();
+        return $request->all();
+        return redirect('/convocatorias');
+    }
+
+
 }
