@@ -59,7 +59,7 @@ $(function() {
 
         //Se agrega input y label de título
         divTitulo
-            .append('<input class="doc-titulo-nuevo" name="doc-titulo-nuevo[${counter}]" type="text" value=""  class="validate">')
+            .append(`<input class="doc-titulo-nuevo" name="doc-titulo-nuevo[${counter}]" type="text" value=""  class="validate">`)
             .append('<label for="titulo">Título</label>');
         //Se agregan los inputs de archivo
         divFile.append(`
@@ -83,12 +83,26 @@ $(function() {
 
         counter++;
 
+        //Se agrega el documento al HTML container
         $("#doc-container").append(section);
+
+        //Método utilizado para validar los inputs file.
         $(".input-file-nuevo").each(function(){
             $(this).rules("add",{
                 required:true,
                 messages:{
-                    required: "El archivo es bligatorio"
+                    required: "Cargar el archivo es obligatorio. "
+                }
+
+            });
+        });
+
+        //Método utilizado para validar los inputs file.
+        $(".doc-titulo-nuevo").each(function(){
+            $(this).rules("add",{
+                required:true,
+                messages:{
+                    required: "Escriba el título del documento. "
                 }
 
             });
@@ -129,7 +143,7 @@ $(function() {
         errorPlacement: function(error, element) {
             var placement = $(element).data('error');
             if($(element).attr('type') == "file"){
-                element = $(element).parent().parent().find('[type=text]');
+                element = $(element).parent().parent().parent().find('[type=text]');
             }
             $(element).addClass('invalid');
             $(error).css('color', '#F44336 ');
@@ -139,5 +153,50 @@ $(function() {
                 error.insertAfter(element)[0];
             }
         }
+    });
+
+    //Método para cambiar la imagen
+    $("#imagen").on('change',function(){
+        if (this.files && this.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $("#img-convocatoria")
+                    .error(() => $("#img-convocatoria").attr( "src", "../../img/ic_unknow.png" ))
+                    .attr('src', e.target.result)
+            }
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+    $("#imagen").change(function() {
+        $("#img-convocatoria").attr('src', $(this).val());
+    });
+
+    $(document).on('change', ".input-file-nuevo", function(event) {
+        console.log(event);
+        var span = $(this).parent().find('span'),
+            fileName = $(this).val(),
+            ext = fileName.split('.').pop(),
+            img = $($(this).parent().parent().parent().find('img'));
+
+
+        switch (ext) {
+
+            case "pdf":
+                img.attr('src', '../../img/ic_pdf.png');
+                break;
+            case "doc":
+            case "docx":
+                img.attr('src', '../../img/ic_doc.png');
+                break;
+            case "xlsx":
+            case "xls":
+                img.attr('src', '../../img/ic_xls.png');
+                break;
+            default:
+                img.attr('src', '../../img/ic_unknow.png');
+                break;
+
+        }
+        span.html("Cambiar");
     });
 });

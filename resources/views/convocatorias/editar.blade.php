@@ -32,11 +32,11 @@
     <div class="row">
         <h2>{{$convocatoria->titulo}}</h2>
         <div class="s12 center-align">
-        <img src="{{$convocatoria->ruta_imagen}}" height="200" width="200" alt=""></div>
+        <img id="img-convocatoria" src="{{$convocatoria->ruta_imagen}}" height="200" width="200" alt=""></div>
         <div class="file-field input-field col s12 l6 offset-l3">
             <div class="btn accent-color">
                 <span>Imagen</span>
-                <input type="file" name="imagen" >
+                <input type="file" id="imagen" name="imagen" >
             </div>
             <div class="file-path-wrapper">
                 <input class="file-path validate" type="text" value="{{$convocatoria->ruta_imagen}}" placeholder="Cambiar imagen">
@@ -80,7 +80,7 @@
                         <div class="section">
                                 <input type="hidden" name="doc-id[]" value="{{$documento->id_documento}}">
                             <div class="row">
-                                <div class="col s1">
+                                <div class="col m1 hide-on-medium-and-down">
                                 @if($documento->id_formato == 1)
                                     <img src="{{url('/img/ic_pdf.png')}}" alt="">
                                 @elseif($documento->id_formato == 2)
@@ -91,18 +91,18 @@
                                     <img src="{{url('/img/ic_unknow.png')}}" alt="">
                                 @endif
                                 </div>
-                                    <div class="input-field col s8">
+                                    <div class="input-field col m6 l8">
                                     <input id="doc-titulo[]" name="doc-titulo[]" type="text" value="{{$documento->titulo}}" class="validate">
                                     <label for="titulo">Título</label>
                                 </div>
-                                <div class="file-field input-field col s2 ">
+                                <div class="file-field input-field col m3 l2 ">
                                     <div class="btn accent-color">
                                         <span>Cambiar </span>
                                         <input type="file" name="doc-file-{{$documento->id_documento}}" >
                                     </div>
                                 </div>
-                                <div class="s1">
-                                    <a data-id="{{$documento->id_documento}}" class="red-text large center-align delete-doc" style="cursor: pointer" ><h5>&times;</h5></a>
+                                <div class="m3 l1">
+                                    <a data-id="{{$documento->id_documento}}" class="large center center-align delete-doc grey-text" style="margin-top:20px; cursor: pointer" ><i class="material-icons">delete</i></a>
                                 </div>
                             </div>
                             </div>
@@ -110,9 +110,13 @@
                     @if(count($convocatoria->documentos) == 0 )
                         <p>No hay documentos registrados</p>
                     @endif
-                    <a class="btn-floating waves-effect waves-light accent-color right" id="agregar-documento"><i class="material-icons">add</i></a>
 
 
+                </div>
+                <div class="row">
+                    <div class="col s1 offset-s5">
+                        <a class="btn-floating center waves-effect waves-light  center-align accent-color right" id="agregar-documento"><i class="material-icons">add</i></a>
+                    </div>
                 </div>
                 <input class="input-field btn right primary-color" type="submit" value="Actualizar">
 

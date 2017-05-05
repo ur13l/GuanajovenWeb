@@ -139,8 +139,8 @@ class ConvocatoriasController {
         //Se elimina la imagen anterior (en caso de haberse cambiado)
         $file = $request->file('imagen');
         if(isset($file)) {
-            ImageUtils::eliminarImagen($convocatoria->ruta_imagen);
-            $convocatoria->ruta_imagen = ImageUtils::guardarImagen($file, 'storage/convocatorias/', 'conv_');
+            FileUtils::eliminar($convocatoria->ruta_imagen);
+            $convocatoria->ruta_imagen = FileUtils::guardar($file, 'storage/convocatorias/', 'conv_');
         }
 
         //Se revisan los documentos que hay que eliminar
@@ -158,20 +158,35 @@ class ConvocatoriasController {
             $file = $request->file('doc-file-' . $id_documento);
 
             $documento->titulo = $titulo;
-            FileUtils::eliminar($documento->ruta_documento);
-            $documento->ruta_documento = FileUtils::guardar($file, 'storage/docs/', 'doc_');
-
-            //Actualizando el formato
-            $formato = Formato::where('nombre',$file->getClientOriginalExtension())->get()->first();
-            $documento->id_formato = isset($formato->id_formato) ? $formato->id_formato : Formato::OTRO; //El 5 representa otro formato
+            if(isset($file)) {
+                FileUtils::eliminar($documento->ruta_documento);
+                $documento->ruta_documento = FileUtils::guardar($file, 'storage/docs/', 'doc_');//Actualizando el formato
+                $formato = Formato::where('nombre',$file->getClientOriginalExtension())->get()->first();
+                $documento->id_formato = isset($formato->id_formato) ? $formato->id_formato : Formato::OTRO; //El 5 representa otro formato
+            }
             $documento->save();
         }
 
         //Se cargan los nuevos documentos
-
+        $titulos = $request->input('doc-titulo-nuevo');
+        $files = $request->file('doc-file-nuevo');
+        if(isset($files)) {
+            foreach ($files as $index => $file) {
+                $rutaDoc = FileUtils::guardar($file, 'storage/docs/', 'doc_');
+                //Actualizando el formato
+                $formato = Formato::where('nombre', $file->getClientOriginalExtension())->get()->first();
+                $idFormato = isset($formato->id_formato) ? $formato->id_formato : Formato::OTRO; //El 5 representa otro formato
+                Documento::create(array(
+                        'titulo' => $titulos[$index],
+                        'ruta_documento' => $rutaDoc,
+                        'id_formato' => $idFormato,
+                        'id_convocatoria' => $convocatoria->id_convocatoria
+                    )
+                );
+            }
+        }
         $convocatoria->save();
-        return $request->all();
-        return redirect('/convocatorias');
+        return redirect('/convocatorias/editar/'.$convocatoria->id_convocatoria);
     }
 
 
