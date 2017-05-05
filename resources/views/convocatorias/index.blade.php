@@ -31,11 +31,14 @@
 
     <div class="row">
     @foreach($convocatorias as $convocatoria)
-        <div class="col s12 m4 l4 anuncio">
+        <div class="col s12 m6 l4 anuncio">
             <a href="{{url("/convocatorias/editar/$convocatoria->id_convocatoria")}}">
                 <div class="card">
                     <div class="card-image">
-                        <img src="{{$convocatoria->ruta_imagen}}">
+                        <div class="center-cropped"
+                             >
+                            <img src="{{$convocatoria->ruta_imagen}}" />
+                        </div>
                         <span class="card-title" style="background: black;">{{$convocatoria->titulo}}</span>
                         <a data-id="{{$convocatoria->id_convocatoria}}" class="btn-floating halfway-fab waves-effect waves-light red right deleteP modal-trigger"><i class="material-icons">clear</i></a>
                     </div>

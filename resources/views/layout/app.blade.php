@@ -15,6 +15,7 @@
         <script type="text/javascript" src="{{url('materialize/js/materialize.js')}}"></script>
         <script type="text/javascript" src="{{url('/js/ion.rangeSlider.js')}}"></script>
         <script type="text/javascript" src="{{url('/js/moment.js')}}"></script>
+        <script type="text/javascript" src="{{url('/js/moment-with-locales.js')}}"></script>
         <script type="text/javascript" src="{{url('/js/toastr.min.js')}}"></script>
         <script type="text/javascript" src="{{url('/js/jquery.twbsPagination.min.js')}}"></script>
         <script type="text/javascript" src="{{url('/js/nouislider.min.js')}}"></script>
@@ -25,8 +26,30 @@
                 $('.modal-trigger').leanModal();
                 $('.datepicker').pickadate({
                     selectMonths: true,
-                    selectYears: 15
+                    selectYears: 15,
+                    // The title label to use for the month nav buttons
+                    labelMonthNext: 'Mes siguiente',
+                    labelMonthPrev: 'Mes anterior',
+
+// The title label to use for the dropdown selectors
+                    labelMonthSelect: 'Selecciona un mes',
+                    labelYearSelect: 'Selecciona un año',
+
+// Months and weekdays
+                    monthsFull: [ 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre' ],
+                    monthsShort: [ 'ene.', 'feb.', 'mar.', 'abr.', 'may.', 'jun.', 'jul.', 'ago.', 'sep.', 'oct.', 'nov.', 'dic.' ],
+                    weekdaysFull: [ 'Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado' ],
+                    weekdaysShort: [ 'Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab' ],
+
+// Materialize modified
+                    weekdaysLetter: [ 'D', 'L', 'M', 'X', 'J', 'V', 'S' ],
+
+// Today and clear
+                    today: 'Hoy',
+                    clear: 'Limpiar',
+                    close: 'Cerrar'
                 });
+                moment.locale('es');
             });
         </script>
         @yield('head')

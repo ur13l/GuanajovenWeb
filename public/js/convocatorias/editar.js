@@ -5,11 +5,25 @@
  */
 
 
+jQuery.validator.addMethod('fecha_menor', (value, element, params) => {
+    var fechaInicio = moment($(params[0]).val(),"DD MMM, YYYY" ),
+        fechaFin = moment(value, "DD MMM, YYYY");
+
+    return fechaFin.isAfter(fechaInicio);
+});
+
 $(function() {
+
+
     var counter = 0;
     //Se asigna un formato a las fechas a la hora que carga la interfaz
-    $("#fecha_inicio").val(moment($("#fecha_inicio").val(),"YYYY-MM-DD" ).format("DD MMM, YYYY"));
-    $("#fecha_cierre").val(moment($("#fecha_cierre").val(), "YYYY-MM-DD").format("DD MMM, YYYY"));
+    $("#fecha_inicio").val(moment($("#fecha_inicio").val(),"YYYY-MM-DD" ).format("DD/MM/YYYY"));
+    $("#fecha_cierre").val(moment($("#fecha_cierre").val(), "YYYY-MM-DD").format("DD/MM/YYYY"));
+
+    $(".datepicker").change(function () {
+
+        $(this).val(moment($(this).val(), "DD MMM, YYYY").format("DD/MM/YYYY"))
+    })
 
     //Funcionalidad de botón eliminar
     $(".delete-doc").click(function(event) {
@@ -49,14 +63,16 @@ $(function() {
     $("#agregar-documento").click(function() {
         var section = $("<div class='section'/>"),
             row = $("<div class='row'/>"),
-            img = $("<div class='col s1'/>"),
-            divTitulo = $("<div class='input-field col s8'/>"),
-            divFile = $("<div class='file-field input-field col s2'/>"),
-            divX = $("<div class='s1'/>");
+            img = $("<div class='col m2 hide-on-small-and-down'/>"),
+            spanImg = $("<span class='col l12 center-align'>"),
+            divTitulo = $("<div class='input-field col s5 l6'/>"),
+            divFile = $("<div class='file-field input-field col s5 m3 l2'/>"),
+            divX = $("<div class='col s2'/>"),
+            spanX = $("<span class='col s12 center-align'>");
 
         //Se agrega la imagen al div img;
-        img.append('<img src="../../img/ic_unknow.png" alt="">');
-
+        spanImg.append('<img src="../../img/ic_unknow.png" alt="">');
+        img.append(spanImg);
         //Se agrega input y label de título
         divTitulo
             .append(`<input class="doc-titulo-nuevo" name="doc-titulo-nuevo[${counter}]" type="text" value=""  class="validate">`)
@@ -70,9 +86,10 @@ $(function() {
         `);
 
         //El div para cerrar
-        divX.append(`
-           <a class="red-text large center-align delete-doc-nuevo" style="cursor: pointer" ><h5>&times;</h5></a> 
+        spanX.append(`
+           <a class="large center center-align delete-doc grey-text" style="margin-top:30px; cursor: pointer" ><i class="material-icons">delete</i></a> 
         `);
+        divX.append(spanX);
 
         row.append(img)
             .append(divTitulo)
@@ -112,8 +129,8 @@ $(function() {
     //Validación de formulario para nueva convocatoria
     $("#form-editar").validate({
         submitHandler: function(form) {
-            $("#fecha_inicio").val(moment($("#fecha_inicio").val(), "DD MMM, YYYY").format("YYYY-MM-DD"));
-            $("#fecha_cierre").val(moment($("#fecha_cierre").val(), "DD MMM, YYYY").format("YYYY-MM-DD"));
+            $("#fecha_inicio").val(moment($("#fecha_inicio").val(), "DD/MM/YYYY").format("YYYY-MM-DD"));
+            $("#fecha_cierre").val(moment($("#fecha_cierre").val(), "DD/MM/YYYY").format("YYYY-MM-DD"));
             form.submit();
         },
         rules: {
@@ -124,7 +141,8 @@ $(function() {
                 required: true
             },
             "fecha_cierre": {
-                required: true
+                required: true,
+                fecha_menor: ["#fecha_inicio"]
             },
             descripcion: {
                 required: true
@@ -133,10 +151,13 @@ $(function() {
                 required:true
             }
         },
-        messages:{
+        messages: {
             titulo: "Este campo es obligatorio",
-            "fecha_inicio": "Este campo es obligatorio",
-            "fecha_cierre": "Este campo es obligatorio",
+            fecha_inicio: "Este campo es obligatorio",
+            fecha_cierre: {
+                required:"Este campo es obligatorio",
+                fecha_menor: "La fecha de cierre debe ser después de la de apertura"
+            },
             descripcion: "Este campo es obligatorio",
         },
         errorElement : 'span',
@@ -171,8 +192,13 @@ $(function() {
         $("#img-convocatoria").attr('src', $(this).val());
     });
 
-    $(document).on('change', ".input-file-nuevo", function(event) {
-        console.log(event);
+
+    $("#input-doc-file").change(function(event) {
+
+    });
+
+    $(document).on('change', ".input-file-nuevo, .input-doc-file", function(event) {
+
         var span = $(this).parent().find('span'),
             fileName = $(this).val(),
             ext = fileName.split('.').pop(),

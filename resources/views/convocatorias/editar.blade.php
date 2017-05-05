@@ -32,7 +32,7 @@
     <div class="row">
         <h2>{{$convocatoria->titulo}}</h2>
         <div class="s12 center-align">
-        <img id="img-convocatoria" src="{{$convocatoria->ruta_imagen}}" height="200" width="200" alt=""></div>
+        <img id="img-convocatoria" src="{{$convocatoria->ruta_imagen}}" height="200" alt=""></div>
         <div class="file-field input-field col s12 l6 offset-l3">
             <div class="btn accent-color">
                 <span>Imagen</span>
@@ -77,32 +77,36 @@
                     <h5>Documentos</h5>
                         @foreach($convocatoria->documentos as $index => $documento)
 
-                        <div class="section">
+                        <div class="section hoverable">
                                 <input type="hidden" name="doc-id[]" value="{{$documento->id_documento}}">
                             <div class="row">
-                                <div class="col m1 hide-on-medium-and-down">
-                                @if($documento->id_formato == 1)
-                                    <img src="{{url('/img/ic_pdf.png')}}" alt="">
-                                @elseif($documento->id_formato == 2)
-                                    <img src="{{url('/img/ic_doc.png')}}" alt="">
-                                @elseif($documento->id_formato == 3)
-                                    <img src="{{url('/img/ic_xls.png')}}" alt="">
-                                @else
-                                    <img src="{{url('/img/ic_unknow.png')}}" alt="">
-                                @endif
+                                <div class="col m2 hide-on-small-and-down">
+                                    <span class="col l12 center-align">
+                                    @if($documento->id_formato == 1)
+                                        <img src="{{url('/img/ic_pdf.png')}}" alt="">
+                                    @elseif($documento->id_formato == 2)
+                                        <img src="{{url('/img/ic_doc.png')}}" alt="">
+                                    @elseif($documento->id_formato == 3)
+                                        <img src="{{url('/img/ic_xls.png')}}" alt="">
+                                    @else
+                                        <img src="{{url('/img/ic_unknow.png')}}" alt="">
+                                    @endif
+                                    </span>
                                 </div>
-                                    <div class="input-field col m6 l8">
+                                <div class="input-field col s5 l6">
                                     <input id="doc-titulo[]" name="doc-titulo[]" type="text" value="{{$documento->titulo}}" class="validate">
                                     <label for="titulo">Título</label>
                                 </div>
-                                <div class="file-field input-field col m3 l2 ">
+                                <div class="file-field input-field col s5 m3 l2 ">
                                     <div class="btn accent-color">
                                         <span>Cambiar </span>
-                                        <input type="file" name="doc-file-{{$documento->id_documento}}" >
+                                        <input type="file" class="input-doc-file" name="doc-file-{{$documento->id_documento}}" >
                                     </div>
                                 </div>
-                                <div class="m3 l1">
-                                    <a data-id="{{$documento->id_documento}}" class="large center center-align delete-doc grey-text" style="margin-top:20px; cursor: pointer" ><i class="material-icons">delete</i></a>
+                                <div class="col s2">
+                                    <p class="col s12 center-align">
+                                        <a data-id="{{$documento->id_documento}}" class="large center center-align delete-doc grey-text" style="margin-top:30px; cursor: pointer" ><i class="material-icons">delete</i></a>
+                                    </p>
                                 </div>
                             </div>
                             </div>
