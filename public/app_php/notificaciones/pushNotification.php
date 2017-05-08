@@ -9,20 +9,6 @@
         'priority' => 'high',
         'content_available' => true, );
 
-/*
-$fields = array(
-
-  'registration_ids' => $tokens,
-  'notification' => array(
-                    'title' => 'aaa',
-                    'body' => 'aa',
-                    'link_url' => 'http://blabla.com',
-                    'sound' => 'default',
-                    'category' => 'URL_CATEGORY'),
-    'priority' => 'normal' ,
-    'content_available' => true,
-);
-*/
       $headers = array(
   			'Authorization:key = AIzaSyCP6sP-BhfEgXrQoNGxBWJW_EKxc6gD0ro ',
   			'Content-Type: application/json'

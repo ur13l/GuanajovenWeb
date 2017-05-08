@@ -52,6 +52,23 @@ Route::group(['prefix' => 'convocatorias'], function() {
     Route::post('/editar', 'ConvocatoriasController@editar');
 });
 
+//Convocatorias
+Route::group(['prefix' => 'convocatorias'], function() {
+    Route::get('/', 'ConvocatoriasController@index')->name('convocatorias');
+    Route::get('/nueva', 'ConvocatoriasController@nueva');
+    Route::post('/eliminar', 'ConvocatoriasController@eliminar');
+    Route::post('/crear', 'ConvocatoriasController@crear');
+    Route::get('/editar/{id_convocatoria}', 'ConvocatoriasController@vistaEditar');
+    Route::post('/editar', 'ConvocatoriasController@editar');
+});
+
+
+//Notificaciones
+Route::group(['prefix' => 'notificaciones'], function() {
+    Route::get('/', 'NotificacionesController@index')->name('notificaciones');
+    Route::post('/enviar', 'NotificacionesController@enviar');
+});
+
 
 //Historial de notificaciones
 Route::get('/historial', 'HistorialController@index');

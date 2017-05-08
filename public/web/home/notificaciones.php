@@ -26,7 +26,7 @@ if (isset($_SESSION['usuario_correo'])) {
   <script type="text/javascript" src="../../js/toastr.min.js"></script>
   <script type="text/javascript" src="../../js/nouislider.min.js"></script>
   <script type="text/javascript" src="../../js/jquery.twbsPagination.min.js"></script>
-  <script type="text/javascript" src="../../js/notificaciones.js"> </script>
+  <script type="text/javascript" src="../../js/notificaciones/index.js"> </script>
 
 </head>
 <body style="background:#f1f1f1">
