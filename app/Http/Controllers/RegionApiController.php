@@ -9,7 +9,13 @@ class RegionApiController extends Controller
 {
 
     public function obtenerRegiones(Request $request) {
-        $regiones = Region::all();
+        $timestamp = $request->input('timestamp');
+
+        $regiones = Region::where('updated_at', '>', $timestamp)
+            ->orderBy('created_at')
+            ->withTrashed()
+            ->get();
+
         return response()->json(array(
             'status' => 200,
             'success' => true,
