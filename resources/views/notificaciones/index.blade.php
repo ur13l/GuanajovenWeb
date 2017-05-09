@@ -5,6 +5,7 @@
 @endsection
 
 @section('head')
+    <script type="text/javascript" src="{{url('/js/jquery.validate.js')}}"></script>
     <script type="text/javascript" src="{{url('/js/notificaciones/index.js')}}"> </script>
 @endsection
 
@@ -13,7 +14,7 @@
 @endsection
 
 @section('contenedor')
-    <form action="/notificacion/enviar" method="post">
+    <form action="/notificaciones/enviar" id="form-enviar" method="post">
         <div class="row">
             <h5>Nueva notificación</h5>
             <div class="input-field col s12">
@@ -29,59 +30,76 @@
                 <label for="enlace" data-error="Este campo es obligatorio">Enlace(Opcional)</label>
             </div>
         </div>
-        <div class="hidden advanced">
+        <div class="advanced">
             <div class="row">
                 <div class="col s12 m6">
                 <h6 class="col s12 "> Por género </h6>
                 <div class="input-field col s12">
-                    <input type="checkbox" id="chk_hombre" name="chk_hombre" class="filled-in checkbox-accent-color" checked>
+                    <input type="checkbox" id="chk_hombre" name="chk_hombre" value="hombre" class="filled-in checkbox-accent-color" checked>
                     <label for="chk_hombre">Hombres</label>
                 </div>
                 <div class="input-field col s12">
-                    <input type="checkbox" id="chk_mujer" name="chk_mujer" class="filled-in checkbox-accent-color" checked>
+                    <input type="checkbox" id="chk_mujer" name="chk_mujer" value="mujer" class="filled-in checkbox-accent-color" checked>
                     <label for="chk_mujer">Mujeres</label>
                 </div>
                 </div>
-
             <div class="col s12 m6">
                 <h6 class="col s12 m6"> Sistema operativo </h6>
                 <div class="input-field col s12">
-                    <input type="checkbox" id="chk_android" name="chk_android" class="filled-in checkbox-accent-color" checked>
+                    <input type="checkbox" id="chk_android" name="chk_android" value="android" class="filled-in checkbox-accent-color" checked>
                     <label for="chk_android">Android</label>
                 </div>
                 <div class="input-field col s12">
-                    <input type="checkbox" id="chk_ios" name="chk_ios" class="filled-in checkbox-accent-color" checked>
+                    <input type="checkbox" id="chk_ios" name="chk_ios" value="ios" class="filled-in checkbox-accent-color" checked>
                     <label for="chk_ios">iOS</label>
                 </div>
 
             </div>
             </div>
+
+            <div class="row">
+                <h6 class="col s12"> Por rango de edad </h6>
+                <div class="input-field col s5">
+                    <select required id="sl_rango_edad" name="sl_rango_edad" class="validate primary-color-text">
+                        <option value="" disabled>Elige una opción</option>
+                        <option value="1" selected>Todos</option>
+                        <option value="2">Entre</option>
+                        <option value="3">Mayores de </option>
+                        <option value="4">Menores de </option>
+                    </select>
+                </div>
+
+                <div class="input-field col s2">
+                    <input type="number" id="txt_age1" style="display:none" name="txt_age1" value="">
+                </div>
+                <div class="input-field col s2">
+                    <input type="number" id="txt_age2" style="display:none" name="txt_age2" value="">
+                </div>
+                <p class="col s2" id="label_age" style="display:none"> años </p>
+            </div>
+
+            <div class="row">
+                <h6 class="col s12"> Por región </h6>
+                <div class="input-field col s12">
+                    <select required id="sl_region" name="sl_region[]" class="validate primary-color-text" multiple>q
+                        @foreach($regiones as $region)
+                            <option value="{{$region->id_region}}" selected>{{$region->nombre}}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="input-field col s2">
+                    <input type="number" id="txt_age1" style="display:none" name="txt_age1" value="">
+                </div>
+                <div class="input-field col s2">
+                    <input type="number" id="txt_age2" style="display:none" name="txt_age2" value="">
+                </div>
+                <p class="col s2" id="label_age" style="display:none"> años </p>
+            </div>
+
         </div>
-
-        <div class="row">
-            <h6 class="col s12"> Por rango de edad </h6>
-            <div class="input-field col s5">
-                <select required id="sl_rango_edad" name="sl_rango_edad" class="validate primary-color-text">
-                    <option value="" disabled>Elige una opción</option>
-                    <option value="1" selected>Todos</option>
-                    <option value="2">Entre</option>
-                    <option value="3">Mayores de </option>
-                    <option value="4">Menores de </option>
-                </select>
-            </div>
-
-            <div class="input-field col s2">
-                <input type="number" id="txt_age1" style="display:none" name="txt_age1" value="">
-            </div>
-            <div class="input-field col s2">
-                <input type="number" id="txt_age2" style="display:none" name="txt_age2" value="">
-            </div>
-            <p class="col s2" id="label_age" style="display:none"> años </p>
-        </div>
-
-
         <div class="row right">
-            <button class="waves-effect waves-light btn accent-color" href="#modal1" ><i class="material-icons left">settings</i>Configurar Destinatarios</button>
+            <a class="waves-effect waves-light btn accent-color" id="show-advanced" ><i class="material-icons left">settings</i>Configurar Destinatarios</a>
             <button type="submit" class="waves-effect waves-light btn accent-color" id="enviar"><i class="material-icons left">send</i>Enviar</button>
 
         </div>

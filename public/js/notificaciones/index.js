@@ -31,60 +31,89 @@ function validacionesModal(){
     }
   });
 
+  //TODO: Agregar validaciones para txt_age1 y 2
   $("#sl_rango_edad").change(function(){
      if(this.value > 1){
+
+         $("#txt_age2").removeClass('invalid').siblings().remove();
        $("#txt_age1").css("display", "inline");
        $("#label_age").css("display", "inline");
        $("#txt_age2").css("display", "none");
+
+       $("#txt_age1").rules('add', {
+           required:true,
+           messages: {
+               required: "Este campo es requerido"
+           }
+       });
+
+         $("#txt_age2").rules('remove', "required");
      }
 
      if(this.value == 2){
       $("#txt_age2").css("display", "inline");
+         $("#txt_age2").rules('add', {
+             required:true,
+             messages: {
+                 required: "Este campo es requerido"
+             }
+         });
      }
 
      if(this.value == 1){
-      $("#txt_age1").css("display", "none");
-      $("#txt_age2").css("display", "none");
-      $("#label_age").css("display", "none");
-
+         $("#txt_age1").removeClass('invalid').siblings().remove();
+         $("#txt_age2").removeClass('invalid').siblings().remove();
+          $("#txt_age1").css("display", "none");
+          $("#txt_age2").css("display", "none");
+          $("#label_age").css("display", "none");
+         $("#txt_age1").rules('remove','required');
+         $("#txt_age2").rules('remove', 'required');
      }
   });
 }
 
-function enviarNotificacion(){
-    var tituloEmpty = isEmpty($("#titulo"));
-    var mensajeEmpty = isEmpty($("#mensaje"));
 
-    if(!tituloEmpty && !mensajeEmpty){
-      $("#enviar").addClass('disabled');
-      $("#enviar").prop('disabled', true);
-      $('#enviar').removeClass('waves-effect')
-      newNotification();
-    }
-}
 
 
 $(function(){
 
-  //Configuración para generar el SideNav
-  $(".button-collapse").sideNav();
-
-  //Configuración para abrir modal
-  $('.modal-trigger').leanModal();
-
-
   //Necesario para sustituir el select común de HTML5 por el de Materialize
    $('select').material_select();
-
+    $('.advanced').hide();
+    $('#show-advanced').click(() => $(".advanced").toggle(500));
 
    validacionesModal();
 
-   $("#enviar").on('click',enviarNotificacion);
+    //Validación de formulario para nueva convocatoria
+    $("#form-enviar").validate({
+        rules: {
+            titulo: {
+                required: true
+            },
+            mensaje: {
+                required: true
+            },
 
-   //Manejador del botón de eliminar selección
-   $("#delete-selection").on('click', function(){
-     $("#delete-message").html("¿Confirma que desea eliminar las notificaciones seleccionadas?");
-     dialogDelete();
-   });
+        },
+        messages: {
+            titulo: "Este campo es obligatorio",
+            mensaje: "Este campo es obligatorio"
+        },
+        errorElement : 'span',
+        errorPlacement: function(error, element) {
+            var placement = $(element).data('error');
+            if($(element).attr('type') == "file"){
+                element = $(element).parent().parent().parent().find('[type=text]');
+            }
+            $(element).addClass('invalid');
+            $(error).css('color', '#F44336 ');
+            if (placement) {
+                $(placement).append(error)
+            } else {
+                error.insertAfter(element)[0];
+            }
+        }
+    });
+
 
 });

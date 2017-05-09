@@ -33,4 +33,8 @@ class Notificacion extends Model {
     public function genero() {
         return $this->hasMany('App\Genero', 'id_genero');
     }
+
+    public function usuarios() {
+        return $this->belongsToMany('App\User', 'usuario_notificacion','id_notificacion', 'id_usuario');
+    }
 }
