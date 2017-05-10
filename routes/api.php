@@ -23,3 +23,8 @@ Route::post('/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail
 Route::get('/publicidad', 'PublicidadApiController@obtenerPublicidad');
 Route::get('/convocatorias', 'ConvocatoriaApiController@obtenerConvocatorias');
 Route::get('/regiones', 'RegionApiController@obtenerRegiones');
+
+Route::group(['prefix' => '/notificaciones'], function() {
+    Route::post('/enviartoken', 'NotificacionesApiContrroller@registrar');
+    Route::post('/cancelartoken', 'NotificacionesApiContrroller@cancelar');
+})

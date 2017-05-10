@@ -7,18 +7,18 @@ use Illuminate\Http\Request;
 class NotificacionesApiController extends Controller
 {
     /**
-     * Función para guardar un nuevo token de dispositivo
+     * Notificación: RegistrarToken
+     * params: [id_usuario, device_token, os]
+     * Función para guardar un nuevo token de dispositivo y asociarlo a una cuenta de usuario.
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function registrar(Request $request) {
         $id_usuario = $request->input('id_usuario');
         $device_token = $request->input('device_token');
+        $os = $request->input('os');
 
-        $objetoUsuarioToken = LoginToken::updateOrCreate(
-            ['id_usuario' => $id_usuario, 'device_token' => $device_token],
-            ['id_usuario' => $id_usuario, 'device_token' => $device_token]
-        );
+        $objetoUsuarioToken = LoginToken::create($request->all());
 
         if (isset($objetoUsuarioToken)) {
             return response()->json([
@@ -30,7 +30,7 @@ class NotificacionesApiController extends Controller
         } else {
             return response()->json([
                 "success" => false,
-                "errors" => ["¡Ops!, ocurrio un error al registrar el token"],
+                "errors" => ["Ocurrio un error al registrar el token"],
                 "status" => 500,
                 "data" => false
             ]);
@@ -44,9 +44,9 @@ class NotificacionesApiController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function cancelar(Request $request) {
-        $id_device_token = $request->input('id_device_token');
+        $id_device_token = $request->input('device_token');
 
-        $objetoUsuarioToken = LoginToken::find($id_device_token);
+        $objetoUsuarioToken = LoginToken::where('device_token', $id_device_token)->get()->first();
 
         if (isset($objetoUsuarioToken)) {
             $objetoUsuarioToken->delete();
@@ -60,7 +60,7 @@ class NotificacionesApiController extends Controller
         } else {
             return response()->json([
                 "success" => false,
-                "errors" => ["¡Ops!, ocurrio un problema al eliminar el token"],
+                "errors" => ["Ocurrio un problema al eliminar el token"],
                 "status" => 500,
                 "data" => false
             ]);
