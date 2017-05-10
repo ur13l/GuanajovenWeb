@@ -67,6 +67,8 @@ Route::group(['prefix' => 'convocatorias'], function() {
 Route::group(['prefix' => 'notificaciones'], function() {
     Route::get('/', 'NotificacionesController@index')->name('notificaciones');
     Route::post('/enviar', 'NotificacionesController@enviar');
+    Route::post('/eliminar', 'NotificacionesController@eliminar');
+    Route::get('/lista', 'NotificacionesController@lista');
 });
 
 
@@ -76,8 +78,6 @@ Route::get('/historial', 'HistorialController@index');
 Route::get('/reportes', 'ReportesController@index');
 //Usuarios
 Route::get('/usuarios', 'UsuariosController@index');
-//Notificaciones
-Route::get('/notificaciones', 'NotificacionesController@index');
 //Eventos
 Route::group(['prefix' => 'eventos'], function () {
     Route::get('/inicio', 'EventosController@index');

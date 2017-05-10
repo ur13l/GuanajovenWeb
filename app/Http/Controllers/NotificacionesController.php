@@ -7,11 +7,15 @@ use App\LoginToken;
 use App\Notificacion;
 use App\Region;
 use Carbon\Carbon;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 
-class NotificacionesController {
+class NotificacionesController extends Controller {
 
     /**
+     * Notificación: Index
+     * Método para cargar la vista principal de notificaciones.
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -22,10 +26,16 @@ class NotificacionesController {
     }
 
 
-
-
+    /**
+     * Notificación: Enviar
+     * Método que manipula el envío de las notificaciones a partir de lo enviado en el formulario, la notificación se
+     * configura y se realiza el filtro necesario para saber a qué usuarios les llegará.
+     * @param Request $request
+     * @return array|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function enviar(Request $request) {
 
+        //Campos recibidos en el request.
         $titulo = $request->input('titulo');
         $mensaje = $request->input('mensaje');
         $enlace = $request->input('enlace');
@@ -39,10 +49,16 @@ class NotificacionesController {
         $regiones = $request->input('sl_region');
 
         $idGenero = null;
+
+        //Se prepara una consulta con los joins necesarios en bd
         $tokens = LoginToken::query()->join('usuario', 'id_usuario','usuario.id')
             ->join('datos_usuario', 'id', 'datos_usuario.id_usuario')
             ->join('municipio', 'datos_usuario.id_municipio', 'municipio.id_municipio');
 
+
+        /*
+         * Filtros por sistema operativo, sexo, edad y región.
+         */
         if($android != "android") {
             $tokens = $tokens->where('os', '!=', 'android');
         }
@@ -60,6 +76,7 @@ class NotificacionesController {
                 ->where('id_genero', '!=', 2);
         }
 
+        //Lógica para la aplicación del filtro por región.
         $tokens->where(function($query) use ($regiones){
             foreach ($regiones as $region) {
                 $query->orWhere('municipio.id_region', $region);
@@ -68,6 +85,7 @@ class NotificacionesController {
         });
 
 
+        //Lógica para la aplicación del filtro por edad.
         $mayor = Carbon::now('America/Mexico_City');
         $menor = Carbon::now('America/Mexico_City');
         switch ($rango) {
@@ -89,6 +107,7 @@ class NotificacionesController {
 
         }
 
+        //Se clonan los tokens para separar el envío en iOS y Android.
         $tokens1 = clone $tokens;
         $tokens2 = clone $tokens;
 
@@ -100,6 +119,7 @@ class NotificacionesController {
             ->pluck('device_token')->toArray();
 
 
+        //Generación del mensaje.
         $message = array(
             'title' => $titulo,
             'body' => $mensaje,
@@ -109,8 +129,11 @@ class NotificacionesController {
             'category' => 'URL_CATEGORY',
             'tag' => $enlace);
 
+        //Envío de las notificaciones a iOS y Android
         $message_status = $this->sendNotification($tokensIOS, $message, 'notification');
         $message_status2 = $this->sendNotification($tokensAndroid, $message, 'data');
+
+        //Condición que se cumple si fueron enviados los mensajes.
         if(isset($message_status) && isset($message_status2)){
             $notificacion = Notificacion::create(array(
                 "titulo" => $titulo,
@@ -128,12 +151,19 @@ class NotificacionesController {
 
         }
 
-        return $request->all();
         return redirect('/notificaciones');
-
     }
 
 
+    /**
+     * Notificación: SendNotification
+     * Método final que realiza el envío de la notificación a partir de la generación de un mensaje y la selección
+     * de tokens a los que se realizará el envío.
+     * @param $tokens
+     * @param $message
+     * @param $type
+     * @return mixed
+     */
     function sendNotification($tokens, $message, $type){
         $url = "https://fcm.googleapis.com/fcm/send";
         $fields = array(
@@ -142,11 +172,11 @@ class NotificacionesController {
             'priority' => 'high',
             'content_available' => true, );
 
+        //Se configura la llave de Firebase.
         $headers = array(
             'Authorization:key = AIzaSyBqcgu3wsKmTDKHQjpMhhj-gie-eLR_ELI ',
             'Content-Type: application/json'
         );
-
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -160,11 +190,29 @@ class NotificacionesController {
         if($result === FALSE){
             die('Curl failed ' . curl_error($ch));
         }
-
-
         curl_close($ch);
-
         return $result;
 
+    }
+
+    /**
+     * Notificación: Eliminar
+     * Método que permite la eliminación de un listado de notificaciones a partir de un arreglo de ids.
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function eliminar(Request $request) {
+        $ids = \GuzzleHttp\json_decode($request->input('id-eliminar'));
+        foreach ($ids as $id) {
+            $notificacion = Notificacion::find($id);
+            $notificacion->delete();
+        }
+        return redirect('/notificaciones');
+    }
+
+
+    public function lista(Request $request) {
+        $notificaciones = Notificacion::paginate(15);
+        return View::make('notificaciones.lista')->with('notificaciones', $notificaciones)->render();
     }
 }

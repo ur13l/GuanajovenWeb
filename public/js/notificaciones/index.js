@@ -1,90 +1,168 @@
-function validacionesModal(){
-  $("#chk_hombre").change(function(){
-    if(!$(this).is(":checked")){
-      if(!$("#chk_mujer").is(":checked")){
-        $("#chk_mujer").prop("checked", true);
-      }
-    }
-  });
+/**
+ * Archivo de configuración de UI de la vista de notificaciones
+ * Autor: Uriel Infante
+ * Fecha: 10/05/2017
+ */
 
-  $("#chk_mujer").change(function(){
-    if(!$(this).is(":checked")){
-      if(!$("#chk_hombre").is(":checked")){
-        $("#chk_hombre").prop("checked", true);
-      }
-    }
-  });
+/**
+ * EventosUI
+ * Método para la generación de eventos en la vista utilizando jQuery. Aquí se validan los checkbox de sexo, sistema
+ * operativo; y el dropdown de edad.
+ */
+function eventosUI() {
 
-  $("#chk_android").change(function(){
-    if(!$(this).is(":checked")){
-      if(!$("#chk_ios").is(":checked")){
-        $("#chk_ios").prop("checked", true);
-      }
-    }
-  });
+    //No pueden estar sin selección los dos
+    $("#chk_hombre").change(function() {
+        if(!$(this).is(":checked")) {
+            if(!$("#chk_mujer").is(":checked")) {
+                $("#chk_mujer").prop("checked", true);
+            }
+        }
+    });
 
-  $("#chk_ios").change(function(){
-    if(!$(this).is(":checked")){
-      if(!$("#chk_android").is(":checked")){
-        $("#chk_android").prop("checked", true);
-      }
-    }
-  });
+    //Si no es mujer, se activa el checkbox de hombre
+    $("#chk_mujer").change(function() {
+        if(!$(this).is(":checked")) {
+            if(!$("#chk_hombre").is(":checked")) {
+                $("#chk_hombre").prop("checked", true);
+            }
+        }
+    });
 
-  //TODO: Agregar validaciones para txt_age1 y 2
-  $("#sl_rango_edad").change(function(){
-     if(this.value > 1){
+    //Si no está seleccionado Android, se selecciona iOS
+    $("#chk_android").change(function() {
+        if(!$(this).is(":checked")) {
+            if(!$("#chk_ios").is(":checked")) {
+                $("#chk_ios").prop("checked", true);
+            }
+        }
+    });
 
-         $("#txt_age2").removeClass('invalid').siblings().remove();
-       $("#txt_age1").css("display", "inline");
-       $("#label_age").css("display", "inline");
-       $("#txt_age2").css("display", "none");
+    //Si no está seleccionado iOS se marca Android.
+    $("#chk_ios").change(function(){
+        if(!$(this).is(":checked")){
+            if(!$("#chk_android").is(":checked")) {
+                $("#chk_android").prop("checked", true);
+            }
+        }
+    });
 
-       $("#txt_age1").rules('add', {
-           required:true,
-           messages: {
-               required: "Este campo es requerido"
-           }
-       });
+    //Funcionalidad para rango de edad, determina qué campos se van a mostrar.
+    $("#sl_rango_edad").change(function() {
+        //1 es el valor de TODOS, cuando se elige otra opción se muestra el primer campo.
+        if(this.value > 1) {
 
-         $("#txt_age2").rules('remove', "required");
-     }
+            //Se muestra el primer campo y se oculta el segundo.
+            $("#txt_age2").removeClass('invalid').siblings().remove();
+            $("#txt_age1").css("display", "inline");
+            $("#label_age").css("display", "inline");
+            $("#txt_age2").css("display", "none");
 
-     if(this.value == 2){
-      $("#txt_age2").css("display", "inline");
-         $("#txt_age2").rules('add', {
-             required:true,
-             messages: {
-                 required: "Este campo es requerido"
-             }
-         });
-     }
+            //El primer campo se vuelve obligatorio.
+            $("#txt_age1").rules('add', {
+                required:true,
+                messages: {
+                    required: "Este campo es requerido"
+                }
+            });
 
-     if(this.value == 1){
-         $("#txt_age1").removeClass('invalid').siblings().remove();
-         $("#txt_age2").removeClass('invalid').siblings().remove();
-          $("#txt_age1").css("display", "none");
-          $("#txt_age2").css("display", "none");
-          $("#label_age").css("display", "none");
-         $("#txt_age1").rules('remove','required');
-         $("#txt_age2").rules('remove', 'required');
-     }
-  });
+            //Se eliminan las validaciones del campo 2
+            $("#txt_age2").rules('remove', "required");
+        }
+
+        //Si se selecciona ENTRE, se abilita el campo 2 con validación
+        if(this.value == 2){
+            $("#txt_age2").css("display", "inline");
+            $("#txt_age2").rules('add', {
+                required:true,
+                messages: {
+                    required: "Este campo es requerido"
+                }
+            });
+        }
+
+        //Si la opción es TODOS, se ocultan todos los campos de vuelta y se remueven las validaciones.
+        if(this.value == 1){
+            $("#txt_age1").removeClass('invalid').siblings().remove();
+            $("#txt_age2").removeClass('invalid').siblings().remove();
+            $("#txt_age1").css("display", "none");
+            $("#txt_age2").css("display", "none");
+            $("#label_age").css("display", "none");
+            $("#txt_age1").rules('remove','required');
+            $("#txt_age2").rules('remove', 'required');
+        }
+    });
+
+    //Muestra todos los selects con formato Materialize
+    $('select').material_select();
+
+    //Se oculta la vista de configuración avanzada y se genera su evento.
+    $('.advanced').hide();
+    $('#show-advanced').click(() => $(".advanced").toggle(500));
+
+    //Evento para controlar el botón de eliminar múltiple
+    $(".check-delete").change(function() {
+        var flag = false;
+        $.each($(".check-delete"), (index, val) => {
+            if ($(val).prop('checked')){
+                flag = true;
+                return;
+            }
+        });
+        if(flag){
+            $("#delete-selection").show(500);
+        }
+        else {
+            $("#delete-selection").hide(500);
+        }
+    });
+
+    //Evento para eliminar una notificación individual.
+    $(".delete-notif").click(function() {
+        var ids = JSON.stringify([$(this).data('id')]);
+        $("#id-eliminar").val(ids);
+        $("#deleteModalNotif").openModal();
+    });
+
+    //Botón de eliminar múltiple.
+    $("#delete-selection").click(function() {
+        var ids =[];
+        $.each($(".check-delete"), (index, val) => {
+            if($(val).prop('checked')){
+
+                ids.push($(val).val());
+            }
+        });
+        $("#id-eliminar").val(JSON.stringify(ids));
+        $("#deleteModalNotif").openModal();
+    });
+
+    $(document).on('click', '.pagination a', function(e) {
+       e.preventDefault();
+       var page = $(this).attr('href').split('page=')[1];
+       getNotifications(page);
+    });
 }
 
+
+function getNotifications(page) {
+    $.ajax({
+        url: '/notificaciones/lista?page=' + page
+    }).done(function(data) {
+        console.log(data);
+        $("#table").html(data);
+    });
+}
 
 
 
 $(function(){
 
-  //Necesario para sustituir el select común de HTML5 por el de Materialize
-   $('select').material_select();
-    $('.advanced').hide();
-    $('#show-advanced').click(() => $(".advanced").toggle(500));
 
-   validacionesModal();
+    //Funcionalidad que agrega los eventos de UI para evitar mensajes inválidos.
+    eventosUI();
 
-    //Validación de formulario para nueva convocatoria
+    //Validación de formulario para nueva notificación
     $("#form-enviar").validate({
         rules: {
             titulo: {
@@ -114,6 +192,5 @@ $(function(){
             }
         }
     });
-
 
 });
