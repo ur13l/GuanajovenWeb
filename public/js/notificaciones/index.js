@@ -101,7 +101,7 @@ function eventosUI() {
     $('#show-advanced').click(() => $(".advanced").toggle(500));
 
     //Evento para controlar el botón de eliminar múltiple
-    $(".check-delete").change(function() {
+    $(document).on('change' ,".check-delete", function() {
         var flag = false;
         $.each($(".check-delete"), (index, val) => {
             if ($(val).prop('checked')){
@@ -118,10 +118,29 @@ function eventosUI() {
     });
 
     //Evento para eliminar una notificación individual.
-    $(".delete-notif").click(function() {
+    $(document).on('click', ".delete-notif", function() {
         var ids = JSON.stringify([$(this).data('id')]);
         $("#id-eliminar").val(ids);
         $("#deleteModalNotif").openModal();
+    });
+
+    //Seleccionar múltiple
+    $(document).on('change', '#chk-todos', function() {
+        var ids = []
+        var checked = $(this).prop('checked');
+        $(".check-delete").prop('checked', checked);
+
+        if(checked) {
+            $("#delete-selection").show(500);
+        }
+        else {
+            $("#delete-selection").hide(500);
+        }
+       $(".check-delete").each((index, elem) => {
+            if(checked) {
+                ids.push($(elem).val());
+            }
+        }) ;
     });
 
     //Botón de eliminar múltiple.
@@ -129,7 +148,6 @@ function eventosUI() {
         var ids =[];
         $.each($(".check-delete"), (index, val) => {
             if($(val).prop('checked')){
-
                 ids.push($(val).val());
             }
         });

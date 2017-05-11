@@ -35,6 +35,15 @@
 
     <!-- Cuerpo del index -->
     <div class="row">
+
+        @if(Session::has('messages'))
+            <script>
+                $(function() {
+                    Materialize.toast('{{Session::get('messages')}}', 4000, 'green');
+                })
+            </script>
+        @endif
+
         <form action="/notificaciones/enviar" id="form-enviar" method="post">
             <div class="row">
                 <h5>Nueva notificación</h5>
@@ -132,10 +141,18 @@
     <div class="rowsection" id="table">
         <h5 class="col s12">Notificaciones enviadas</h5>
 
+        @if(count($notificaciones) == 0)
+            <div class="section">No hay notificaciones disponibles</div>
+        @else
+
+
         <table class="highlight">
             <thead>
             <tr>
-                <th data-field="check"></th>
+                <th data-field="check">
+                    <input type="checkbox" id="chk-todos" class="filled-in checkbox-accent-color" >
+                    <label for="chk-todos"></label>
+                </th>
                 <th data-field="titulo">Título</th>
                 <th data-field="mensaje">Mensaje</th>
                 <th data-field="fecha">Fecha</th>
@@ -158,7 +175,7 @@
                     @endforeach
             </tbody>
         </table>
-
+        @endif
         <ul class="pagination">
             {{$notificaciones->links()}}
         </ul>
