@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\LoginToken;
 use Illuminate\Http\Request;
 
 class NotificacionesApiController extends Controller
@@ -18,7 +19,17 @@ class NotificacionesApiController extends Controller
         $device_token = $request->input('device_token');
         $os = $request->input('os');
 
-        $objetoUsuarioToken = LoginToken::create($request->all());
+        $objetoUsuarioToken = LoginToken::where('id_usuario', $id_usuario)->withTrashed()->get()->first();
+        if(isset($objetoUsuarioToken)) {
+            $objetoUsuarioToken->restore();
+            $objetoUsuarioToken->device_token = $device_token;
+            $objetoUsuarioToken->os = $os;
+            $objetoUsuarioToken->save();
+        }
+        else {
+            $objetoUsuarioToken = LoginToken::create($request->all());
+        }
+
 
         if (isset($objetoUsuarioToken)) {
             return response()->json([
@@ -44,9 +55,9 @@ class NotificacionesApiController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function cancelar(Request $request) {
-        $id_device_token = $request->input('device_token');
+        $id_usuario = $request->input('id_usuario');
 
-        $objetoUsuarioToken = LoginToken::where('device_token', $id_device_token)->get()->first();
+        $objetoUsuarioToken = LoginToken::where('id_usuario', $id_usuario)->get()->first();
 
         if (isset($objetoUsuarioToken)) {
             $objetoUsuarioToken->delete();

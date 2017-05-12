@@ -9,6 +9,7 @@ use App\Region;
 use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\View;
 
 class NotificacionesController extends Controller {
@@ -151,7 +152,7 @@ class NotificacionesController extends Controller {
 
         }
 
-        return redirect('/notificaciones');
+        return redirect()->back()->with('messages', 'La notificación fue enviada exitosamente');
     }
 
 
@@ -174,8 +175,8 @@ class NotificacionesController extends Controller {
 
         //Se configura la llave de Firebase.
         $headers = array(
-            'Authorization:key = AIzaSyBqcgu3wsKmTDKHQjpMhhj-gie-eLR_ELI ',
-            'Content-Type: application/json'
+            'Authorization:key = AIzaSyDKAbShlitmin_wsoxRxHLmdi7Ieynn3cY ',
+            'Content-Type:application/json'
         );
 
         $ch = curl_init();
@@ -211,6 +212,12 @@ class NotificacionesController extends Controller {
     }
 
 
+    /**
+     * Notificación: Renderizar lista
+     * Muestra la lista de notificaciones para la parte web con su sección de paginado para cambiar de página por AJAX.
+     * @param Request $request
+     * @return mixed
+     */
     public function lista(Request $request) {
         $notificaciones = Notificacion::paginate(15);
         return View::make('notificaciones.lista')->with('notificaciones', $notificaciones)->render();

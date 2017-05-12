@@ -26,6 +26,6 @@ Route::get('/regiones', 'RegionApiController@obtenerRegiones');
 Route::get('/eventos','EventoApiController@obtenerEventos');
 
 Route::group(['prefix' => '/notificaciones'], function() {
-    Route::post('/enviartoken', 'NotificacionesApiContrroller@registrar');
-    Route::post('/cancelartoken', 'NotificacionesApiContrroller@cancelar');
+    Route::post('/enviartoken', 'NotificacionesApiController@registrar');
+    Route::post('/cancelartoken', 'NotificacionesApiController@cancelar');
 });

@@ -20,7 +20,8 @@ class LoginToken extends Model {
     protected $fillable = [
         'id_device_token',
         'id_usuario',
-        'device_token'
+        'device_token',
+        'os'
     ];
 
     //Relacione con usuario
