@@ -19,7 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
 
-
 Route::get('/publicidad', 'PublicidadApiController@obtenerPublicidad');
 Route::get('/convocatorias', 'ConvocatoriaApiController@obtenerConvocatorias');
 Route::get('/regiones', 'RegionApiController@obtenerRegiones');
