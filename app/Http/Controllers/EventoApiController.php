@@ -13,7 +13,7 @@ class EventoApiController extends Controller {
 		$eventos = Evento::where('updated_at','>', $timestamp)
 		->orderBy('created_at')
 		->withTrashed()
-		->get()
+		->get();
 
 		return response()->json(array(
 			'status' => 200,
