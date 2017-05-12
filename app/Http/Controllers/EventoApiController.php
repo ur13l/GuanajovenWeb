@@ -22,5 +22,4 @@ class EventoApiController extends Controller {
 			'data' => $eventos
 		));
 	}
-
 }
