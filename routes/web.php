@@ -18,19 +18,7 @@ Route::get('/', function () {
 //Usuarios
 Route::post('/usuarios/login', 'Auth\LoginController@login');
 
-//Autenticación API
-Route::group(['prefix' => 'api/usuarios'], function () {
-    Route::post('login', 'Auth\LoginApiController@login');
-    Route::post('registrar', 'UserApiController@registrar');
-    Route::post('actualizar', 'UserApiController@actualizar');
-    Route::post('verificarcorreo', 'UserApiController@verificarEmail');
-    Route::post('logingoogle', 'Auth\LoginApiController@loginGoogle');
-    Route::post('loginfacebook', 'Auth\LoginApiController@loginFacebook');
-    Route::group(['prefix' => 'token'], function () {
-    Route::post('registrar', 'NotificacionesController@registrar');
-    Route::post('cancelar', 'NotificacionesController@cancelar');
-    });
-});
+
 
 //Publicidad
 Route::group(['prefix' => 'publicidad'], function () {

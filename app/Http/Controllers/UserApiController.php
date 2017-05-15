@@ -8,7 +8,10 @@ use App\DatosUsuario;
 use App\Genero;
 use App\Http\Controllers\Auth\ImageController;
 use App\Municipio;
+use App\Soap\ConsultaPorCurp;
+use App\Soap\ConsultaPorCurpResponse;
 use App\User;
+use Artisaninweb\SoapWrapper\SoapWrapper;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -19,9 +22,15 @@ use Validator;
 class UserApiController extends Controller {
     use AuthenticatesUsers;
 
+    protected $soapWrapper;
+
+
+    public function __construct(SoapWrapper $soapWrapper) {
+        $this->soapWrapper = $soapWrapper;
+    }
 
     /**
-     * Registrar
+     * Usuario: Registrar
      * params: [email, password, password_confirmation, nombre, apellido_paterno, apellido_materno, genero, codigo_postal, fecha_nacimiento, estado_nacimiento].
      * Método que sirve para registrar usuarios.
      * @param Request $request
@@ -84,7 +93,6 @@ class UserApiController extends Controller {
             $id_ocupacion = $request->input("id_ocupacion");
             $telefono = $request->input("telefono");
             $estado = $request->input("estado");
-            $municipio = $request->input("municipio");
 
             $curp = $this->calcularCurp($apellido_paterno, $apellido_materno, $nombre, $genero, $fecha_nacimiento, $estado);
 
@@ -194,7 +202,15 @@ class UserApiController extends Controller {
         }
     }
 
-    /* Función para actualizar los datos de un usuario */
+
+    /**
+     * Usuario: Actualizar
+     * params: [nombre*, id_genero*, codigo_postal*, apellido_paterno*, curp*, estado_nacimiento*, fecha_nacimiento,
+     * estado_nacimiento, id_ocupacion, telefono, id_estado, id_municipio].
+     * Función que permite la actualización de datos de un usuario, la información principal no puede ser modificada.
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     function actualizar(Request $request) {
         $usuario =  Auth::guard('api')->user();
         $data = null;
@@ -307,14 +323,27 @@ class UserApiController extends Controller {
         }
     }
 
-    /* Función para obtener el id_estado mediante su abreviatura */
+    /**
+     * Usuario: Consultar estado.
+     * params: [abreviatura].
+     * Consulta un estado de la Base de datos a partir de su abreviatura.
+     * @param $abreviatura
+     * @return bool
+     */
     private function consultaEstado($abreviatura) {
         $estado = Estado::where("abreviatura", $abreviatura)->first();
         if (isset($estado)) return $estado->id_estado;
         else return false;
     }
 
-    /* Función para obtener estadp y municipio a partir de CP */
+    /**
+     * Usuario: Obtener estado y municipio
+     * params: [codigo_postal].
+     * Se realiza una solicitud para obtener información de municipio y estado a partir de su código postal, los datos
+     * obtenidos se utilizan para realizar un registro de usuario en la bd.
+     * @param $codigo_postal
+     * @return bool|string
+     */
     private function obtenerEstadoMunicipio($codigo_postal) {
         $cliente = new Client();
         $respuesta = $cliente->request('GET', 'https://api-codigos-postales.herokuapp.com/v2/codigo_postal/' . $codigo_postal);
@@ -355,14 +384,29 @@ class UserApiController extends Controller {
         }
     }
 
-    /* Función para calcular CURP mediante los datos personales */
-    private function calcularCurp($ap_paterno, $ap_materno, $nombre, $genero, $fecha_nac, $estado) {
-        list($anio, $mes, $dia) = explode("-", $fecha_nac);
+    public function obtenerCurp(Request $request) {
+        $curp = $request->curp;
+        $this->soapWrapper->add('ConsultaCurp', function ($service) {
+            $service
+                ->wsdl('http://187.216.144.153:8080/WSCurp/ConsultaCurp.asmx?WSDL')
+                ->trace(true)
+                ->classmap([
+                    ConsultaPorCurp::class,
+                    ConsultaPorCurpResponse::class
+                ]);
+        });
 
-        $data = $ap_paterno{0} . $ap_paterno{1} . $ap_materno{0} . $nombre{0} . $anio . $mes . $dia . $genero . $estado . "RCN" . rand(10, 99);
-        $curpBD = DatosUsuario::where("curp", $data)->first();
+        $response = $this->soapWrapper
+            ->call('ConsultaCurp.ConsultaPorCurp', [
+                new ConsultaPorCurp($curp)
+            ]);
+        $response = (array)$response->getConsultaPorCurpResult();
 
-        if (isset($data) && !isset($curpBD)) return $data;
-        else return false;
+        return response()->json(array(
+            'success' => true,
+            'status' => 200,
+            'errors' => [],
+            'data' => $response
+        ));
     }
 }
