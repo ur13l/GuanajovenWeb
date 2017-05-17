@@ -25,6 +25,18 @@ Route::get('/regiones', 'RegionApiController@obtenerRegiones');
 Route::get('/eventos','EventoApiController@obtenerEventos');
 Route::get('/notificacionres', 'NotificacionesApiController@obtenerNotificaciones');
 
+
+//Autenticación API
+Route::group(['prefix' => 'usuarios'], function () {
+    Route::post('login', 'Auth\LoginApiController@login');
+    Route::post('registrar', 'UserApiController@registrar');
+    Route::post('actualizar', 'UserApiController@actualizar');
+    Route::post('verificarcorreo', 'UserApiController@verificarEmail');
+    Route::post('logingoogle', 'Auth\LoginApiController@loginGoogle');
+    Route::post('loginfacebook', 'Auth\LoginApiController@loginFacebook');
+    Route::post('curp', 'UserApiController@obtenerCurp');
+});
+
 Route::group(['prefix' => '/notificaciones'], function() {
     Route::post('/enviartoken', 'NotificacionesApiController@registrar');
     Route::post('/cancelartoken', 'NotificacionesApiController@cancelar');

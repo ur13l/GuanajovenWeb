@@ -175,8 +175,6 @@ function getNotifications(page) {
 
 
 $(function(){
-
-
     //Funcionalidad que agrega los eventos de UI para evitar mensajes inválidos.
     eventosUI();
 
