@@ -77,4 +77,20 @@ class NotificacionesApiController extends Controller
             ]);
         }
     }
+
+    public function obtenerNotificaciones(Request $request) {
+        $timestamp = $request->input('timestamp');
+
+        $notificaciones = Notificación::where('updated_at','>', $timestamp)
+        ->orderBy('created_at')
+        ->withTrashed()
+        ->get();
+
+        return response()->json(array(
+            'status' => 200,
+            'success' => true,
+            'errors' => [],
+            'data' => $notificaciones
+        ));
+    }
 }

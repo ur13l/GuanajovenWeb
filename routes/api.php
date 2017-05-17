@@ -23,6 +23,7 @@ Route::get('/publicidad', 'PublicidadApiController@obtenerPublicidad');
 Route::get('/convocatorias', 'ConvocatoriaApiController@obtenerConvocatorias');
 Route::get('/regiones', 'RegionApiController@obtenerRegiones');
 Route::get('/eventos','EventoApiController@obtenerEventos');
+Route::get('/notificacionres', 'NotificacionesApiController@obtenerNotificaciones');
 
 Route::group(['prefix' => '/notificaciones'], function() {
     Route::post('/enviartoken', 'NotificacionesApiController@registrar');
