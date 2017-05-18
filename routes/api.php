@@ -34,6 +34,7 @@ Route::group(['prefix' => 'usuarios'], function () {
     Route::post('logingoogle', 'Auth\LoginApiController@loginGoogle');
     Route::post('loginfacebook', 'Auth\LoginApiController@loginFacebook');
     Route::post('curp', 'UserApiController@obtenerCurp');
+    Route::post('actualizar-token-guanajoven', 'UserApiController@actualizarTokenGuanajoven');
 });
 
 Route::group(['prefix' => '/notificaciones'], function() {

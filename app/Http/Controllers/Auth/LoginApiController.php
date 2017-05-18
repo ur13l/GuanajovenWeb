@@ -38,6 +38,7 @@ class LoginApiController extends Controller
             if (Auth::once(['email' => $correo, 'password' => $password])) {
                 $usuario = Auth::user();
                 $datosUsuario = DatosUsuario::where("id_usuario", $usuario->id)->first();
+                $codigoGuanajoven = $usuario->codigoGuanajoven;
                 $estado = $datosUsuario->estado;
 
                 $data = [
@@ -57,7 +58,9 @@ class LoginApiController extends Controller
                     "id_estado" => $datosUsuario->id_estado,
                     "estado" => $estado->nombre,
                     "id_municipio" => $datosUsuario->id_municipio,
-                    "ruta_imagen" => $datosUsuario->ruta_imagen
+                    "ruta_imagen" => $datosUsuario->ruta_imagen,
+                    "codigo_guanajoven" => $codigoGuanajoven->id_codigo_guanajoven,
+                    "token_guanajoven" => $codigoGuanajoven->token
                 ];
 
                 return response()->json([
@@ -100,6 +103,7 @@ class LoginApiController extends Controller
             if (Auth::once(['email' => $correo, 'password' => '_']) && Hash::check($id_google, $user->id_google)) {
                 $usuario = Auth::user();
                 $datosUsuario = DatosUsuario::where("id_usuario", $usuario->id)->first();
+                $codigoGuanajoven = $usuario->codigoGuanajoven;
                 $estado = $datosUsuario->estado;
 
                 $data = [
@@ -119,7 +123,9 @@ class LoginApiController extends Controller
                     "id_estado" => $datosUsuario->id_estado,
                     "estado" => $estado->nombre,
                     "id_municipio" => $datosUsuario->id_municipio,
-                    "ruta_imagen" => $datosUsuario->ruta_imagen
+                    "ruta_imagen" => $datosUsuario->ruta_imagen,
+                    "codigo_guanajoven" => $codigoGuanajoven->id_codigo_guanajoven,
+                    "token_guanajoven" => $codigoGuanajoven->token
                 ];
 
                 return response()->json([
@@ -161,6 +167,7 @@ class LoginApiController extends Controller
             if (Auth::once(['email' => $correo, 'password' => '_']) && Hash::check($id_facebook, $user->id_facebook)) {
                 $usuario = Auth::user();
                 $datosUsuario = DatosUsuario::where("id_usuario", $usuario->id)->first();
+                $codigoGuanajoven = $usuario->codigoGuanajoven;
                 $estado = $datosUsuario->estado;
 
                 $data = [
@@ -180,7 +187,9 @@ class LoginApiController extends Controller
                     "id_estado" => $datosUsuario->id_estado,
                     "estado" => $estado->nombre,
                     "id_municipio" => $datosUsuario->id_municipio,
-                    "ruta_imagen" => $datosUsuario->ruta_imagen
+                    "ruta_imagen" => $datosUsuario->ruta_imagen,
+                    "codigo_guanajoven" => $codigoGuanajoven->id_codigo_guanajoven,
+                    "token_guanajoven" => $codigoGuanajoven->token
                 ];
 
                 return response()->json([

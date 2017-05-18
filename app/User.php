@@ -66,6 +66,10 @@ class User extends Authenticatable implements CanResetPassword {
         return $this->hasOne('App\DatosUsuario', 'id_usuario');
     }
 
+    public function codigoGuanajoven() {
+        return $this->hasOne('App\CodigoGuanajoven', 'id_usuario');
+    }
+
     /**
      * Send the password reset notification.
      *
