@@ -102,7 +102,6 @@ class UserApiController extends Controller {
             $estado_nacimiento = $request->input("estado_nacimiento");
             $id_ocupacion = $request->input("id_ocupacion");
             $telefono = $request->input("telefono");
-            $estado = $request->input("estado");
 
             $id_estado = "";
             $id_municipio = "";
@@ -165,32 +164,11 @@ class UserApiController extends Controller {
                                     'fecha_expiracion' => Carbon::now('America/Mexico_City')->addDay(),
                                     'fecha_limite' => $fechaLimite
                                 ]);
-
-                                $estado = $datosUsuario->estado;
-
                                 if (isset($usuario) && isset($datosUsuario)) {
-                                    $data = [
-                                        "id_usuario" => $usuario->id,
-                                        "email" => $usuario->email,
-                                        "api_token" => $usuario->api_token,
-                                        "id_datos_usuario" => $datosUsuario->id_datos_usuario,
-                                        "nombre" => $datosUsuario->nombre,
-                                        "apellido_paterno" => $datosUsuario->apellido_paterno,
-                                        "apellido_materno" => $datosUsuario->apellido_materno,
-                                        "id_genero" => $datosUsuario->id_genero,
-                                        "fecha_nacimiento" => $request->input("fecha_nacimiento"),
-                                        "id_estado_nacimiento" => $datosUsuario->id_estado_nacimiento,
-                                        "id_ocupacion" => $datosUsuario->id_ocupacion,
-                                        "codigo_postal" => $datosUsuario->codigo_postal,
-                                        "telefono" => $datosUsuario->telefono,
-                                        "curp" => $datosUsuario->curp,
-                                        "id_estado" => $datosUsuario->id_estado,
-                                        "estado" => $estado->nombre,
-                                        "id_municipio" => $datosUsuario->id_municipio,
-                                        "ruta_imagen" => $datosUsuario->ruta_imagen,
-                                        "codigo_guanajoven" => $codigo_guanajoven->id_codigo_guanajoven,
-                                        "token_guanajoven" => $codigo_guanajoven->token
-                                    ];
+                                    $data =User::
+                                        with('datosUsuario')
+                                        ->with('codigoGuanajoven')
+                                        ->find($usuario->id);
                                 } else {
                                     array_push($errors, "¡Ops!, parece que algo salió mal. Verifíca que todos tus datos sean correctos.");
                                 }

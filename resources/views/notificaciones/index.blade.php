@@ -44,7 +44,7 @@
             </script>
         @endif
 
-        <form action="/notificaciones/enviar" id="form-enviar" method="post">
+        <form action="{{url('/notificaciones/enviar')}}" id="form-enviar" method="post">
             <div class="row">
                 <h5>Nueva notificación</h5>
                 <div class="input-field col s12">

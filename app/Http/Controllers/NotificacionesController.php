@@ -22,7 +22,7 @@ class NotificacionesController extends Controller {
      */
     public function index(Request $request) {
         $regiones = Region::all();
-        $notificaciones = Notificacion::paginate(15);
+        $notificaciones = Notificacion::orderBy('fecha_emision', 'desc')->paginate(15);
         return view('notificaciones.index', array('notificaciones' => $notificaciones, 'regiones' => $regiones));
     }
 

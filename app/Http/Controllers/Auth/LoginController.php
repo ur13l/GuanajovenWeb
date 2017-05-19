@@ -18,9 +18,9 @@ class LoginController extends Controller
         $password = $request->input("password");
 
         if (Auth::attempt(['email' => $correo, 'password' => $password])) {
-            return redirect()->intended('/eventos');
+            return redirect()->intended('/eventos/inicio');
         } else {
-            return view('index', ["errors" => ["User o contraseña incorrecto"]]);
+            return view('index', ["errors" => ["Usuario o contraseña incorrecto"]]);
         }
     }
 }

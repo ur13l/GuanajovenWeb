@@ -55,4 +55,8 @@ class DatosUsuario extends Model {
     public function municipio() {
         return $this->hasOne('App\Municipio', 'id_municipio', 'id_municipio');
     }
+
+    public function estadoNacimiento() {
+        return $this->hasOne('App\Estado', 'id_estado', 'id_estado_nacimiento');
+    }
 }
