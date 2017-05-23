@@ -32,7 +32,13 @@ class DatosUsuario extends Model {
         'curp',
         'id_estado',
         'id_municipio',
-        'ruta_imagen'
+        'ruta_imagen',
+        'id_nivel_estudios',
+        'id_pueblo_indigena',
+        'id_capacidad_diferente',
+        'premios',
+        'proyectos_sociales',
+        'apoyo_proyectos_sociales',
     ];
 
     //Relaciones
@@ -58,5 +64,25 @@ class DatosUsuario extends Model {
 
     public function estadoNacimiento() {
         return $this->hasOne('App\Estado', 'id_estado', 'id_estado_nacimiento');
+    }
+
+    public function puebloIndigena() {
+        return $this->hasOne('App\PuebloIndigena', 'id_pueblo_indigena', 'id_pueblo_indigena');
+    }
+
+    public function programaGobierno() {
+        return $this->hasOne('App\ProgramaGobierno', 'id_programa_gobierno', 'id_programa_gobierno');
+    }
+
+    public function nivelEstudios() {
+        return $this->hasOne('App\NivelEstudios', 'id_nivel_estudios', 'id_nivel_estudios');
+    }
+
+    public function capacidadDiferente () {
+        return $this->hasOne('App\CapacidadDiferente', 'id_capacidad_diferente', 'id_capacidad_diferente');
+    }
+
+    public function idiomasAdicionales() {
+        return $this->belongsToMany('App\IdiomaAdicional', 'datos_usuario_idioma', 'id_datos_usuario', 'id_datos_usuario');
     }
 }

@@ -67,7 +67,12 @@ class User extends Authenticatable implements CanResetPassword {
             ->with('municipio')
             ->with('estado')
             ->with('estadoNacimiento')
-            ->with('genero');
+            ->with('genero')
+            ->with('puebloIndigena')
+            ->with('programaGobierno')
+            ->with('nivelEstudios')
+            ->with('capacidadDiferente')
+            ->with('idiomasAdicionales');
     }
 
     public function codigoGuanajoven() {
