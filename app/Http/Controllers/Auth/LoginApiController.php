@@ -77,7 +77,7 @@ class LoginApiController extends Controller
 
         if (isset($user) && $user->id_google != null) {
             if (Auth::once(['email' => $correo, 'password' => '_']) && Hash::check($id_google, $user->id_google)) {
-                $usuario = User::with('datosUsuario')
+                $data = User::with('datosUsuario')
                     ->with('codigoGuanajoven')
                     ->find(Auth::user()->id);
                 return response()->json([
@@ -117,7 +117,7 @@ class LoginApiController extends Controller
 
         if (isset($user) && $user->id_facebook != null) {
             if (Auth::once(['email' => $correo, 'password' => '_']) && Hash::check($id_facebook, $user->id_facebook)) {
-                $usuario = User::with('datosUsuario')
+                $data = User::with('datosUsuario')
                     ->with('codigoGuanajoven')
                     ->find(Auth::user()->id);
                 return response()->json([
