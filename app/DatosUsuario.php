@@ -24,7 +24,6 @@ class DatosUsuario extends Model {
         'apellido_paterno',
         'apellido_materno',
         'id_genero',
-        'id_ocupacion',
         'fecha_nacimiento',
         'id_estado_nacimiento',
         'codigo_postal',
