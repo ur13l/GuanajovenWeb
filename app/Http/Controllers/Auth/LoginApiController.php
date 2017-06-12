@@ -36,42 +36,21 @@ class LoginApiController extends Controller
 
         if (isset($user) && $user->id_facebook == null && $user->id_google == null) {
             if (Auth::once(['email' => $correo, 'password' => $password])) {
-                $usuario = Auth::user();
-                $datosUsuario = DatosUsuario::where("id_usuario", $usuario->id)->first();
-                $estado = $datosUsuario->estado;
-
-                $data = [
-                    "id_usuario" => $usuario->id,
-                    "correo" => $usuario->email,
-                    "api_token" => $usuario->api_token,
-                    "id_datos_usuario" => $datosUsuario->id_datos_usuario,
-                    "nombre" => $datosUsuario->nombre,
-                    "apellido_paterno" => $datosUsuario->apellido_paterno,
-                    "apellido_materno" => $datosUsuario->apellido_materno,
-                    "id_genero" => $datosUsuario->id_genero,
-                    "fecha_nacimiento" => $datosUsuario->fecha_nacimiento->format('d/m/Y'),
-                    "id_ocupacion" => $datosUsuario->id_ocupacion,
-                    "codigo_postal" => $datosUsuario->codigo_postal,
-                    "telefono" => $datosUsuario->telefono,
-                    "curp" => $datosUsuario->curp,
-                    "id_estado" => $datosUsuario->id_estado,
-                    "estado" => $estado->nombre,
-                    "id_municipio" => $datosUsuario->id_municipio,
-                    "ruta_imagen" => $datosUsuario->ruta_imagen
-                ];
-
+                $usuario = User::with('datosUsuario')
+                    ->with('codigoGuanajoven')
+                    ->find(Auth::user()->id);
                 return response()->json([
                     "success" => true,
                     "errors" => [],
                     "status" => 200,
-                    "data" => $data
+                    "data" => $usuario
                 ]);
             } else {
                 return response()->json([
                     "success" => false,
                     "errors" => ["User o contraseña incorrectos"],
                     "status" => 500,
-                    "data" => $data
+                    "data" => $usuario
                 ]);
             }
         } else {
@@ -98,30 +77,9 @@ class LoginApiController extends Controller
 
         if (isset($user) && $user->id_google != null) {
             if (Auth::once(['email' => $correo, 'password' => '_']) && Hash::check($id_google, $user->id_google)) {
-                $usuario = Auth::user();
-                $datosUsuario = DatosUsuario::where("id_usuario", $usuario->id)->first();
-                $estado = $datosUsuario->estado;
-
-                $data = [
-                    "id_usuario" => $usuario->id,
-                    "email" => $usuario->email,
-                    "api_token" => $usuario->api_token,
-                    "id_datos_usuario" => $datosUsuario->id_datos_usuario,
-                    "nombre" => $datosUsuario->nombre,
-                    "apellido_paterno" => $datosUsuario->apellido_paterno,
-                    "apellido_materno" => $datosUsuario->apellido_materno,
-                    "id_genero" => $datosUsuario->id_genero,
-                    "fecha_nacimiento" => $datosUsuario->fecha_nacimiento->format('d/m/Y'),
-                    "id_ocupacion" => $datosUsuario->id_ocupacion,
-                    "codigo_postal" => $datosUsuario->codigo_postal,
-                    "telefono" => $datosUsuario->telefono,
-                    "curp" => $datosUsuario->curp,
-                    "id_estado" => $datosUsuario->id_estado,
-                    "estado" => $estado->nombre,
-                    "id_municipio" => $datosUsuario->id_municipio,
-                    "ruta_imagen" => $datosUsuario->ruta_imagen
-                ];
-
+                $data = User::with('datosUsuario')
+                    ->with('codigoGuanajoven')
+                    ->find(Auth::user()->id);
                 return response()->json([
                     "success" => true,
                     "errors" => [],
@@ -159,30 +117,9 @@ class LoginApiController extends Controller
 
         if (isset($user) && $user->id_facebook != null) {
             if (Auth::once(['email' => $correo, 'password' => '_']) && Hash::check($id_facebook, $user->id_facebook)) {
-                $usuario = Auth::user();
-                $datosUsuario = DatosUsuario::where("id_usuario", $usuario->id)->first();
-                $estado = $datosUsuario->estado;
-
-                $data = [
-                    "id_usuario" => $usuario->id,
-                    "email" => $usuario->email,
-                    "api_token" => $usuario->api_token,
-                    "id_datos_usuario" => $datosUsuario->id_datos_usuario,
-                    "nombre" => $datosUsuario->nombre,
-                    "apellido_paterno" => $datosUsuario->apellido_paterno,
-                    "apellido_materno" => $datosUsuario->apellido_materno,
-                    "id_genero" => $datosUsuario->id_genero,
-                    "fecha_nacimiento" => $datosUsuario->fecha_nacimiento->format('d/m/Y'),
-                    "id_ocupacion" => $datosUsuario->id_ocupacion,
-                    "codigo_postal" => $datosUsuario->codigo_postal,
-                    "telefono" => $datosUsuario->telefono,
-                    "curp" => $datosUsuario->curp,
-                    "id_estado" => $datosUsuario->id_estado,
-                    "estado" => $estado->nombre,
-                    "id_municipio" => $datosUsuario->id_municipio,
-                    "ruta_imagen" => $datosUsuario->ruta_imagen
-                ];
-
+                $data = User::with('datosUsuario')
+                    ->with('codigoGuanajoven')
+                    ->find(Auth::user()->id);
                 return response()->json([
                     "success" => true,
                     "errors" => [],

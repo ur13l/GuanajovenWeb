@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\CodigoGuanajoven;
 use App\Estado;
 use App\DatosUsuario;
 use App\Genero;
@@ -97,12 +98,10 @@ class UserApiController extends Controller {
             $apellido_paterno = $request->input('apellido_paterno');
             $apellido_materno = $request->input('apellido_materno');
             $genero = $request->input("genero");
-            $fecha_nacimiento = $request->input("fecha_nacimiento");
-            $fecha_nacimiento = Carbon::createFromFormat('d/m/Y', $fecha_nacimiento)->toDateString();
+            $fecha_nacimiento = Carbon::createFromFormat('d/m/Y', $request->input("fecha_nacimiento"))->toDateString();
             $estado_nacimiento = $request->input("estado_nacimiento");
             $id_ocupacion = $request->input("id_ocupacion");
             $telefono = $request->input("telefono");
-            $estado = $request->input("estado");
 
             $id_estado = "";
             $id_municipio = "";
@@ -156,29 +155,20 @@ class UserApiController extends Controller {
                                     'ruta_imagen' => $ruta_imagen
                                 ]);
 
-                                $estado = $datosUsuario->estado;
+                                $fechaLimite = Carbon::createFromFormat('d/m/Y', $request->input("fecha_nacimiento"));
+                                $fechaLimite->year = $fechaLimite->year + 30;
 
+                                $codigo_guanajoven = CodigoGuanajoven::create([
+                                    'id_usuario' => $id,
+                                    'token' => str_random(128),
+                                    'fecha_expiracion' => Carbon::now('America/Mexico_City')->addDay(),
+                                    'fecha_limite' => $fechaLimite
+                                ]);
                                 if (isset($usuario) && isset($datosUsuario)) {
-                                    $data = [
-                                        "id_usuario" => $usuario->id,
-                                        "email" => $usuario->email,
-                                        "api_token" => $usuario->api_token,
-                                        "id_datos_usuario" => $datosUsuario->id_datos_usuario,
-                                        "nombre" => $datosUsuario->nombre,
-                                        "apellido_paterno" => $datosUsuario->apellido_paterno,
-                                        "apellido_materno" => $datosUsuario->apellido_materno,
-                                        "id_genero" => $datosUsuario->id_genero,
-                                        "fecha_nacimiento" => $request->input("fecha_nacimiento"),
-                                        "id_estado_nacimiento" => $datosUsuario->id_estado_nacimiento,
-                                        "id_ocupacion" => $datosUsuario->id_ocupacion,
-                                        "codigo_postal" => $datosUsuario->codigo_postal,
-                                        "telefono" => $datosUsuario->telefono,
-                                        "curp" => $datosUsuario->curp,
-                                        "id_estado" => $datosUsuario->id_estado,
-                                        "estado" => $estado->nombre,
-                                        "id_municipio" => $datosUsuario->id_municipio,
-                                        "ruta_imagen" => $datosUsuario->ruta_imagen
-                                    ];
+                                    $data =User::
+                                        with('datosUsuario')
+                                        ->with('codigoGuanajoven')
+                                        ->find($usuario->id);
                                 } else {
                                     array_push($errors, "¡Ops!, parece que algo salió mal. Verifíca que todos tus datos sean correctos.");
                                 }
@@ -334,7 +324,13 @@ class UserApiController extends Controller {
         else return false;
     }
 
-    /* Función que verifica si ya existe el correo en la base de datos */
+    /**
+     * Usuario: Verificar Email
+     * params: [email]
+     * Método que revisa la existencia de un email registrado en la base de datos.
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function verificarEmail(Request $request) {
         $correo = User::where("email", $request->email)->first();
         if (isset($correo)) {
@@ -355,6 +351,13 @@ class UserApiController extends Controller {
     }
 
 
+    /**
+     * Private: Calcular CURP
+     * Método privado que permite obtener los datos de CURP a partir de este. Este método no se encuentra expuesto en
+     * la API pública y solo es para uso interno.
+     * @param $curp
+     * @return array
+     */
     private function calcularCurp($curp) {
         $this->soapWrapper->add('ConsultaCurp', function ($service) {
             $service
@@ -374,6 +377,13 @@ class UserApiController extends Controller {
     }
 
 
+    /**
+     * Usuario: Obtener CURP
+     * params: [curp].
+     * Método público para la obtención de datos pasando como parámetro un CURP válido.
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function obtenerCurp(Request $request) {
         $curp = $request->curp;
         $response = $this->calcularCurp($curp);
@@ -383,6 +393,30 @@ class UserApiController extends Controller {
             'status' => 200,
             'errors' => [],
             'data' => $response
+        ));
+    }
+
+
+    public function actualizarTokenGuanajoven(Request $request) {
+        $user = Auth::guard('api')->user();
+        $success = true;
+        $errors = [];
+        if($user->codigoGuanajoven->fecha_limite->gt(Carbon::now('America/Mexico_City'))) {
+            $user->codigoGuanajoven->token = str_random(128);
+            $user->codigoGuanajoven->save();
+            $token = $user->codigoGuanajoven->token;
+        }
+        else {
+            $token = null;
+            $success = false;
+            $errors[] = "El token de código joven no se pudo actualizar";
+        }
+
+        return response()->json(array(
+            'data' => $token,
+            'success' => $success,
+            'status' => 200,
+            'errors' => $errors
         ));
     }
 }

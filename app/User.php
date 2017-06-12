@@ -63,7 +63,20 @@ class User extends Authenticatable implements CanResetPassword {
 
 
     public function datosUsuario(){
-        return $this->hasOne('App\DatosUsuario', 'id_usuario');
+        return $this->hasOne('App\DatosUsuario', 'id_usuario')
+            ->with('municipio')
+            ->with('estado')
+            ->with('estadoNacimiento')
+            ->with('genero')
+            ->with('puebloIndigena')
+            ->with('programaGobierno')
+            ->with('nivelEstudios')
+            ->with('capacidadDiferente')
+            ->with('idiomasAdicionales');
+    }
+
+    public function codigoGuanajoven() {
+        return $this->hasOne('App\CodigoGuanajoven', 'id_usuario');
     }
 
     /**
