@@ -42,3 +42,5 @@ Route::group(['prefix' => '/notificaciones'], function() {
     Route::post('/enviartoken', 'NotificacionesApiController@registrar');
     Route::post('/cancelartoken', 'NotificacionesApiController@cancelar');
 });
+
+Route::post('/enviarcorreo', 'EnviarCorreoApiController@enviar');
