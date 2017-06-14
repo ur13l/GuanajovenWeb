@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Http\Request;
+use \App\Notifications\ConvocatoriaNotification;
+use \App\Convocatoria;
+use \App\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +44,8 @@ Route::group(['prefix' => 'usuarios'], function () {
 Route::group(['prefix' => '/notificaciones'], function() {
     Route::post('/enviartoken', 'NotificacionesApiController@registrar');
     Route::post('/cancelartoken', 'NotificacionesApiController@cancelar');
-});
+    Route::post('/convocatoria', 'ConvocatoriaNotificacionController@enviarNotificacion');
 
-Route::post('/enviarcorreo', 'EnviarCorreoApiController@enviar');
+    Route::get('/correoguanajoven/{curp_usuario}/{nombre_convocatoria}',  ['uses' =>'EnviarCorreosApiController@enviarCorreoGuanajoven']);
+
+});
