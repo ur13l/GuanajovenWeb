@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\NotificacionConvocatoria;
 use App\Http\Requests;
 use Mail;
 
@@ -12,7 +12,11 @@ use Mail;
 class EnviarCorreosApiController extends Controller
 {
 
-    public function enviarCorreoGuanajoven($curp_usuario, $nombre_convocatoria) {
+    public function enviarCorreoGuanajoven($id_usuario, $id_convocatoria,$curp_usuario, $nombre_convocatoria) {
+        $registro = new NotificacionConvocatoria();
+        $registro->id_usuario = $id_usuario;
+        $registro->id_convocatoria = $id_convocatoria;
+        $registro->save();
 
         Mail::send('correos.CorreoGuanajovenEnviado',
             //variables para la vista
@@ -26,6 +30,16 @@ class EnviarCorreosApiController extends Controller
         });
 
         return view('correos.CorreoUsuarioRegistrado');
+    }
+
+    public function validacion($id_usuario, $id_convocatoria,$curp_usuario, $nombre_convocatoria) {
+
+        if (NotificacionConvocatoria::where('id_usuario', $id_usuario)->where( 'id_convocatoria', $id_convocatoria)->count() > 0) {
+            return view('correos.CorreoUsuarioListo');
+        } else {
+            return $this->enviarCorreoGuanajoven($id_usuario, $id_convocatoria, $curp_usuario, $nombre_convocatoria);
+        }
+
     }
 
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DatosUsuario;
+use App\NotificacionConvocatoria;
 use Illuminate\Http\Request;
 use App\User;
 use App\Convocatoria;
@@ -12,13 +13,22 @@ class ConvocatoriaNotificacionController extends Controller
 {
 
     public function enviarNotificacion(Request $request) {
+        $id_usuario = $request->input('id_usuario');
+        $id_convocatoria = $request->input('id_convocatoria');
 
-        $usuario = User::where('id', '=', $request->input('id_usuario'))->firstOrFail();
-        $convocatoria = Convocatoria::where('id_convocatoria', '=', $request->input('id_convocatoria'))->firstOrFail();
-        $datos_usuario = DatosUsuario::where('id_usuario', '=', $request->input('id_usuario'))->firstOrFail();
+        if (NotificacionConvocatoria::where('id_usuario', $id_usuario)->where( 'id_convocatoria', $id_convocatoria)->count() > 0) {
+            return response()->json(array(
+                "success" => false,
+                "status" => 500,
+                "errors" => []
+            ));
+        } else {
+            $usuario = User::where('id', '=', $request->input('id_usuario'))->firstOrFail();
+            $convocatoria = Convocatoria::where('id_convocatoria', '=', $request->input('id_convocatoria'))->firstOrFail();
+            $datos_usuario = DatosUsuario::where('id_usuario', '=', $request->input('id_usuario'))->firstOrFail();
 
-        $usuario->notify(new ConvocatoriaNotification($convocatoria, $datos_usuario));
-
+            $usuario->notify(new ConvocatoriaNotification($convocatoria, $datos_usuario));
+        }
     }
 
 }

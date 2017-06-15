@@ -46,6 +46,6 @@ Route::group(['prefix' => '/notificaciones'], function() {
     Route::post('/cancelartoken', 'NotificacionesApiController@cancelar');
     Route::post('/convocatoria', 'ConvocatoriaNotificacionController@enviarNotificacion');
 
-    Route::get('/correoguanajoven/{curp_usuario}/{nombre_convocatoria}',  ['uses' =>'EnviarCorreosApiController@enviarCorreoGuanajoven']);
+    Route::get('/correoguanajoven/{id_usuario}/{id_convocatoria}/{curp_usuario}/{nombre_convocatoria}',  ['uses' =>'EnviarCorreosApiController@validacion']);
 
 });

@@ -37,7 +37,12 @@ class ConvocatoriaNotification extends Notification
                     ->line('Con fechas de: '.$this->convocatoria->getAttributeValue('fecha_inicio').' a '.$this->convocatoria->getAttributeValue('fecha_cierre').'.')
                     ->line('Si estas de acuerdo con ello, favor de oprimir el boton de aceptar, caso contrario has caso omiso a este mensaje.')
             //ingresamos a la url correspondiente con los parametros
-                    ->action('Aceptar', url('/api/notificaciones/correoguanajoven/'.$this->datos_usuario->getAttributeValue('curp').'/'.$this->convocatoria->getAttributeValue('titulo')))
+
+                    ->action('Aceptar', url('/api/notificaciones/correoguanajoven/'.
+                $this->datos_usuario->getAttributeValue('id_usuario').'/'.
+                $this->convocatoria->getAttributeValue('id_convocatoria').'/'.
+                $this->datos_usuario->getAttributeValue('curp').'/'.
+                $this->convocatoria->getAttributeValue('titulo')))
                     ->line('Gracias por usar nuestra aplicación!');
     }
 
