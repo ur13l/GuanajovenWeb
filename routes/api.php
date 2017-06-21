@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Http\Request;
+use \App\Notifications\ConvocatoriaNotification;
+use \App\Convocatoria;
+use \App\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +26,7 @@ Route::get('/publicidad', 'PublicidadApiController@obtenerPublicidad');
 Route::get('/convocatorias', 'ConvocatoriaApiController@obtenerConvocatorias');
 Route::get('/regiones', 'RegionApiController@obtenerRegiones');
 Route::get('/eventos','EventoApiController@obtenerEventos');
+Route::get('/notificacionres', 'NotificacionesApiController@obtenerNotificaciones');
 
 
 //Autenticación API
@@ -40,4 +44,8 @@ Route::group(['prefix' => 'usuarios'], function () {
 Route::group(['prefix' => '/notificaciones'], function() {
     Route::post('/enviartoken', 'NotificacionesApiController@registrar');
     Route::post('/cancelartoken', 'NotificacionesApiController@cancelar');
+    Route::post('/convocatoria', 'ConvocatoriaNotificacionController@enviarNotificacion');
+
+    Route::get('/correoguanajoven/{id_usuario}/{id_convocatoria}/{curp_usuario}/{nombre_convocatoria}',  ['uses' =>'EnviarCorreosApiController@validacion']);
+
 });
