@@ -7,7 +7,8 @@ use App\CodigoGuanajoven;
 use App\Estado;
 use App\DatosUsuario;
 use App\Genero;
-use App\Http\Controllers\Auth\ImageController;
+//use App\Http\Controllers\Auth\ImageController;
+use App\Http\Controllers\ImageController;
 use App\Municipio;
 use App\Soap\ConsultaPorCurp;
 use App\Soap\ConsultaPorCurpResponse;
@@ -100,7 +101,7 @@ class UserApiController extends Controller {
             $genero = $request->input("genero");
             $fecha_nacimiento = Carbon::createFromFormat('d/m/Y', $request->input("fecha_nacimiento"))->toDateString();
             $estado_nacimiento = $request->input("estado_nacimiento");
-            $id_ocupacion = $request->input("id_ocupacion");
+          //  $id_ocupacion = $request->input("id_ocupacion");
             $telefono = $request->input("telefono");
 
             $id_estado = "";
@@ -146,7 +147,7 @@ class UserApiController extends Controller {
                                     'id_genero' => $id_genero,
                                     'fecha_nacimiento' => $fecha_nacimiento,
                                     'id_estado_nacimiento' => $id_estado_nacimiento,
-                                    'id_ocupacion' => $id_ocupacion,
+                                    //'id_ocupacion' => $id_ocupacion,
                                     'codigo_postal' => $codigo_postal,
                                     'telefono' => $telefono,
                                     'curp' => $curp,
