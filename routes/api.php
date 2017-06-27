@@ -47,5 +47,6 @@ Route::group(['prefix' => '/notificaciones'], function() {
     Route::post('/convocatoria', 'ConvocatoriaNotificacionController@enviarNotificacion');
 
     Route::get('/correoguanajoven/{id_usuario}/{id_convocatoria}/{curp_usuario}/{nombre_convocatoria}',  ['uses' =>'EnviarCorreosApiController@validacion']);
-
 });
+
+Route::get('/tweets', 'TwitterController@obtenerTweets');
