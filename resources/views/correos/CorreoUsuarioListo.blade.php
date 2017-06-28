@@ -203,7 +203,7 @@
 
                                     <a href="https://twitter.com/guanajoven?lang=es" style="text-decoration: none; ;" target="_blank">
 
-                                        <img alt="Guanajoven" class=" " src="https://wiki.videolan.org/images/Ubuntu-logo.png" style="border: 0; height: auto; max-width: 100%; vertical-align: middle; ;" width="102">
+                                        <img alt="Guanajoven" class=" " src="http://www.meetroopers.com/sites/default/files/styles/medium_white_bkg/public/imgs/comunidades/guanajoven.png?itok=eGemqsU6" style="border: 0; height: auto; max-width: 100%; vertical-align: middle; ;" width="102">
 
                                     </a>
 
