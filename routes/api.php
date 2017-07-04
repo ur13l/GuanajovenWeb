@@ -41,6 +41,12 @@ Route::group(['prefix' => 'usuarios'], function () {
     Route::post('actualizar-token-guanajoven', 'UserApiController@actualizarTokenGuanajoven');
 });
 
+Route::group(['prefix' => 'profile'], function () {
+    Route::post('update', 'ProfileApiController@updateProfile');
+    Route::post('get', 'ProfileApiController@getProfile');
+});
+
+
 Route::group(['prefix' => '/notificaciones'], function() {
     Route::post('/enviartoken', 'NotificacionesApiController@registrar');
     Route::post('/cancelartoken', 'NotificacionesApiController@cancelar');

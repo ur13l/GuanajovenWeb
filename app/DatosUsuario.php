@@ -82,6 +82,6 @@ class DatosUsuario extends Model {
     }
 
     public function idiomasAdicionales() {
-        return $this->belongsToMany('App\IdiomaAdicional', 'datos_usuario_idioma', 'id_datos_usuario', 'id_datos_usuario');
+        return $this->belongsToMany('App\IdiomaAdicional', 'datos_usuario_idioma','id_datos_usuario', 'id_idioma_adicional')->withPivot('conversacion','lectura','escritura');;
     }
 }

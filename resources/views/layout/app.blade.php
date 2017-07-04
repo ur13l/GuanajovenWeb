@@ -62,23 +62,23 @@
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 
                 <ul class="right hide-on-med-and-down">
-                    <li><a href="{{url('reportes')}}">Reportes</a></li>
+                  <!--  <li><a href="{{url('reportes')}}">Reportes</a></li>-->
+                    <li><a href="{{url('eventos')}}">Eventos</a></li>
                     <li><a href="{{url('usuarios')}}">Usuarios</a></li>
                     <li><a href="{{url('publicidad')}}">Publicidad</a></li>
                     <li><a href="{{url('convocatorias')}}">Convocatorias</a></li>
                     <li><a href="{{url('notificaciones')}}">Notificaciones</a></li>
-                    <li><a href="{{url('eventos')}}">Eventos</a></li>
-                    <li><a href="{{url('video')}}">Video</a></li>
-                    <li><a href="{{url('logout.php')}}">Cerrar sesión</a></li>
+                    <!--<li><a href="{{url('video')}}">Video</a></li>-->
+                    <li><a href="{{url('usuarios/logout')}}">Cerrar sesión</a></li>
                 </ul>
                 <ul class="side-nav" id="mobile-demo">
-                    <li><a href="{{url('reportes')}}">Reportes</a></li>
+                  <!--  <li><a href="{{url('reportes')}}">Reportes</a></li>-->
+                    <li><a href="{{url('eventos')}}">Eventos</a></li>
                     <li><a href="{{url('usuarios')}}">Usuarios</a></li>
                     <li><a href="{{url('publicidad')}}">Publicidad</a></li>
                     <li><a href="{{url('convocatorias')}}">Convocatorias</a></li>
                     <li><a href="{{url('notificaciones')}}">Notificaciones</a></li>
-                    <li><a href="{{url('eventos')}}">Eventos</a></li>
-                    <li><a href="{{url('video')}}">Video</a></li>
+                    <!--<li><a href="{{url('video')}}">Video</a></li>-->
                     <li><a href="{{url('logout.php')}}">Cerrar sesión</a></li>
                 </ul>
             </div>

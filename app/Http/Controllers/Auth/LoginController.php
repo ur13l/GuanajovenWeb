@@ -23,4 +23,10 @@ class LoginController extends Controller
             return view('index', ["errors" => ["Usuario o contraseña incorrecto"]]);
         }
     }
+
+    public function getlogout(){
+    Auth::logout();
+    return redirect('/');
+}
+
 }
