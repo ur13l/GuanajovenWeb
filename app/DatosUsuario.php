@@ -38,6 +38,8 @@ class DatosUsuario extends Model {
         'premios',
         'proyectos_sociales',
         'apoyo_proyectos_sociales',
+        'trabajo',
+        'id_programa_gobierno'
     ];
 
     //Relaciones

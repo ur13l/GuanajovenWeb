@@ -53,6 +53,8 @@ class ProfileApiController extends Controller {
         $premios = $request->input("premios");
         $proyectos_sociales = $request->input("proyectos_sociales");
         $apoyo_proyectos_sociales = $request->input("apoyo_proyectos_sociales");
+        $id_programa_beneficiario = $request->input("id_programa_beneficiario");
+        $trabaja = $request->input("trabaja");
         $idiomas = $request->input('idiomas');
         //$idiomas = \GuzzleHttp\json_decode($request->input('idiomas'));
       //  dd($idiomas[0]["id_datos_usuario"]);
@@ -70,7 +72,9 @@ class ProfileApiController extends Controller {
                 'id_capacidad_diferente' => $id_capacidad_diferente,
                 'premios' => $premios,
                 'proyectos_sociales' => $proyectos_sociales,
-                'apoyo_proyectos_sociales' => $apoyo_proyectos_sociales
+                'apoyo_proyectos_sociales' => $apoyo_proyectos_sociales,
+                'id_programa_beneficiario' => $id_programa_beneficiario,
+                'trabaja' => $trabaja
             ]);
 
 
@@ -91,15 +95,6 @@ class ProfileApiController extends Controller {
         if (count($datosUsuario->idiomasAdicionales) == 0){
          $datosUsuario->idiomasAdicionales()->attach($idiomas);
       }
-            $actualiza = $usuario->datosUsuario
-                ->update([
-                    'id_nivel_estudios' => $id_nivel_estudios,
-                    'id_pueblo_indigena' => $id_pueblo_indigena,
-                    'id_capacidad_diferente' => $id_capacidad_diferente,
-                    'premios' => $premios,
-                    'proyectos_sociales' => $proyectos_sociales,
-                    'apoyo_proyectos_sociales' => $apoyo_proyectos_sociales
-                ]);
 
         if (isset($actualiza)) {
         } else {
@@ -158,6 +153,8 @@ class ProfileApiController extends Controller {
                 "premios" => $datosUsuario->premios,
                 "proyectos_sociales" => $datosUsuario->proyectos_sociales,
                 "apoyo_proyectos_sociales" => $datosUsuario->apoyo_proyectos_sociales,
+                "id_programa_beneficiario" => $datosUsuario->id_programa_beneficiario,
+                "trabaja" => $datosUsuario->trabaja,
                 "idiomas" => $idiomas
             ];
           } else {
