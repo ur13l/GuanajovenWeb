@@ -9,7 +9,6 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
-        "abraham/twitteroauth": "^0.7.3",
         "artisaninweb/laravel-soap": "0.3.0.7",
         "genealabs/phpgmaps": "~0.3.0",
         "guzzlehttp/guzzle": "~6.0",
