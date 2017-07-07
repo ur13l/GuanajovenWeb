@@ -54,7 +54,7 @@ class ProfileApiController extends Controller {
         $proyectos_sociales = $request->input("proyectos_sociales");
         $apoyo_proyectos_sociales = $request->input("apoyo_proyectos_sociales");
         $id_programa_beneficiario = $request->input("id_programa_beneficiario");
-        $trabaja = $request->input("trabaja");
+        $trabajo = $request->input("trabajo");
         $idiomas = $request->input('idiomas');
         //$idiomas = \GuzzleHttp\json_decode($request->input('idiomas'));
       //  dd($idiomas[0]["id_datos_usuario"]);
@@ -74,7 +74,7 @@ class ProfileApiController extends Controller {
                 'proyectos_sociales' => $proyectos_sociales,
                 'apoyo_proyectos_sociales' => $apoyo_proyectos_sociales,
                 'id_programa_beneficiario' => $id_programa_beneficiario,
-                'trabaja' => $trabaja
+                'trabajo' => $trabajo
             ]);
 
 
