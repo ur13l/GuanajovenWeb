@@ -38,7 +38,7 @@ class DatosUsuario extends Model {
         'premios',
         'proyectos_sociales',
         'apoyo_proyectos_sociales',
-        'trabajo',
+        'trabaja',
         'id_programa_beneficiario'
     ];
 
