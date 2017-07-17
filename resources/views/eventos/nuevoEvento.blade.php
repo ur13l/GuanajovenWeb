@@ -33,6 +33,7 @@
                     <label for="descripcion">Descripción</label>
                 </div>
             </div>
+
             <div class="row">
                 <div class="input-field col s6">
                     <input id="fecha-inicio" type="text" class="datepicker vald" >

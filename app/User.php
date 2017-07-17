@@ -28,7 +28,8 @@ class User extends Authenticatable implements CanResetPassword {
         'id_google',
         'id_facebook',
         'password',
-        'admin'
+        'admin',
+        'puntaje'
     ];
 
     protected $hidden = [

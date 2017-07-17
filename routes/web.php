@@ -55,6 +55,31 @@ Route::group(['prefix' => 'convocatorias'], function() {
 });
 
 
+//Empresas
+Route::group(['prefix' => 'empresas'], function() {
+    Route::get('/', 'EmpresaController@index')->name('empresas');
+    Route::get('/nueva', 'EmpresaController@nueva');
+    Route::post('/eliminar', 'EmpresaController@eliminar');
+    Route::post('/crear', 'EmpresaController@crear');
+    Route::get('/editar/{id_empresa}', 'EmpresaController@vistaEditar');
+    Route::post('/editar', 'EmpresaController@editar');
+});
+
+//Promoción
+Route::group(['prefix' => 'promociones'], function() {
+    Route::post('/nueva', 'PromocionesController@crear');
+    Route::post('/editar', 'PromocionesController@editar');
+    Route::get('/eliminarPromocion/{id_promocion}/{id_empresa}', 'PromocionesController@eliminar');
+});
+
+//Chat
+Route::group(['prefix' => 'chat'], function() {
+      Route::get('/', 'ChatController@index')->name('chat');
+});
+
+
+
+
 //Notificaciones
 Route::group(['prefix' => 'notificaciones'], function() {
     Route::get('/', 'NotificacionesController@index')->name('notificaciones');
