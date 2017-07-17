@@ -26,7 +26,6 @@ class ConvocatoriaNotificacionController extends Controller
             $usuario = User::where('id', '=', $request->input('id_usuario'))->firstOrFail();
             $convocatoria = Convocatoria::where('id_convocatoria', '=', $request->input('id_convocatoria'))->firstOrFail();
             $datos_usuario = DatosUsuario::where('id_usuario', '=', $request->input('id_usuario'))->firstOrFail();
-
             $usuario->notify(new ConvocatoriaNotification($convocatoria, $datos_usuario));
         }
     }
