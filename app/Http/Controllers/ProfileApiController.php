@@ -81,6 +81,9 @@ class ProfileApiController extends Controller {
          DB::table('datos_usuario_idioma')->where('id_datos_usuario', '=', $datosUsuario->id_datos_usuario)->delete();
           //  $review->product()->detach()
         if (count($datosUsuario->idiomasAdicionales) == 0){
+        foreach ( $idiomas  as $idioma ){
+          $idioma["id_datos_usuario"] = $datosUsuario->id_datos_usuario;
+        }
          $datosUsuario->idiomasAdicionales()->attach($idiomas);
       }
 

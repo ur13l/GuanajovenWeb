@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Validator;
+use Illuminate\Support\Facades\DB;
 
 class UserApiController extends Controller {
     use AuthenticatesUsers;
@@ -396,6 +397,42 @@ class UserApiController extends Controller {
             'data' => $response
         ));
     }
+
+
+
+
+    /**
+     * public: getPosition
+     * Método que devuelve la posición del usuario
+     * @param api_token
+     * @return posicion
+     */
+    public function obtenerPosicion(Request $request) {
+         $usuario =  Auth::guard('api')->user();
+          $data = null;
+          $errors = [];
+          $position = 1;
+          $users = DB::table('usuario')
+                ->orderBy('puntaje', 'desc')
+                ->get();
+      foreach($users as $item  ){
+        if($item->email == $usuario->email){
+          break;
+        }
+        $position++;
+      }
+      return response()->json(array(
+          'success' => true,
+          'status' => 200,
+          'errors' => [],
+          'data' => $position
+      ));
+    }
+
+
+
+
+
 
 
     public function actualizarTokenGuanajoven(Request $request) {
