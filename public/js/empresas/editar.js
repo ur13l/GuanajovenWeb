@@ -4,15 +4,15 @@ $(function() {
 
 
 
-  $("#editar-button").click(function() {
-  id_promocion =   $($("#editar-button").parent().siblings()[0].children[0]).val();
-  codigo_promocion = $($("#editar-button").parent().siblings()[0].children[1]).val();
-  url_promocion = $($("#editar-button").parent().siblings()[0].children[2]).val();
-  bases = $($("#editar-button").parent().siblings()[0].children[3]).val();
-  titulo = $($("#editar-button").parent().siblings()[0]).text();
-  descripcion = $($("#editar-button").parent().siblings()[1]).text();
-  fecha_inicio = $($("#editar-button").parent().siblings()[2]).text();
-  fecha_fin = $($("#editar-button").parent().siblings()[3]).text();
+  $(".editar-button").click(function() {
+  id_promocion =   $($(this).parent().siblings()[0].children[0]).val();
+  codigo_promocion = $($(this).parent().siblings()[0].children[1]).val();
+  url_promocion = $($(this).parent().siblings()[0].children[2]).val();
+  bases = $($(this).parent().siblings()[0].children[3]).val();
+  titulo = $($(this).parent().siblings()[0]).text();
+  descripcion = $($(this).parent().siblings()[1]).text();
+  fecha_inicio = $($(this).parent().siblings()[2]).text();
+  fecha_fin = $($(this).parent().siblings()[3]).text();
   titulo = titulo.replace(/\s/g, '');
     $("#editPromocion").openModal();
     $("#editid_promocion").val(id_promocion);
