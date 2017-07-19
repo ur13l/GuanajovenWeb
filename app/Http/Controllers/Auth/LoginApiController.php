@@ -18,6 +18,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Query\Builder;
+
 
 class LoginApiController extends Controller
 {
@@ -34,11 +37,16 @@ class LoginApiController extends Controller
         $data = null;
         $user = User::where("email", $correo)->first();
 
+
+
         if (isset($user) && $user->id_facebook == null && $user->id_google == null) {
             if (Auth::once(['email' => $correo, 'password' => $password])) {
                 $usuario = User::with('datosUsuario')
                     ->with('codigoGuanajoven')
                     ->find(Auth::user()->id);
+
+                $usuario->{"posicion"} = $this->getPosicion($correo);
+
                 return response()->json([
                     "success" => true,
                     "errors" => [],
@@ -80,6 +88,9 @@ class LoginApiController extends Controller
                 $data = User::with('datosUsuario')
                     ->with('codigoGuanajoven')
                     ->find(Auth::user()->id);
+
+                $data->{"posicion"} = $this->getPosicion($correo);
+
                 return response()->json([
                     "success" => true,
                     "errors" => [],
@@ -120,6 +131,10 @@ class LoginApiController extends Controller
                 $data = User::with('datosUsuario')
                     ->with('codigoGuanajoven')
                     ->find(Auth::user()->id);
+
+                $data->{"posicion"} = $this->getPosicion($correo);
+
+
                 return response()->json([
                     "success" => true,
                     "errors" => [],
@@ -142,5 +157,20 @@ class LoginApiController extends Controller
                 "data" => []
             ]);
         }
+    }
+
+    //Función para calcular la posicion de l usuario en la app
+    private function getPosicion($correo) {
+        $posicion = 1;
+        $users = DB::table('usuario')->orderBy('puntaje','desc')->get();
+
+        foreach ($users as $item) {
+            if ($item->email == $correo) {
+                break;
+            }
+            $posicion++;
+        }
+
+        return $posicion;
     }
 }
