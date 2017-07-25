@@ -47,10 +47,7 @@ class EventosController extends Controller {
         $longitud = explode(')', $posicion[1])[0];
 
         $client = new \GuzzleHttp\Client();
-        $resource = $client->request('GET', 'https://maps.googleapis.com/maps/api/geocode/json?latlng='. $latitud .','. $longitud .'&sensor=true
-', [
-            'authorization' => 'AIzaSyChdU2DQQlWDiLdCYypAiqGqjYEKsk11Ts'
-        ]);
+        $resource = $client->get('https://maps.googleapis.com/maps/api/geocode/json?latlng='. $latitud .','. $longitud .'&sensor=false');
         dd($resource);
     }
 
