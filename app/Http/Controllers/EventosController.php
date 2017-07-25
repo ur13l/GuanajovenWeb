@@ -8,83 +8,50 @@ use App\TipoEvento;
 use Illuminate\Http\Request;
 
 class EventosController extends Controller {
-    public function index(Request $request) {
-        return view('eventos.index');
+
+    /**
+     * Función que retorna la vista de inicio con los eventos próximos
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index() {
+        $eventos = Evento::proximos()->paginate(10);
+
+        return view('eventos.index', ['eventos' => $eventos]);
     }
 
-    public function nuevoEvento(Request $request) {
+    /**
+     * Función que muestra la vista para un nuevo evento
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function nuevo() {
         $tipos = TipoEvento::all();
-        return view('eventos.nuevoEvento', array('tipos' => $tipos));
+
+        return view('eventos.nuevo', ['tipos' => $tipos]);
     }
 
-    public function guardarEvento(Request $request) {
-        $action = $request->input('action');
+    public function guardar(Request $request) {
+        $titulo = $request->input('titulo');
+        $descripcion = $request->input('descripcion');
+        $fechaInicio = $request->input('fecha_inicio');
+        $fechaFin = $request->input('fecha_fin');
+        $horaInicio = $request->input('hora_inicio');
+        $horaFin = $request->input('hora_fin');
+        $tipoEvento = $request->input('tipo-seleccionado');
+        $posicion = explode(', ', $request->input('posicion'));
+        $puntos = $request->input('puntos-otorgados');
+        $area = $request->input('area-responsable');
+        $direccion = null;
 
-        switch ($action) {
-            case 'create':
-                $titulo = $request->input('titulo');
-                $descripcion = $request->input('descripcion');
-                $fechaInicio = $request->input('fecha_inicio');
-                $fechaFin = $request->input('fecha_fin');
-                $tipo = $request->input('tipo');
+        $latitud = explode('(', $posicion[0])[1];
+        $longitud = explode(')', $posicion[1])[0];
 
-                $evento = Evento::create([
-                    'titulo' => $titulo,
-                    'descripcion' => $descripcion,
-                    'fecha_inicio' => $fechaInicio,
-                    'fecha_fin' => $fechaFin,
-                    'id_tipo_evento' => $tipo,
-                    'latitud'
-                ]);
-
-                $consulta = "INSERT INTO evento VALUES (0,'$titulo', '$descripcion', '$fechaInicio', '$fechaFin', '$tipo', now(), 1)";
-                mysqli_query($conexion, $consulta);
-                echo '{"success":"true"}';
-                break;
-            case 'update':
-                $id = $_POST['id'];
-                $titulo = $_POST['titulo'];
-                $descripcion = $_POST['descripcion'];
-                $fechaInicio = $_POST['fecha_inicio'];
-                $fechaFin = $_POST['fecha_fin'];
-                $tipo = $_POST['tipo'];
-                $consulta = "UPDATE evento SET titulo='$titulo', descripcion='$descripcion', fecha_inicio='$fechaInicio', fecha_fin='$fechaFin', tipo='$tipo', fecha_actualizacion=now()
-              WHERE id_evento = '$id'";
-                mysqli_query($conexion, $consulta);
-                echo '{"success":"true"}';
-                break;
-            case 'read':
-                $page = $_POST['page'];
-                $min = $page * 10;
-                $consulta = "SELECT * FROM evento WHERE estado = 1 ORDER BY
-      CASE WHEN fecha_inicio > NOW() THEN 1
-           WHEN fecha_inicio < NOW() THEN 2
-      END ASC, fecha_inicio LIMIT $min, 10";
-                $result = mysqli_query($conexion, $consulta);
-                $arr = array();
-                while($row = mysqli_fetch_assoc($result)){
-                    array_push($arr, $row);
-                }
-                echo json_encode($arr);
-                break;
-            case 'count':
-                $consulta = "SELECT COUNT(id_evento) as pages FROM evento WHERE estado=1";
-                $result = mysqli_query($conexion, $consulta);
-                $row = mysqli_fetch_array($result);
-                echo json_encode($row);
-                break;
-            case 'delete':
-                $ids = json_decode($_POST['ids']);
-                for($i = 0 ; $i < count($ids) ; $i++){
-                    $consulta = "UPDATE evento SET estado=0, fecha_actualizacion=now() WHERE id_evento = '".$ids[$i]."'";
-                    $result = mysqli_query($conexion, $consulta);
-                }
-                echo '{"success":"true"}';
-                break;
-        }
+        $client = new \GuzzleHttp\Client();
+        $resource = $client->request('GET', 'https://maps.googleapis.com/maps/api/geocode/json?latlng='. $latitud .','. $longitud .'&sensor=true
+', [
+            'authorization' => 'AIzaSyChdU2DQQlWDiLdCYypAiqGqjYEKsk11Ts'
+        ]);
+        dd($resource);
     }
 
-    public function editarEvento(Request $request) {
-        return view('eventos.editarEvento');
-    }
 }

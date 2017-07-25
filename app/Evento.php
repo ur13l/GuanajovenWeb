@@ -26,10 +26,16 @@ class Evento extends Model {
         'fecha_fin',
         'id_tipo_evento',
         'latitud',
-        'longitud'
+        'longitud',
+        'puntos_otorgados',
+        'area_responsable'
     ];
 
     public function tipoEvento() {
         return $this->hasOne('App\TipoEvento', 'id_tipo_evento');
+    }
+
+    public function scopeProximos($query) {
+        return $query->orderBy('fecha_inicio', 'desc');
     }
 }

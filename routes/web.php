@@ -95,13 +95,15 @@ Route::get('/historial', 'HistorialController@index');
 Route::get('/reportes', 'ReportesController@index');
 //Usuarios
 Route::get('/usuarios', 'UsuariosController@index');
+
 //Eventos
 Route::group(['prefix' => 'eventos'], function () {
     Route::get('/inicio', 'EventosController@index');
-    Route::get('/nuevo', 'EventosController@nuevoEvento');
-    Route::get('/editar', 'EventosController@editarEvento');
-    Route::post('/guardar', 'EventosController@guardarEvento');
+    Route::get('/nuevo', 'EventosController@nuevo');
+    Route::get('/editar', 'EventosController@editar');
+    Route::post('/guardar', 'EventosController@guardar');
 });
+
 //Video
 Route::get('/video', 'VideoController@index');
 

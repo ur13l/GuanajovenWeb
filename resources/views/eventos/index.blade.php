@@ -28,13 +28,17 @@
             </thead>
 
             <tbody id="tabla-eventos">
-
+                @foreach($eventos as $evento)
+                    @include('eventos.vistaEvento', ['evento' => $evento])
+                @endforeach
             </tbody>
         </table>
     </div>
 
 
-    <ul id="pagination-demo" class="pagination-sm"></ul>
+    <div class="paginacion">
+        {{ $eventos->links() }}
+    </div>
 
     <!-- Modal Structure -->
     <div id="modal1" class="modal">
