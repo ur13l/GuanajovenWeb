@@ -161,5 +161,4 @@ class EventosController extends Controller {
             ]);
         }
     }
-
 }

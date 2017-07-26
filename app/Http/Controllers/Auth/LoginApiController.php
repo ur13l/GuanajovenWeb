@@ -32,13 +32,11 @@ class LoginApiController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function login(Request $request) {
+        $medio ="";
         $correo = $request->input("email");
         $password = $request->input("password");
         $data = null;
         $user = User::where("email", $correo)->first();
-
-
-
         if (isset($user) && $user->id_facebook == null && $user->id_google == null) {
             if (Auth::once(['email' => $correo, 'password' => $password])) {
                 $usuario = User::with('datosUsuario')
@@ -56,15 +54,21 @@ class LoginApiController extends Controller
             } else {
                 return response()->json([
                     "success" => false,
-                    "errors" => ["User o contraseña incorrectos"],
+                    "errors" => ["Usuario o contraseña incorrectos"],
                     "status" => 500,
-                    "data" => $usuario
+                    "data" => []
                 ]);
             }
         } else {
+          if($user->id_facebook != null){
+            $medio = "Facebook";
+          }
+          if($user->id_google != null){
+            $medio = "Google";
+          }
             return response()->json([
                 "success" => false,
-                "errors" => ["Ya se ha iniciado sesión de otra manera"],
+                "errors" => ["Parece que esta cuenta ya ha sido registrada con ".$medio],
                 "status" => 200,
                 "data" => []
             ]);
