@@ -2,16 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\DatosUsuario;
-use App\NotificacionConvocatoria;
 use Illuminate\Http\Request;
-use App\User;
-use App\Convocatoria;
-use App\Notifications\ConvocatoriaNotification;
 
-class ConvocatoriaNotificacionController extends Controller
-{
-
+class EventoNotificacionController extends Controller {
+    //TODO: Modificar este archivo para la parte de Eventos
     public function enviarNotificacion(Request $request) {
         $id_usuario = $request->input('id_usuario');
         $id_convocatoria = $request->input('id_convocatoria');
@@ -28,5 +22,4 @@ class ConvocatoriaNotificacionController extends Controller
             $usuario->notify(new ConvocatoriaNotification($convocatoria, $datos_usuario));
         }
     }
-
 }
