@@ -10,7 +10,6 @@ class Chat extends Model
     protected $table = 'chat';
       protected $primaryKey = 'id_chat';
       use SoftDeletes;
-      use Notifiable;
 
 
       protected $fillable = [
@@ -22,4 +21,12 @@ class Chat extends Model
           'deleted_at'
       ];
 
+
+    public function usuario() {
+        return $this->belongsTo('App\Usuario', 'id_usuario', 'id');
+    }
+
+    public function mensajes() {
+        return $this->hasMany('App\Mensaje', 'id_chat', 'id_chat');
+    }
 }

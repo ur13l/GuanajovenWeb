@@ -1,22 +1,4 @@
 <?php
-<<<<<<< HEAD
-
-namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-use Illuminate\Mail\Message;
-
-class ChatController extends Controller
-{
-
-    public function index() {
-        return view('chat');
-    }
-
-    public function obtenerMensajes() {
-
-    }
-=======
 /*
   Autor: Leonardo Lira Becerra.
   Descripción: Controlador para vista de Convocatorias.
@@ -49,6 +31,5 @@ class ChatController {
 
 
 
->>>>>>> 08a5c7d387d3954b472ce64b774ffb905423f01e
 
 }

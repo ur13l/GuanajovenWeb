@@ -55,3 +55,10 @@ Route::group(['prefix' => '/notificaciones'], function() {
     Route::post('/convocatoria', 'ConvocatoriaNotificacionController@enviarNotificacion');
     Route::any('/convocatoria/registrada', 'EnviarCorreosApiController@index')->name('convocatoria.registrada');
 });
+
+
+Route::group(['prefix' => '/chat'], function() {
+    Route::post('/enviar', 'ChatApiController@enviar');
+    Route::post('/mensajes', 'ChatApiController@mensajes');
+    Route::post('/enviarAdmin', 'ChatApiController@enviarAdmin');
+});
