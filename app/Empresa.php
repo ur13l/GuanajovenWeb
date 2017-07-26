@@ -4,12 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Notifications\Notifiable;
 
 class Empresa extends Model
 {
     use SoftDeletes;
-    use Notifiable;
 
     protected $table = "empresa";
     protected $primaryKey = "id_empresa";
@@ -31,6 +29,6 @@ class Empresa extends Model
         'deleted_at'
     ];
 
-  
+
 
 }
