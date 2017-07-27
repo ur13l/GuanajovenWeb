@@ -23,10 +23,14 @@ class Chat extends Model
 
 
     public function usuario() {
-        return $this->belongsTo('App\Usuario', 'id_usuario', 'id');
+        return $this->belongsTo('App\User', 'id_usuario', 'id');
     }
 
     public function mensajes() {
         return $this->hasMany('App\Mensaje', 'id_chat', 'id_chat');
+    }
+
+    public function ultimoMensaje() {
+        
     }
 }

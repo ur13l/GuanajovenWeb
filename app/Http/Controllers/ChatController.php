@@ -8,9 +8,7 @@
 namespace App\Http\Controllers;
 
 
-use App\Empresa;
-use App\Documento;
-use App\Formato;
+use App\Chat;
 use App\Utils\FileUtils;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
@@ -26,7 +24,8 @@ class ChatController {
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request) {
-        return view('chat.index');
+        $chats = Chat::paginate(30);
+        return view('chat.index', ['chats' => $chats] );
     }
 
 

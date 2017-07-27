@@ -124,10 +124,7 @@ class NotificacionesController extends Controller {
         //Generación del mensaje.
         $message = array(
             'title' => $titulo,
-            'body' => json_encode(array(
-                "message" => $mensaje,
-                "type" => "notification"
-            )),
+            'body' => $mensaje,
             'link_url' => $enlace,
             'sound' => 'default',
             'priority' => 'high',

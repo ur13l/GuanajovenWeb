@@ -32,10 +32,7 @@ class ChatApiController extends Controller
         //Generación del mensaje.
                 $message = array(
                     'title' => "Nuevo mensaje",
-                    'body' => json_encode(array(
-                        "message" => $mensaje->mensaje,
-                        "type" => "chat"
-                    )),
+                    'body' => $mensaje->mensaje,
                     'link_url' => null,
                     'sound' => 'default',
                     'priority' => 'high',
@@ -73,10 +70,7 @@ class ChatApiController extends Controller
         //Generación del mensaje.
                 $message = array(
                     'title' => "Nuevo mensaje",
-                    'body' => json_encode(array(
-                        "message" => $mensaje->mensaje,
-                        "type" => "chat"
-                    )),
+                    'body' => $mensaje->mensaje,
                     'link_url' => null,
                     'sound' => 'default',
                     'priority' => 'high',
