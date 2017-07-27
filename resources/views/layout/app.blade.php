@@ -55,6 +55,7 @@
         @yield('head')
     </head>
     <body style="background: #f1f1f1" id="body">
+    <input type="hidden" id="_url" value="{{ url('/') }}">
         <!--Barra de navegación-->
         <nav>
             <div class="nav-wrapper primary-color">

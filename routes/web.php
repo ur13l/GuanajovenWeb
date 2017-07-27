@@ -100,8 +100,9 @@ Route::get('/usuarios', 'UsuariosController@index');
 Route::group(['prefix' => 'eventos'], function () {
     Route::get('/inicio', 'EventosController@index');
     Route::get('/nuevo', 'EventosController@nuevo');
-    Route::get('/editar', 'EventosController@editar');
-    Route::post('/guardar', 'EventosController@guardar');
+    Route::post('/editar/{idEvento}', 'EventosController@editar');
+    Route::post('/eliminar', 'EventosController@eliminar');
+    Route::post('/guardar/{idEvento}', 'EventosController@guardar');
 });
 
 //Video

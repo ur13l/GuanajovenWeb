@@ -238,7 +238,7 @@
 
                                                 <p style="margin: 20px 0;; font-size: 14px; mso-line-height-rule: exactly; line-height: 24px; margin: 30px 0;; ;">
 
-                                                    <span style="font-weight: bold;;">Nuevo registro para la convocatoria: {{ $nombre_convocatoria }}</span>
+                                                    <span style="font-weight: bold;;">Nuevo registro para {{ $tipo }}}: {{ $titulo }}</span>
 
                                                 </p>
 

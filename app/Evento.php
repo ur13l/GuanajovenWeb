@@ -19,12 +19,12 @@ class Evento extends Model {
     ];
 
     protected $fillable = [
-        'id_evento',
         'titulo',
         'descripcion',
         'fecha_inicio',
         'fecha_fin',
         'id_tipo_evento',
+        'direccion',
         'latitud',
         'longitud',
         'puntos_otorgados',
