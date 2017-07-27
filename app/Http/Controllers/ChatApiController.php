@@ -51,7 +51,15 @@ class ChatApiController extends Controller
     public function mensajes (Request $request) {
         $user = Auth::guard('api')->user();
         $chat = Chat::where('id_usuario', $user->id)->get()->first();
-        return $chat->mensajes()->orderBy('created_at', 'desc')->paginate(20);
+        return response()->json(
+            array(
+                'data' => $chat->mensajes()->orderBy('created_at', 'desc')->paginate(20),
+                'success' => true, 
+                'status' => 200,
+                'errors' => []
+            )
+        );
+            
     }
 
 
