@@ -58,7 +58,7 @@ class EnviarCorreosApiController extends Controller
     }
 
     //En caso de ser un email de Eventos
-    public function guardarVariables(Request $request) {
+    public function guardarVariablesEvento(Request $request) {
         $this->id_usuario = $request->get('id_usuario');
         $this->idEvento = $request->get('id_evento');
         $this->curp_usuario = $request->get('curp_usuario');

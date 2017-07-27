@@ -52,7 +52,7 @@ class EventoNotificacion extends Notification {
             ->line('Con fechas de: '.$this->evento->fecha_inicio.' a '.$this->evento->fecha_fin.'.')
             ->line('Si estas de acuerdo con ello, favor de oprimir el boton de aceptar, caso contrario has caso omiso a este mensaje.')
             //ingresamos a la url correspondiente con los parametros
-            ->action('Aceptar', route('convocatoria.registrada', array(
+            ->action('Aceptar', route('evento.registrado', array(
                 'id_usuario' => $idUsuario ,
                 'id_evento' => $idEvento,
                 'curp_usuario' => $curpUsuario,
