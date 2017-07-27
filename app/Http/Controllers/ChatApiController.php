@@ -53,10 +53,10 @@ class ChatApiController extends Controller
         $chat = Chat::where('id_usuario', $user->id)->get()->first();
         return response()->json(
             array(
-                'data' => $chat->mensajes()->orderBy('created_at', 'desc')->paginate(20),
                 'success' => true, 
                 'status' => 200,
-                'errors' => []
+                'errors' => [],
+                'data' => $chat->mensajes()->orderBy('created_at', 'desc')->paginate(20)
             )
         );
             
