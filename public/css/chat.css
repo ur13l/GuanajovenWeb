@@ -2,6 +2,10 @@
     height: 100%;
 }
 
+.nav-wrapper {
+    z-index:9999;
+}
+
 .campo_mensaje {
     position: fixed;
     bottom: 0;
@@ -13,8 +17,9 @@
     width:68%;
     position:fixed;
 }
-.contenedor-mensajes {
+.campo-mensaje {
     position:fixed;
     bottom: 0;
+    width:68%;
     right:0;
 }

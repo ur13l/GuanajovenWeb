@@ -54,7 +54,7 @@
             <div class="primary-color lienzo">
 
             </div>
-            <div class="campo_mensaje">
+            <div class="campo-mensaje">
                 <form id="form_enviar">
                     <input id="mensaje" name="mensaje" type="text">   
                 </form>
