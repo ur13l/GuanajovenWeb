@@ -1,0 +1,20 @@
+.lienzo, .contenedor-mensajes {
+    height: 100%;
+}
+
+.campo_mensaje {
+    position: fixed;
+    bottom: 0;
+}
+
+.lienzo {
+    bottom: 0;
+    right: 0;
+    width:68%;
+    position:fixed;
+}
+.contenedor-mensajes {
+    position:fixed;
+    bottom: 0;
+    right:0;
+}

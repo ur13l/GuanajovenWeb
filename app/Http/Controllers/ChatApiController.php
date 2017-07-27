@@ -38,7 +38,7 @@ class ChatApiController extends Controller
                     'priority' => 'high',
                     'category' => 'URL_CATEGORY',
                     'tag' => null);
-        NotificationUtils::sendNotification($tokens, $message, 'notification');
+        NotificationsUtils::sendNotification($tokens, $message, 'notification');
 
         return response()->json(array(
             'success' => true,
@@ -53,10 +53,10 @@ class ChatApiController extends Controller
         $chat = Chat::where('id_usuario', $user->id)->get()->first();
         return response()->json(
             array(
-                'data' => $chat->mensajes()->orderBy('created_at', 'desc')->paginate(20),
                 'success' => true, 
                 'status' => 200,
-                'errors' => []
+                'errors' => [],
+                'data' => $chat->mensajes()->orderBy('created_at', 'desc')->paginate(20)
             )
         );
             
