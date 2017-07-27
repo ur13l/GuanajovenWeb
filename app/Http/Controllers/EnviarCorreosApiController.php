@@ -74,7 +74,7 @@ class EnviarCorreosApiController extends Controller
         if ($notificaciones > 0) {
             return view('correos.CorreoUsuarioListo', ['titulo' => $this->nombreEvento]);
         } else {
-            return $this->enviarCorreoEvento($this->id_usuario, $this->idEvento, $this->curp_usuario, $this->nombreEvento);
+            $this->enviarCorreoEvento($this->id_usuario, $this->idEvento, $this->curp_usuario, $this->nombreEvento);
         }
     }
 
