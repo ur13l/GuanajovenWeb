@@ -38,7 +38,7 @@ class ChatApiController extends Controller
                     'priority' => 'high',
                     'category' => 'URL_CATEGORY',
                     'tag' => null);
-        NotificationUtils::sendNotification($tokens, $message, 'notification');
+        NotificationsUtils::sendNotification($tokens, $message, 'notification');
 
         return response()->json(array(
             'success' => true,
