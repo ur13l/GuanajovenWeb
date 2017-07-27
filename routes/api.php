@@ -27,6 +27,7 @@ Route::get('/convocatorias', 'ConvocatoriaApiController@obtenerConvocatorias');
 Route::get('/promociones', 'PromocionesApiController@obtenerEmpresasPromociones');
 Route::get('/regiones', 'RegionApiController@obtenerRegiones');
 Route::get('/eventos','EventoApiController@obtenerEventos');
+Route::post('/eventos/marcar','EventoApiController@marcarEvento');
 Route::get('/notificacionres', 'NotificacionesApiController@obtenerNotificaciones');
 
 

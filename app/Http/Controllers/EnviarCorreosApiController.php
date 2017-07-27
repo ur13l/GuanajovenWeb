@@ -82,6 +82,7 @@ class EnviarCorreosApiController extends Controller
         $registro = new NotificacionEvento();
         $registro->id_usuario = $idUsuario;
         $registro->id_evento = $idEvento;
+        $registro->le_interesa = 1;
         $registro->save();
 
         Mail::send('correos.CorreoGuanajovenEnviado', [
