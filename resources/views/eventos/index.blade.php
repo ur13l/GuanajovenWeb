@@ -17,7 +17,7 @@
         <table class="highlight">
             <thead>
             <tr>
-                <th data-field="check"></th>
+                <!--<th data-field="check"></th>-->
                 <th data-field="titulo">Título</th>
                 <th data-field="descripcion">Descripción</th>
                 <th data-field="fecha_inicio">Inicia</th>
@@ -28,13 +28,17 @@
             </thead>
 
             <tbody id="tabla-eventos">
-
+                @foreach($eventos as $evento)
+                    @include('eventos.vistaEvento', ['evento' => $evento])
+                @endforeach
             </tbody>
         </table>
     </div>
 
 
-    <ul id="pagination-demo" class="pagination-sm"></ul>
+    <div class="paginacion">
+        {{ $eventos->links() }}
+    </div>
 
     <!-- Modal Structure -->
     <div id="modal1" class="modal">

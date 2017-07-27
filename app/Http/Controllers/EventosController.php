@@ -5,86 +5,160 @@ namespace App\Http\Controllers;
 
 use App\Evento;
 use App\TipoEvento;
+use Carbon\Carbon;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
 class EventosController extends Controller {
-    public function index(Request $request) {
-        return view('eventos.index');
+
+    public $meses = [
+        'Enero' => '01',
+        'Febrero' => '02',
+        'Marzo' => '03',
+        'Abril' => '04',
+        'Mayo' => '05',
+        'Junio' => '06',
+        'Julio' => '07',
+        'Agosto' => '08',
+        'Septiembre' => '09',
+        'Octubre' => '10',
+        'Noviembre' => '11',
+        'Diciembre' => '12',
+    ];
+
+    /**
+     * Función que retorna la vista de inicio con los eventos próximos
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index() {
+        $eventos = Evento::proximos()->paginate(10);
+
+        return view('eventos.index', ['eventos' => $eventos]);
     }
 
-    public function nuevoEvento(Request $request) {
+    /**
+     * Función que muestra la vista para un nuevo evento
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function nuevo() {
         $tipos = TipoEvento::all();
-        return view('eventos.nuevoEvento', array('tipos' => $tipos));
+        $evento = new Evento();
+
+        $evento->titulo = '';
+        $evento->descripcion = '';
+        $evento->fecha_inicio = Carbon::now();
+        $evento->fecha_fin = Carbon::tomorrow();
+        $evento->id_tipo_evento = 1;
+        $evento->latitud = 0;
+        $evento->longitud = 0;
+        $evento->direccion = '';
+        $evento->puntos_otorgados = 0;
+        $evento->area_responsable = '';
+        $evento->save();
+
+        return view('eventos.nuevo', ['tipos' => $tipos, 'evento' => $evento]);
     }
 
-    public function guardarEvento(Request $request) {
-        $action = $request->input('action');
+    /**
+     * Función para guardar un nuevo evento
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function guardar(Request $request, $idEvento) {
+        $titulo = $request->input('titulo');
+        $descripcion = $request->input('descripcion');
+        $fechaI = $request->input('fecha_inicio');
+        $fechaF = $request->input('fecha_fin');
+        $horaI = $request->input('hora_inicio');
+        $horaF = $request->input('hora_fin');
+        $tipoEvento = $request->input('tipo-seleccionado');
+        $posicion = explode(', ', $request->input('posicion'));
+        $puntos = $request->input('puntos-otorgados');
+        $area = $request->input('area-responsable');
 
-        switch ($action) {
-            case 'create':
-                $titulo = $request->input('titulo');
-                $descripcion = $request->input('descripcion');
-                $fechaInicio = $request->input('fecha_inicio');
-                $fechaFin = $request->input('fecha_fin');
-                $tipo = $request->input('tipo');
+        //Obtener latitud y longitud
+        $latitud = explode('(', $posicion[0])[1];
+        $longitud = explode(')', $posicion[1])[0];
 
-                $evento = Evento::create([
-                    'titulo' => $titulo,
-                    'descripcion' => $descripcion,
-                    'fecha_inicio' => $fechaInicio,
-                    'fecha_fin' => $fechaFin,
-                    'id_tipo_evento' => $tipo,
-                    'latitud'
-                ]);
+        //Petición a Google para obtener la dirección a partir de latitud y longitud
+        $client = new Client();
+        $resource = $client->get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $latitud . ',' . $longitud . '&sensor=true');
+        $resultado = json_decode($resource->getBody());
+        $direccion = $resultado->results[0]->formatted_address;
 
-                $consulta = "INSERT INTO evento VALUES (0,'$titulo', '$descripcion', '$fechaInicio', '$fechaFin', '$tipo', now(), 1)";
-                mysqli_query($conexion, $consulta);
-                echo '{"success":"true"}';
-                break;
-            case 'update':
-                $id = $_POST['id'];
-                $titulo = $_POST['titulo'];
-                $descripcion = $_POST['descripcion'];
-                $fechaInicio = $_POST['fecha_inicio'];
-                $fechaFin = $_POST['fecha_fin'];
-                $tipo = $_POST['tipo'];
-                $consulta = "UPDATE evento SET titulo='$titulo', descripcion='$descripcion', fecha_inicio='$fechaInicio', fecha_fin='$fechaFin', tipo='$tipo', fecha_actualizacion=now()
-              WHERE id_evento = '$id'";
-                mysqli_query($conexion, $consulta);
-                echo '{"success":"true"}';
-                break;
-            case 'read':
-                $page = $_POST['page'];
-                $min = $page * 10;
-                $consulta = "SELECT * FROM evento WHERE estado = 1 ORDER BY
-      CASE WHEN fecha_inicio > NOW() THEN 1
-           WHEN fecha_inicio < NOW() THEN 2
-      END ASC, fecha_inicio LIMIT $min, 10";
-                $result = mysqli_query($conexion, $consulta);
-                $arr = array();
-                while($row = mysqli_fetch_assoc($result)){
-                    array_push($arr, $row);
-                }
-                echo json_encode($arr);
-                break;
-            case 'count':
-                $consulta = "SELECT COUNT(id_evento) as pages FROM evento WHERE estado=1";
-                $result = mysqli_query($conexion, $consulta);
-                $row = mysqli_fetch_array($result);
-                echo json_encode($row);
-                break;
-            case 'delete':
-                $ids = json_decode($_POST['ids']);
-                for($i = 0 ; $i < count($ids) ; $i++){
-                    $consulta = "UPDATE evento SET estado=0, fecha_actualizacion=now() WHERE id_evento = '".$ids[$i]."'";
-                    $result = mysqli_query($conexion, $consulta);
-                }
-                echo '{"success":"true"}';
-                break;
+        //Formatear fechas con horas
+        $fechaI = explode(' ', $fechaI);
+        $horaI = explode(':', $horaI);
+        $anioI = $fechaI[2];
+        $mesI = rtrim($fechaI[1], ',');
+        $mesI = $this->meses[$mesI];
+        $diaI = $fechaI[0];
+        $horaIn = $horaI[0];
+        $MinIn = $horaI[1];
+
+
+        $fechaF = explode(' ', $fechaF);
+        $horaF = explode(':', $horaF);
+        $anioF = $fechaF[2];
+        $mesF = rtrim($fechaF[1], ',');
+        $mesF = $this->meses[$mesF];
+        $diaF = $fechaF[0];
+        $horaFn = $horaF[0];
+        $MinFn = $horaF[1];
+
+        $fechaInicio = Carbon::create($anioI, $mesI, $diaI, $horaIn, $MinIn, 0);
+        $fechaFin = Carbon::create($anioF, $mesF, $diaF, $horaFn, $MinFn, 0);
+
+        //Guardar evento
+        $evento = Evento::find($idEvento);
+
+        $evento->titulo = $titulo;
+        $evento->descripcion = $descripcion;
+        $evento->fecha_inicio = $fechaInicio->toDateTimeString();
+        $evento->fecha_fin = $fechaFin->toDateTimeString();
+        $evento->id_tipo_evento = $tipoEvento;
+        $evento->latitud = $latitud;
+        $evento->longitud = $longitud;
+        $evento->direccion = $direccion;
+        $evento->puntos_otorgados = $puntos;
+        $evento->area_responsable = $area;
+
+        try {
+            $evento->save();
+            return redirect()->to('/eventos/inicio');
+        } catch(\Exception $ex) {
+            $tipos = TipoEvento::all();
+
+            return view('eventos.nuevo', ['tipos' => $tipos, 'mensaje' => 'Ocurrió un error al guardar el evento']);
         }
     }
 
-    public function editarEvento(Request $request) {
-        return view('eventos.editarEvento');
+    /**
+     * Función para la edición de los detalles de un evento
+     * @param $idEvento
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function editar($idEvento) {
+        $evento = Evento::find($idEvento);
+        $tipos = TipoEvento::all();
+
+        return view('eventos.editar', ['tipos' => $tipos, 'evento' => $evento]);
+    }
+
+    public function eliminar(Request $request) {
+        $idEvento = $request->input('idEvento');
+        $evento = Evento::find($idEvento);
+
+        try {
+            $evento->delete();
+            return response()->json([
+                'status' => 200
+            ]);
+        } catch (\Exception $ex) {
+            return response()->json([
+                'status' => 500
+            ]);
+        }
     }
 }

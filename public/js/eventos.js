@@ -1,314 +1,3 @@
-var action;
-var id;
-var eventos;
-var paginaActiva = 0;
-var eliminarIds;
-var url = $("#url").val() + '/eventos/guardarEvento';
-
-
-/**
- * Función que valida si un campo de texto está vacío, marca el error en la interfaz.
- * @param  input: Recibe el elemento visible que contiene el texto.
- * @return {Boolean} true si el campo está vacío, false de lo contrario.
- */
-function isEmpty(input){
-    if(input.val().length > 0){
-      return false;
-    }
-    else {
-      input.addClass("invalid");
-    }
-}
-
-/**
- * N
- * @param  {[type]} select [description]
- * @return {[type]}        [description]
- */
-function noOpcion(select){
-  if(select.val()){
-    return false;
-  }
-  else {
-    select.css({'border-color':'#EA454B','box-shadow':'0 1px 0 0 #EA454B'});
-  }
-}
-
-/**
- * Compara si la primera fecha es menor a la segunda.
- * @param  inputF1: Fecha de inicio
- * @param  inputH1: Hora de inicio
- * @param  inputF2: Fecha de finalización
- * @param  inputH2: Hora de finalización
- * @return {Boolean} true si las fechas son válidas, false de lo contrario
- */
-function compararFechas(inputF1, inputH1, inputF2, inputH2){
-    console.log("Compara fechas");
-    var fInicio = inputF1.val();
-    var hInicio = inputH1.val();
-    var fFin = inputF2.val();
-    var hFin = inputH2.val();
-
-
-    var f1 = moment(fInicio + " " + hInicio, "DD/MM/YYYY HH:mm");
-    var f2 = moment(fFin + " " + hFin, "DD/MM/YYYY HH:mm");
-
-    if (f1.isAfter(f2)){
-      inputF2.addClass("invalid");
-      inputH2.addClass("invalid");
-        Materialize.toast('La fecha de inicio no puede ser posterior a la de finalización', 4000,'red')
-    }
-
-    return(f2.isAfter(f1));
-}
-
-/**
- * Llamada AJAX que devuelve los eventos de una página
- * @param  int page: Número de página (Comienza en 0)
- * @return void
- */
-function getEvents(page){
-  var obj = {
-    page: page,
-    action: 'read'
-  };
-  $.ajax({
-      url : url,
-      data : obj,
-      type : 'POST',
-      dataType : 'json',
-      success : function(json) {
-          eventos = json;
-          renderizarEventos();
-      },
-      error : function(xhr, status) {
-          Materialize.toast("Hubo un error al procesar su solicitud", 4000, "red");
-      },
-
-  });
-}
-
-/**
- * Función para mostrar los campos de los eventos.
- * @return {[type]} [description]
- */
-function renderizarEventos(){
-  $("#tabla-eventos").html("");
-  for (var i = 0 ; i < eventos.length; i++){
-    var fInicio = moment(eventos[i].fecha_inicio, "YYYY-MM-DD HH:mm:ss").format("DD/MM/YYYY [a las] HH:mm");
-    var fFin = moment(eventos[i].fecha_fin, "YYYY-MM-DD HH:mm:ss").format("DD/MM/YYYY [a las] HH:mm");
-
-    var elem = "<tr  class='item-evento' style='cursor: pointer;'>" +
-    "<input class='id' type='hidden' value='"+eventos[i].id_evento+"'>" +
-    "<td class='check'> <input type='checkbox' id='chk"+eventos[i].id_evento+"' class='filled-in chk checkbox-accent-color'/>  <label for='chk"+eventos[i].id_evento+"'></label></td>" +
-    "<td class='titulo'>"+eventos[i].titulo+"</td>" +
-    "<td class='descripcion'>"+eventos[i].descripcion+"</td>" +
-    "<td class='fInicio'>"+fInicio+"</td>" +
-    "<td class='fFin'>"+fFin+"</td>" +
-    "<input class='tipo' type='hidden' value='"+eventos[i].tipo+"'>" +
-    //"<td class='edit' style='cursor:pointer'><i class='material-icons'>edit</i></td>" +
-    "<td class='delete' style='cursor:pointer'><i class='material-icons'>delete</i></td>" +
-    "</tr>";
-    $("#tabla-eventos").append(elem);
-
-
-  }
-  //Cuando se selecciona un elemento de la tabla debe mostrarse el modal
-  $(".item-evento").on('click', function(){
-    /*action = 'update';
-    id= $($(this).children()[0]).val()
-    $('#modal1').openModal();
-
-    $($("#titulo").val($($(this).children()[2]).html()).siblings()[0]).addClass("active");
-    $($("#descripcion").val($($(this).children()[3]).html()).siblings()[0]).addClass("active");
-
-    var f1 = $($(this).children()[4]).html();
-    $("#fecha-inicio").val(moment(f1,"DD/MM/YYYY [a las] HH:mm").format("DD/MM/YYYY"));
-    $($("#fecha-inicio").siblings("label")[0]).addClass("active");
-
-    var f2 = $($(this).children()[5]).html();
-    $("#fecha-fin").val(moment(f2,"DD/MM/YYYY [a las] HH:mm").format("DD/MM/YYYY"));
-    $($("#fecha-fin").siblings("label")[0]).addClass("active");
-
-    $("#hora-inicio").val(moment(f1,"DD/MM/YYYY [a las] HH:mm").format("HH:mm"));
-    $($("#hora-inicio").siblings("label")[0]).addClass("active");
-
-    $("#hora-fin").val(moment(f2,"DD/MM/YYYY [a las] HH:mm").format("HH:mm"));
-    $($("#hora-fin").siblings("label")[0]).addClass("active");
-
-    $('#tipo').val($($(this).children()[6]).val());
-    $('#tipo').material_select();
-
-      console.log($("#titulo").val());
-      console.log($("#fecha-inicio").val());
-      console.log($("#fecha-fin").val());
-      console.log($("#tipo").val());*/
-  });
-
-  $(".delete").on('click', function(){
-    eliminarIds = [$(this).parent().children()[0].value];
-    $("#delete-message").html("¿Desea eliminar el evento \""+$(this).parent().children()[2].innerHTML+"\"?");
-    dialogDelete();
-  });
-
-  $(".chk").on('change', function(){
-    var arr = $("#tabla-eventos").children();
-    eliminarIds = [];
-    $("#delete-selection").css("display","none");
-    for (var i = 0 ; i < arr.length ; i++){
-      var checked = $($($(arr[i]).children()[1]).children()[0]).context.checked;
-      if (checked){
-        $("#delete-selection").css("display","block");
-        eliminarIds.push($(arr[i]).children()[0].value);
-      }
-    }
-  });
-}
-
-/**
- * Función que define el número de páginas y elementos a mostrarse por cada página.
- * @return void
- */
-function definirPaginacion(){
-  if($('#pagination-demo').data("twbs-pagination")){
-    $("#pagination-demo").twbsPagination('destroy');
-  }
-  var obj = {
-    action: 'count'
-  };
-  $.ajax({
-      url : url,
-      data : obj,
-      type : 'POST',
-      dataType : 'json',
-      success : function(json) {
-        //Mostrar paginación
-        console.log("PAGES" + json.pages);
-        $('#pagination-demo').twbsPagination({
-             totalPages: Math.ceil(json.pages/10),
-             visiblePages: 7,
-             first: "Primera",
-              prev: "Anterior",
-              next: "Siguiente",
-              last: "Última",
-             onPageClick: function (event, page) {
-                paginaActiva = page-1;
-                 getEvents(page-1);
-             }
-         });
-         if(paginaActiva >= Math.ceil(json.pages/10)){
-           paginaActiva = Math.ceil(json.pages/10)-1;
-         }
-
-      },
-      error : function(xhr, status) {
-          Materialize.toast("Hubo un error al procesar su solicitud", 4000, "red");
-      },
-  });
-
-}
-
-/**
- * Muestra el diálogo de confirmación para eliminar.
- */
-function dialogDelete(){
-  $("#deleteModal").openModal();
-}
-
-/**
- * Función para eliminar eventos de la base de datos.
- */
-function deleteEvents(){
-  var obj = {
-    action: 'delete',
-    ids: JSON.stringify(eliminarIds)
-  };
-  $.ajax({
-      url : url,
-      data : obj,
-      type : 'POST',
-      dataType : 'json',
-      success : function(json) {
-        console.log(json);
-        getEvents(paginaActiva);
-      },
-      error : function(xhr, status) {
-          Materialize.toast("Hubo un error al procesar su solicitud", 4000, "red");
-      },
-  });
-  definirPaginacion();
-  getEvents(paginaActiva);
-  $("#deleteModal").closeModal();
-}
-
-function guardarEvento(){
-     var emptyTitulo = isEmpty($('#titulo'));
-     var emptyDescripcion = isEmpty($('#descripcion'));
-     var emptyFInicio = isEmpty($('#fecha-inicio'));
-     var emptyFFin = isEmpty($('#fecha-fin'));
-     var emptyHInicio = isEmpty($('#hora-inicio'));
-     var emptyHFin = isEmpty($('#hora-fin'));
-     if( !emptyTitulo && !emptyDescripcion && !emptyFInicio && !emptyFFin && !emptyHInicio && !emptyHFin ){
-       if(compararFechas($("#fecha-inicio"), $("#hora-inicio"), $("#fecha-fin"), $("#hora-fin"))){
-         // Se arma el objeto a enviar
-         var obj = {
-           titulo: $('#titulo').val(),
-           descripcion: $('#descripcion').val(),
-           fecha_inicio: moment($("#fecha-inicio").val() +" "+ $("#hora-inicio").val(), "DD/MM/YYYY HH:mm").format("YYYY-MM-DD HH:mm"),
-           fecha_fin: moment($("#fecha-fin").val() +" "+ $("#hora-fin").val(), "DD/MM/YYYY HH:mm").format("YYYY-MM-DD HH:mm"),
-           tipo: $("#tipo option:selected").val(),
-           action: action,
-           id: id
-         };
-         $.ajax({
-             // la URL para la petición
-             url : url,
-
-             // la información a enviar
-             // (también es posible utilizar una cadena de datos)
-             data : obj,
-
-             // especifica si será una petición POST o GET
-             type : 'POST',
-
-             // el tipo de información que se espera de respuesta
-             dataType : 'json',
-
-             // código a ejecutar si la petición es satisfactoria;
-             // la respuesta es pasada como argumento a la función
-             success : function(json) {
-                 getEvents(paginaActiva);
-                 definirPaginacion();
-             },
-
-             // código a ejecutar si la petición falla;
-             // son pasados como argumentos a la función
-             // el objeto de la petición en crudo y código de estatus de la petición
-             error : function(xhr, status) {
-                 alert('Disculpe, existió un problema');
-             },
-
-         });
-       }
-     }
-
-}
-
-/**
- * Limpia los campos de la ventana modal de nuevo/modificar evento
- * @return void
- */
-function limpiarCampos(){
-  $("#titulo").val("");
-  $("#descripcion").val("");
-  $("#fecha-inicio").val("");
-  $("#hora-inicio").val("");
-  $("#fecha-fin").val("");
-  $("#hora-fin").val("");
-  $('#tipo').val("1");
-  $('#tipo').material_select();
-}
-
 $(document).ready(function(){
   //Configuración para generar el SideNav
   $(".button-collapse").sideNav();
@@ -350,8 +39,6 @@ $(document).ready(function(){
      limpiarCampos();
    });*/
 
-   $('#guardar-evento').on('click', guardarEvento);
-
    // for HTML5 "required" attribute
    $("select[required]").css({display: "inline", height: 0, padding: 0, width: 0});
 
@@ -368,16 +55,133 @@ $(document).ready(function(){
    //Cambiar el mensaje de la interfaz
    $(".brand-logo").html("&nbsp Eventos");
 
-    $('#guardar-n-evento').on('click', function () {
-        action = 'create';
-        id = null;
-        guardarEvento();
+   $('#tipo-evento').on('change', function () {
+       $('#tipo-seleccionado').val($('#tipo-evento').val());
+   });
+
+   //Eliminar evento
+    $('.delete').on('click', function () {
+        var item_evento = $(this).parent();
+        var id_evento = $(item_evento).find('.id').val();
+        var url = $('#_url').val() + '/eventos/eliminar';
+
+        $.ajax({
+            url: url,
+            data: { 'idEvento': id_evento },
+            type: 'POST',
+            dataType: 'JSON',
+            error: function (xhr) {
+                Materialize.toast('Ocurrió un error, vuelve a intentarlo', 3000, 'red');
+            },
+            success: function (respuesta) {
+                if (respuesta.status == 200) {
+                    $(item_evento).remove();
+                    Materialize.toast('Evento eliminado', 3000, 'blue');
+                } else {
+                    Materialize.toast('Ocurrió un error, vuelve a intentarlo', 3000, 'red');
+                }
+            }
+        });
     });
 
-   //Se trae el número de hojas y elementos.
-   definirPaginacion();
-    //Llamar a la primera página de eventos cuando se inicializa.
-    getEvents(paginaActiva);
+   //Verificar datos y guardar el evento
+   $('#guardar-evento').on('click', function () {
+        var titulo = $('#titulo').val();
+        var descripcion = $('#descripcion').val();
+        var puntos = $('#puntos-otorgados').val();
+        var area = $('#area-responsable').val();
+        var tipo_evento = $('#tipo-seleccionado').val();
+        var fecha_inicio = $('#fecha-inicio').val();
+        var fecha_fin = $('#fecha-fin').val();
+        var hora_inicio = $('#hora-inicio').val();
+        var hora_fin = $('#hora-fin').val();
+        var evaluar_fecha = false;
 
+        if (titulo == '' || titulo == null) {
+            $('#titulo').addClass('invalid');
+        } else {
+            $('#titulo').removeClass('invalid');
+        }
+
+        if (descripcion == '' || descripcion == null) {
+            $('#descripcion').addClass('invalid');
+        } else {
+            $('#descripcion').removeClass('invalid');
+        }
+
+        if (puntos == '' || puntos == null) {
+            $('#puntos-otorgados').addClass('invalid');
+        } else {
+            $('#puntos-otorgados').removeClass('invalid');
+        }
+
+        if (area == '' || area == null) {
+            $('#area-responsable').addClass('invalid');
+        } else {
+            $('#area-responsable').removeClass('invalid');
+        }
+
+        if (tipo_evento == '' || tipo_evento == null) {
+            $('#tipo-evento').addClass('invalid');
+        } else {
+            $('#tipo-evento').removeClass('invalid');
+        }
+
+        if (fecha_inicio == '' || fecha_inicio == null) {
+            $('#fecha-inicio').addClass('invalid');
+            evaluar_fecha = false;
+        } else {
+            $('#fecha-inicio').removeClass('invalid');
+            evaluar_fecha = true;
+        }
+
+        if (fecha_fin == '' || fecha_fin == null) {
+            $('#fecha-fin').addClass('invalid');
+            evaluar_fecha = false;
+        } else {
+            $('#fecha-fin').removeClass('invalid');
+            evaluar_fecha = true;
+        }
+
+        if (hora_inicio == '' || hora_inicio == null) {
+            $('#hora-inicio').addClass('invalid');
+            evaluar_fecha = false;
+        } else {
+            $('#hora-inicio').removeClass('invalid');
+            evaluar_fecha = true;
+        }
+
+        if (hora_fin == '' || hora_fin == null) {
+            $('#hora-fin').addClass('invalid');
+            evaluar_fecha = false;
+        } else {
+            $('#hora-fin').removeClass('invalid');
+            evaluar_fecha = true;
+        }
+
+        var mensaje_fecha = false;
+        if (evaluar_fecha) {
+            if (fecha_inicio == fecha_fin) {
+                if (hora_fin < hora_inicio || hora_inicio == hora_fin) {
+                    $('#hora-inicio').addClass('invalid');
+                    $('#hora-fin').addClass('invalid');
+                    Materialize.toast('La hora de finalización debe ser mayor a la hora de inicio', 3000, 'red');
+                    mensaje_fecha = true;
+                }
+            } else if (fecha_fin < fecha_inicio) {
+                $('#fecha-inicio').addClass('invalid');
+                $('#fecha-fin').addClass('invalid');
+                Materialize.toast('La fecha de finalización debe ser mayor a la fecha de inicio', 3000, 'red');
+                mensaje_fecha = true;
+            }
+        }
+
+        var valido = $('#form-nuevo-evento').find('.invalid').length;
+        if (valido == 0) {
+            $('#form-nuevo-evento').submit();
+        } else if (!mensaje_fecha) {
+            Materialize.toast('Llena todos los campos', 3000, 'red');
+        }
+   });
 });
 

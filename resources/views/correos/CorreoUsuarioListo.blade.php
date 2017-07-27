@@ -238,7 +238,7 @@
 
                                                     <p style="margin: 20px 0;; font-size: 14px; mso-line-height-rule: exactly; line-height: 24px; margin: 30px 0;; ;">
 
-                                                        <span style="font-weight: bold;;">No te preocupes, ya habias sido registrado a esta convocatoria antes!</span>
+                                                        <span style="font-weight: bold;;">No te preocupes, ya habias sido registrado a {{ $titulo }} antes!</span>
 
                                                     </p>
 

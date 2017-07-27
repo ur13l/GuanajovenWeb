@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Mensaje extends Model
 {
     protected $table = 'mensaje';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_mensaje';
 
     use SoftDeletes;
 
@@ -18,10 +18,12 @@ class Mensaje extends Model
         'deleted_at'
     ];
 
-    protected $fillable = ['mensaje'];
+    protected $fillable = [
+      'id_chat',
+      'mensaje',
+      'envia_usuario',
+      'visto'
+    ];
 
-    public function usuario() {
-        return $this->belongsTo(User::class);
-    }
 
 }

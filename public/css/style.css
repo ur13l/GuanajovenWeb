@@ -268,3 +268,11 @@ Div contenedor para las imágenes que se cortarán al centro.
     width: auto;         /* set height (swap these for variable height) */
     margin: auto;        /* centre the image */
 }
+
+
+#toast-container {
+    bottom: auto !important;
+    left: auto !important;
+    top: 10%;
+    right:2%;
+}

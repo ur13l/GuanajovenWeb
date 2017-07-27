@@ -91,8 +91,10 @@ class User extends Authenticatable implements CanResetPassword {
         $this->notify(new MyResetPassword($token));
     }
 
-    public function mensajes() {
-        return $this->hasMany(Mensaje::class);
+
+    public function loginToken() {
+        return $this->hasOne('App\LoginToken', 'id_usuario');
     }
+
 
 }
