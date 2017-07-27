@@ -54,7 +54,7 @@ class EventoNotificacion extends Notification {
             //ingresamos a la url correspondiente con los parametros
             ->action('Aceptar', route('convocatoria.registrada', array(
                 'id_usuario' => $idUsuario ,
-                'id_convocatoria' => $idEvento,
+                'id_evento' => $idEvento,
                 'curp_usuario' => $curpUsuario,
                 'nombre_evento' => $this->evento->titulo
             )))

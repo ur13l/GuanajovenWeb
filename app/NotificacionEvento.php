@@ -9,7 +9,7 @@ class NotificacionEvento extends Model {
 
     protected $fillable = [
         'id_evento',
-        'id_convocatoria',
+        'id_usuario',
         'le_interesa',
         'asistio',
         'asistira'
