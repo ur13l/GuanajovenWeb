@@ -58,3 +58,10 @@ Route::group(['prefix' => '/notificaciones'], function() {
     Route::any('/convocatoria/registrada', 'EnviarCorreosApiController@index')->name('convocatoria.registrada');
     Route::any('/evento/registrado', 'EnviarCorreosApiController@guardarVariablesEvento')->name('evento.registrado');
 });
+
+
+Route::group(['prefix' => '/chat'], function() {
+    Route::post('/enviar', 'ChatApiController@enviar');
+    Route::post('/mensajes', 'ChatApiController@mensajes');
+    Route::post('/enviarAdmin', 'ChatApiController@enviarAdmin');
+});
