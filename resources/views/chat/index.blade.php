@@ -29,19 +29,25 @@
     <input type="hidden" id="_api_token" value="{{Auth::user()->api_token}}">
     <input type="hidden" id="_active_chat" value="1">
     <div class="row">
-        <div class="col s2 list">
-            <ul class="collection">
+        <div class="col s3 list">
+            <div class="collection">
                 @foreach($chats as $chat)
                 <a href="#!" class="collection-item avatar">
-                    <img src="{{$chat->usuario->datosUsuario->ruta_imagen}}" alt="" class="circle">
-                    <span class="title">{{$chat->usuario->datosUsuario->nombre}}</span>
-                    <p>First Line <br>
-                        Second Line
+                    <div class="col s4">
+                        <img src="{{$chat->usuario->datosUsuario->ruta_imagen}}" alt="" class="circle">
+                    </div>
+                    <div class="col s6">
+                    <span  class="title accent-color-text">{{$chat->usuario->datosUsuario->nombre}}</span>
+                    <p class="grey-text">
+                    {{$chat->ultimoMensaje()->mensaje}}
                     </p>
-                    <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+                    <p class="grey-text secondary-content" href="#!">{{$chat->ultimoMensaje()->created_at->format('d/m/Y')}}</p>
+                    @if( $chat->contarNoLeidos() > 0 )
+                        <p href="#!"  class="secondary-content"><span style="margin-top:25px" class="badge">{{$chat->contarNoLeidos()}}</span></p>
+                    @endif
                 </a>
                 @endforeach
-            </ul>
+            </div>
         </div>
         <div class="col s9">
             <form id="form_enviar">

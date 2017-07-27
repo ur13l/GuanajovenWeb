@@ -31,6 +31,10 @@ class Chat extends Model
     }
 
     public function ultimoMensaje() {
-        
+        return $this->mensajes->last();
+    }
+
+    public function contarNoLeidos() {
+        return count($this->mensajes()->where('visto', false)->get());
     }
 }
