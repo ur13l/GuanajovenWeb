@@ -23,6 +23,9 @@
         }
     </style>
     <link href="{{url('/css/chat.css')}}" rel="stylesheet">
+    <link rel="manifest" href="{{url('/manifest.json')}}">
+    
+  
 @endsection
 
 @section('contenedor')
@@ -51,15 +54,25 @@
                 @endforeach
             </div>
         </div>
-            <div class="primary-color lienzo">
+            <div class="grey-color lienzo">
+                <ul id="lista-mensajes">
 
+                </ul>
+                <div class="campo-mensaje">
+                    <form id="form_enviar">
+                        <input id="mensaje" name="mensaje" value="" type="text">   
+                    </form>
+                </div>
             </div>
-            <div class="campo-mensaje">
-                <form id="form_enviar">
-                    <input id="mensaje" name="mensaje" type="text">   
-                </form>
-            </div>
-        </div>
             
+        </div>
+             <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+    <script>
+        var socket = io("{{env('SOCKET_URL')}}");
+        socket.on("message", function(message){
+            console.log(message);
+            $('#mensaje').val(message);
+        });
+    </script> 
 
 @endsection

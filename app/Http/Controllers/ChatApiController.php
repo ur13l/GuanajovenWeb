@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use App\Chat;
 use App\Mensaje;
 use App\LoginToken;
+use App\Events\ChatEvent;
 use App\Utils\NotificationsUtils;
 use Illuminate\Support\Facades\Auth;
+use LRedis;
 
 class ChatApiController extends Controller
 {
@@ -33,13 +35,15 @@ class ChatApiController extends Controller
                 $message = array(
                     'title' => "Nuevo mensaje",
                     'body' => $mensaje->mensaje,
-                    'link_url' => null,
+                    'link_url' => "chat",
                     'sound' => 'default',
                     'priority' => 'high',
                     'category' => 'URL_CATEGORY',
-                    'tag' => null);
+                    'tag' => "chat");
         NotificationsUtils::sendNotification($tokens, $message, 'notification');
 
+        $redis = LRedis::connection();
+        $redis->publish('message', $mensaje->mensaje);
         return response()->json(array(
             'success' => true,
             'status' => 200,
@@ -62,6 +66,15 @@ class ChatApiController extends Controller
             
     }
 
+     public function mensajesAdmin (Request $request) {
+        $user = Auth::guard('api')->user();
+        $chat = Chat::find($request->id_chat);
+        return response()->json(
+             $chat->mensajes()->orderBy('created_at', 'desc')->paginate(20)
+            );
+            
+    }
+
 
     public function enviarAdmin(Request $request) {
         $user = Auth::guard('api')->user();
@@ -78,8 +91,8 @@ class ChatApiController extends Controller
         //Generación del mensaje.
                 $message = array(
                     'title' => "Nuevo mensaje",
-                    'body' => $mensaje->mensaje,
-                    'link_url' => null,
+                    'body' => $request->mensaje,
+                    'link_url' => "chat",
                     'sound' => 'default',
                     'priority' => 'high',
                     'category' => 'URL_CATEGORY',

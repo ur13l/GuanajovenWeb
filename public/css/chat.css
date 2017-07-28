@@ -23,3 +23,19 @@
     width:68%;
     right:0;
 }
+
+#lista-mensajes {
+    width: 100%;
+    position: absolute;
+    bottom: 5%;
+}
+
+.mensaje-izquierda {
+    width: 50%;
+}
+
+.mensaje-derecha {
+    width: 50%;
+    margin-left: 50%;
+    right: 0;
+}

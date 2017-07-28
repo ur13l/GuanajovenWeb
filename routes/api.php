@@ -63,5 +63,6 @@ Route::group(['prefix' => '/notificaciones'], function() {
 Route::group(['prefix' => '/chat'], function() {
     Route::post('/enviar', 'ChatApiController@enviar');
     Route::post('/mensajes', 'ChatApiController@mensajes');
+    Route::post('/mensajesAdmin', 'ChatApiController@mensajesAdmin');
     Route::post('/enviarAdmin', 'ChatApiController@enviarAdmin');
 });
