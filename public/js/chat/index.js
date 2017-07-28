@@ -1,10 +1,14 @@
 $(function() {
+    
     $("#form_enviar").submit(function() {
+        var mensaje = $("#mensaje").val();
+        $("#lista-mensajes").append("<li class='mensaje-derecha accent-color'>" +  mensaje  + "</li>");
+        $("#mensaje").val('')
         $.ajax({
             url: $("#_url").val() + "/api/chat/enviarAdmin",
             method: "POST",
             data: {
-                "mensaje": $("#mensaje").val(),
+                "mensaje": mensaje,
                 "api_token": $("#_api_token").val(),
                 "active_chat": $("#_active_chat").val()
             },

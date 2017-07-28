@@ -43,7 +43,11 @@ class ChatApiController extends Controller
         NotificationsUtils::sendNotification($tokens, $message, 'notification');
 
         $redis = LRedis::connection();
-        $redis->publish('message', $mensaje->mensaje);
+        $msArray = array(
+            "id_chat" => $chat->id_chat,
+            "mensaje" => $mensaje->mensaje
+        );
+        $redis->publish('message', json_encode($msArray));
         return response()->json(array(
             'success' => true,
             'status' => 200,

@@ -55,7 +55,7 @@
             </div>
         </div>
             <div class="grey-color lienzo">
-                <ul id="lista-mensajes">
+                <ul id="lista-mensajes" style="overflow: auto">
 
                 </ul>
                 <div class="campo-mensaje">
@@ -70,8 +70,11 @@
     <script>
         var socket = io("{{env('SOCKET_URL')}}");
         socket.on("message", function(message){
-            console.log(message);
-            $('#mensaje').val(message);
+            console.log("MENSAJE NUEVo");
+            mensaje = JSON.parse(message)
+            if(mensaje.id_chat == $("#_active_chat").val()) {
+                $("#lista-mensajes").append("<li class='mensaje-izquierda primary-color'>" +  mensaje.mensaje  + "</li>");
+            }
         });
     </script> 
 
