@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Chat;
 use App\Mensaje;
 use App\LoginToken;
+use App\Event\ChatEvent;
 use App\Utils\NotificationsUtils;
 use Illuminate\Support\Facades\Auth;
 
@@ -40,6 +41,7 @@ class ChatApiController extends Controller
                     'tag' => null);
         NotificationsUtils::sendNotification($tokens, $message, 'notification');
 
+        event(ChatEvent());
         return response()->json(array(
             'success' => true,
             'status' => 200,

@@ -23,6 +23,14 @@
         }
     </style>
     <link href="{{url('/css/chat.css')}}" rel="stylesheet">
+    <link rel="manifest" href="{{url('/manifest.json')}}">
+    <script src="{{ asset('js/socket.io.js') }}"></script>
+    <script>
+        var socket = io($("#_url").val());
+        socket.on("test-channel:App\\Events\\ChatEvent", function(message){
+            $('#mensaje').text(message.data.mensaje);
+        });
+    </script>
 @endsection
 
 @section('contenedor')
@@ -51,12 +59,12 @@
                 @endforeach
             </div>
         </div>
-            <div class="primary-color lienzo">
+            <div class="grey-color lienzo">
 
             </div>
             <div class="campo-mensaje">
                 <form id="form_enviar">
-                    <input id="mensaje" name="mensaje" type="text">   
+                    <input id="mensaje" name="mensaje" value="" type="text">   
                 </form>
             </div>
         </div>
