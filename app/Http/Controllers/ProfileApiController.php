@@ -53,8 +53,16 @@ class ProfileApiController extends Controller {
 
         $datosUsuario = DatosUsuario::where("id_usuario", $usuario->id)->first();
 
+        $ruta_imagen = "";
+        $datos = $request->input('ruta_imagen');
+        if (isset($datos)) {
+            $ruta = "storage/usuarios/";
+            $ruta_imagen = url(ImageController::guardarImagen($datos, $ruta, uniqid("usuario_")));
+        }
+
         $actualiza = $usuario->datosUsuario
             ->update([
+                'ruta_imagen' => $ruta_imagen,
                 'id_nivel_estudios' => $id_nivel_estudios,
                 'id_pueblo_indigena' => $id_pueblo_indigena,
                 'id_capacidad_diferente' => $id_capacidad_diferente,
@@ -138,6 +146,7 @@ class ProfileApiController extends Controller {
                 }
           if (isset($datosUsuario)) {
             $data = [
+                "ruta_imagen" => $datosUsuario->ruta_imagen,
                 "id_nivel_estudios" => $datosUsuario->id_nivel_estudios,
                 "id_pueblo_indigena" => $datosUsuario->id_pueblo_indigena,
                 "id_capacidad_diferente" => $datosUsuario->id_capacidad_diferente,
