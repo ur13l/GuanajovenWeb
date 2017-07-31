@@ -28,6 +28,8 @@
     width: 100%;
     position: absolute;
     bottom: 6%;
+    top: 64px;
+    max-height: 100%;
 }
 
 .mensaje-izquierda {
