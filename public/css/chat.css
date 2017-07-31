@@ -14,28 +14,39 @@
 .lienzo {
     bottom: 0;
     right: 0;
-    width:68%;
+    width:66%;
     position:fixed;
 }
 .campo-mensaje {
     position:fixed;
     bottom: 0;
-    width:68%;
+    width:66%;
     right:0;
 }
 
 #lista-mensajes {
     width: 100%;
     position: absolute;
-    bottom: 5%;
+    bottom: 6%;
+    top: 64px;
+    max-height: 100%;
 }
 
 .mensaje-izquierda {
-    width: 50%;
+    max-width: 50%;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: white;
 }
 
 .mensaje-derecha {
-    width: 50%;
+    max-width: 50%;
     margin-left: 50%;
     right: 0;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: white;
 }

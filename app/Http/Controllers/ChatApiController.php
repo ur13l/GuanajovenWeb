@@ -40,10 +40,14 @@ class ChatApiController extends Controller
                     'priority' => 'high',
                     'category' => 'URL_CATEGORY',
                     'tag' => "chat");
-        NotificationsUtils::sendNotification($tokens, $message, 'notification');
+        NotificationsUtils::sendNotification($tokens, $message, 'data');
 
         $redis = LRedis::connection();
-        $redis->publish('message', $mensaje->mensaje);
+        $msArray = array(
+            "id_chat" => $chat->id_chat,
+            "mensaje" => $mensaje->mensaje
+        );
+        $redis->publish('message', json_encode($msArray));
         return response()->json(array(
             'success' => true,
             'status' => 200,
@@ -88,6 +92,8 @@ class ChatApiController extends Controller
         ));
 
         $tokens = LoginToken::where('id_usuario', $chat->id_usuario)->pluck('device_token')->toArray();
+
+
         //Generación del mensaje.
                 $message = array(
                     'title' => "Nuevo mensaje",
@@ -98,7 +104,7 @@ class ChatApiController extends Controller
                     'category' => 'URL_CATEGORY',
                     'tag' => "chat");
 
-        NotificationsUtils::sendNotification($tokens, $message, 'notification');
+        NotificationsUtils::sendNotification($tokens, $message, 'data');
 
         return response()->json(array(
             'success' => true,

@@ -15,11 +15,20 @@
         Esta configuración solo aplica en la ventana de chat, ya que esta tiene una estructura diferente.
         **/
         #container {
-            margin: 0px !important;
+            margin-top: 64px !important;
             padding: 0px !important;
             width: 100%;
             height:100%;
             max-width: 20000px;
+        }
+
+        ::-webkit-scrollbar { 
+            display: none; 
+        }
+        nav {
+            position: fixed;
+            top: 0;
+            z-index: 1000;
         }
     </style>
     <link href="{{url('/css/chat.css')}}" rel="stylesheet">
@@ -35,7 +44,7 @@
     <input type="hidden" id="_active_chat" value="1">
     <div class="row">
         <div class="col s4 list">
-            <div class="collection">
+            <div class="collection" id="lista-chats">
                 @foreach($chats as $chat)        
                 <a href="#!" class="collection-item avatar chat-item">
 
@@ -46,7 +55,11 @@
                     <p class="grey-text">
                     {{$chat->ultimoMensaje()->mensaje}}
                     </p>
-                    <p class="grey-text secondary-content" style="margin-top:-5px" href="#!">{{$chat->ultimoMensaje()->created_at->format('d/m/Y')}}</p>
+                    <p class="grey-text secondary-content" style="margin-top:-5px" href="#!">{{
+                        $chat->ultimoMensaje()->created_at->format('d/m/Y') == \Carbon\Carbon::now("America/Mexico_City")->format('d/m/Y') ?
+                        $chat->ultimoMensaje()->created_at->format('H:i') :
+                        $chat->ultimoMensaje()->created_at->format('d/m/Y') 
+                        }}</p>
                     @if( $chat->contarNoLeidos() > 0 )
                         <p href="#!"  class="secondary-content primary-color-text"><span style="margin-top:25px" class="badge">{{$chat->contarNoLeidos()}}</span></p>
                     @endif
@@ -55,7 +68,7 @@
             </div>
         </div>
             <div class="grey-color lienzo">
-                <ul id="lista-mensajes">
+                <ul id="lista-mensajes" style="overflow: auto">
 
                 </ul>
                 <div class="campo-mensaje">
@@ -70,8 +83,11 @@
     <script>
         var socket = io("{{env('SOCKET_URL')}}");
         socket.on("message", function(message){
-            console.log(message);
-            $('#mensaje').val(message);
+            console.log("MENSAJE NUEVo");
+            mensaje = JSON.parse(message)
+            if(mensaje.id_chat == $("#_active_chat").val()) {
+                $("#lista-mensajes").append("<li class='mensaje-izquierda primary-color'>" +  mensaje.mensaje  + "</li>");
+            }
         });
     </script> 
 
