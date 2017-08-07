@@ -443,7 +443,7 @@ class UserApiController extends Controller {
             $user->codigoGuanajoven->token = str_random(128);
             $user->codigoGuanajoven->save();
             //$token = $user->codigoGuanajoven->id_codigo_guanajoven."-".$user->datosUsuario->curp."-".$user->datosUsuario->nombre."-".$user->email;
-            $token =   $user->codigoGuanajoven->token = str_random(128);
+            $token =  $user->codigoGuanajoven->token;
         }
         else {
             $token = null;
