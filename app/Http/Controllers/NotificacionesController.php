@@ -131,6 +131,7 @@ class NotificacionesController extends Controller {
             'tag' => $enlace);
 
         //Envío de las notificaciones a iOS y Android
+        //dd($tokensIOS);
         $message_status = $this->sendNotification($tokensIOS, $message, 'notification');
         $message_status2 = $this->sendNotification($tokensAndroid, $message, 'data');
 
@@ -175,7 +176,10 @@ class NotificacionesController extends Controller {
 
         //Se configura la llave de Firebase.
         $headers = array(
-            'Authorization:key = AIzaSyDKAbShlitmin_wsoxRxHLmdi7Ieynn3cY ',
+          //  'Authorization:key = AIzaSyDKAbShlitmin_wsoxRxHLmdi7Ieynn3cY ',
+          'Authorization:key = AIzaSyAfE_UZYPU8GFrx-5Ci_HZ3hpBzh_JMSPE ',
+
+
             'Content-Type:application/json'
         );
 
