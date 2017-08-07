@@ -157,7 +157,52 @@ class NotificacionesController extends Controller {
     }
 
 
-    
+<<<<<<< HEAD
+    /**
+     * Notificación: SendNotification
+     * Método final que realiza el envío de la notificación a partir de la generación de un mensaje y la selección
+     * de tokens a los que se realizará el envío.
+     * @param $tokens
+     * @param $message
+     * @param $type
+     * @return mixed
+     */
+    function sendNotification($tokens, $message, $type){
+        $url = "https://fcm.googleapis.com/fcm/send";
+        $fields = array(
+            'registration_ids' => $tokens,
+            $type => $message,
+            'priority' => 'high',
+            'content_available' => true, );
+
+        //Se configura la llave de Firebase.
+        $headers = array(
+          //  'Authorization:key = AIzaSyDKAbShlitmin_wsoxRxHLmdi7Ieynn3cY ',
+          'Authorization:key = AIzaSyAfE_UZYPU8GFrx-5Ci_HZ3hpBzh_JMSPE ',
+
+
+            'Content-Type:application/json'
+        );
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+        $result = curl_exec($ch);
+        if($result === FALSE){
+            die('Curl failed ' . curl_error($ch));
+        }
+        curl_close($ch);
+        return $result;
+
+    }
+=======
+
+>>>>>>> 21b7879d1f15d958755cf23e4094d2b1f595e510
 
     /**
      * Notificación: Eliminar
