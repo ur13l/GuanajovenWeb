@@ -1,5 +1,3 @@
-var url = $("#url").val() + '/eventos/guardar';
-
 $(document).ready(function(){
   //Configuración para generar el SideNav
   $(".button-collapse").sideNav();
@@ -56,5 +54,134 @@ $(document).ready(function(){
 
    //Cambiar el mensaje de la interfaz
    $(".brand-logo").html("&nbsp Eventos");
+
+   $('#tipo-evento').on('change', function () {
+       $('#tipo-seleccionado').val($('#tipo-evento').val());
+   });
+
+   //Eliminar evento
+    $('.delete').on('click', function () {
+        var item_evento = $(this).parent();
+        var id_evento = $(item_evento).find('.id').val();
+        var url = $('#_url').val() + '/eventos/eliminar';
+
+        $.ajax({
+            url: url,
+            data: { 'idEvento': id_evento },
+            type: 'POST',
+            dataType: 'JSON',
+            error: function (xhr) {
+                Materialize.toast('Ocurrió un error, vuelve a intentarlo', 3000, 'red');
+            },
+            success: function (respuesta) {
+                if (respuesta.status == 200) {
+                    $(item_evento).remove();
+                    Materialize.toast('Evento eliminado', 3000, 'blue');
+                } else {
+                    Materialize.toast('Ocurrió un error, vuelve a intentarlo', 3000, 'red');
+                }
+            }
+        });
+    });
+
+   //Verificar datos y guardar el evento
+   $('#guardar-evento').on('click', function () {
+        var titulo = $('#titulo').val();
+        var descripcion = $('#descripcion').val();
+        var puntos = $('#puntos-otorgados').val();
+        var area = $('#area-responsable').val();
+        var tipo_evento = $('#tipo-seleccionado').val();
+        var fecha_inicio = $('#fecha-inicio').val();
+        var fecha_fin = $('#fecha-fin').val();
+        var hora_inicio = $('#hora-inicio').val();
+        var hora_fin = $('#hora-fin').val();
+        var evaluar_fecha = false;
+
+        if (titulo == '' || titulo == null) {
+            $('#titulo').addClass('invalid');
+        } else {
+            $('#titulo').removeClass('invalid');
+        }
+
+        if (descripcion == '' || descripcion == null) {
+            $('#descripcion').addClass('invalid');
+        } else {
+            $('#descripcion').removeClass('invalid');
+        }
+
+        if (puntos == '' || puntos == null) {
+            $('#puntos-otorgados').addClass('invalid');
+        } else {
+            $('#puntos-otorgados').removeClass('invalid');
+        }
+
+        if (area == '' || area == null) {
+            $('#area-responsable').addClass('invalid');
+        } else {
+            $('#area-responsable').removeClass('invalid');
+        }
+
+        if (tipo_evento == '' || tipo_evento == null) {
+            $('#tipo-evento').addClass('invalid');
+        } else {
+            $('#tipo-evento').removeClass('invalid');
+        }
+
+        if (fecha_inicio == '' || fecha_inicio == null) {
+            $('#fecha-inicio').addClass('invalid');
+            evaluar_fecha = false;
+        } else {
+            $('#fecha-inicio').removeClass('invalid');
+            evaluar_fecha = true;
+        }
+
+        if (fecha_fin == '' || fecha_fin == null) {
+            $('#fecha-fin').addClass('invalid');
+            evaluar_fecha = false;
+        } else {
+            $('#fecha-fin').removeClass('invalid');
+            evaluar_fecha = true;
+        }
+
+        if (hora_inicio == '' || hora_inicio == null) {
+            $('#hora-inicio').addClass('invalid');
+            evaluar_fecha = false;
+        } else {
+            $('#hora-inicio').removeClass('invalid');
+            evaluar_fecha = true;
+        }
+
+        if (hora_fin == '' || hora_fin == null) {
+            $('#hora-fin').addClass('invalid');
+            evaluar_fecha = false;
+        } else {
+            $('#hora-fin').removeClass('invalid');
+            evaluar_fecha = true;
+        }
+
+        var mensaje_fecha = false;
+        if (evaluar_fecha) {
+            if (fecha_inicio == fecha_fin) {
+                if (hora_fin < hora_inicio || hora_inicio == hora_fin) {
+                    $('#hora-inicio').addClass('invalid');
+                    $('#hora-fin').addClass('invalid');
+                    Materialize.toast('La hora de finalización debe ser mayor a la hora de inicio', 3000, 'red');
+                    mensaje_fecha = true;
+                }
+            } else if (fecha_fin < fecha_inicio) {
+                $('#fecha-inicio').addClass('invalid');
+                $('#fecha-fin').addClass('invalid');
+                Materialize.toast('La fecha de finalización debe ser mayor a la fecha de inicio', 3000, 'red');
+                mensaje_fecha = true;
+            }
+        }
+
+        var valido = $('#form-nuevo-evento').find('.invalid').length;
+        if (valido == 0) {
+            $('#form-nuevo-evento').submit();
+        } else if (!mensaje_fecha) {
+            Materialize.toast('Llena todos los campos', 3000, 'red');
+        }
+   });
 });
 

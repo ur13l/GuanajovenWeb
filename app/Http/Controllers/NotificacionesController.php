@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\LoginToken;
 use App\Notificacion;
 use App\Region;
+use App\Utils\NotificationsUtils;
 use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
@@ -131,9 +132,8 @@ class NotificacionesController extends Controller {
             'tag' => $enlace);
 
         //Envío de las notificaciones a iOS y Android
-        //dd($tokensIOS);
-        $message_status = $this->sendNotification($tokensIOS, $message, 'notification');
-        $message_status2 = $this->sendNotification($tokensAndroid, $message, 'data');
+        $message_status = NotificationsUtils::sendNotification($tokensIOS, $message, 'notification');
+        $message_status2 = NotificationsUtils::sendNotification($tokensAndroid, $message, 'data');
 
         //Condición que se cumple si fueron enviados los mensajes.
         if(isset($message_status) && isset($message_status2)){
@@ -157,6 +157,7 @@ class NotificacionesController extends Controller {
     }
 
 
+<<<<<<< HEAD
     /**
      * Notificación: SendNotification
      * Método final que realiza el envío de la notificación a partir de la generación de un mensaje y la selección
@@ -199,6 +200,9 @@ class NotificacionesController extends Controller {
         return $result;
 
     }
+=======
+
+>>>>>>> 21b7879d1f15d958755cf23e4094d2b1f595e510
 
     /**
      * Notificación: Eliminar

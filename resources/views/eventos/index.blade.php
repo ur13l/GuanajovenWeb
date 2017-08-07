@@ -17,7 +17,7 @@
         <table class="highlight">
             <thead>
             <tr>
-                <th data-field="check"></th>
+                <!--<th data-field="check"></th>-->
                 <th data-field="titulo">Título</th>
                 <th data-field="descripcion">Descripción</th>
                 <th data-field="fecha_inicio">Inicia</th>

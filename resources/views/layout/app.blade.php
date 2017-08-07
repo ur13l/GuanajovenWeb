@@ -55,6 +55,7 @@
         @yield('head')
     </head>
     <body style="background: #f1f1f1" id="body">
+    <input type="hidden" id="_url" value="{{ url('/') }}">
         <!--Barra de navegación-->
         <nav>
             <div class="nav-wrapper primary-color">
@@ -63,8 +64,8 @@
 
                 <ul class="right hide-on-med-and-down">
                   <!--  <li><a href="{{url('reportes')}}">Reportes</a></li>-->
-                    <li><a href="{{url('eventos/inicio')}}">Eventos</a></li>
                     <li><a href="{{url('usuarios')}}">Usuarios</a></li>
+                    <li><a href="{{url('eventos/inicio')}}">Eventos</a></li>
                     <li><a href="{{url('publicidad')}}">Publicidad</a></li>
                     <li><a href="{{url('convocatorias')}}">Convocatorias</a></li>
                     <li><a href="{{url('empresas')}}">Promociones</a></li>
@@ -75,8 +76,8 @@
                 </ul>
                 <ul class="side-nav" id="mobile-demo">
                   <!--  <li><a href="{{url('reportes')}}">Reportes</a></li>-->
-                    <li><a href="{{url('eventos/inicio')}}">Eventos</a></li>
                     <li><a href="{{url('usuarios')}}">Usuarios</a></li>
+                    <li><a href="{{url('eventos/inicio')}}">Eventos</a></li>
                     <li><a href="{{url('publicidad')}}">Publicidad</a></li>
                     <li><a href="{{url('convocatorias')}}">Convocatorias</a></li>
                     <li><a href="{{url('empresas')}}">Promociones</a></li>
