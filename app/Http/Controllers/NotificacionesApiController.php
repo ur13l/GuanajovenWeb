@@ -18,7 +18,6 @@ class NotificacionesApiController extends Controller
         $id_usuario = $request->input('id_usuario');
         $device_token = $request->input('device_token');
         $os = $request->input('os');
-
         $objetoUsuarioToken = LoginToken::where('id_usuario', $id_usuario)->withTrashed()->get()->first();
         if(isset($objetoUsuarioToken)) {
             $objetoUsuarioToken->restore();
@@ -56,7 +55,6 @@ class NotificacionesApiController extends Controller
      */
     public function cancelar(Request $request) {
         $id_usuario = $request->input('id_usuario');
-
         $objetoUsuarioToken = LoginToken::where('id_usuario', $id_usuario)->get()->first();
 
         if (isset($objetoUsuarioToken)) {
