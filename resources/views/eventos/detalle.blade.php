@@ -87,35 +87,25 @@
     <script>
         function initMap() {
             var map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: 23.36715613998013, lng: -102.33970642089844},
-                zoom: 8
+                center: {lat: 21.095570, lng: -101.616843},
+                zoom: 15
             });
-            var infoWindow = new google.maps.InfoWindow;
             var marca = null;
 
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    var pos = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    };
+            var pos = {
+                lat: 21.095570,
+                lng: -101.616843
+            };
 
-                    infoWindow.setPosition(pos);
-                    marca = new google.maps.Marker({
-                        position: pos,
-                        map: map,
-                        draggable: true,
-                        title: 'Evento'
-                    });
-                    $('#posicion').val(marca.getPosition());
-                    map.setCenter(pos);
-                }, function() {
-                    handleLocationError(true, infoWindow, map.getCenter());
-                });
-            } else {
-                // Browser doesn't support Geolocation
-                handleLocationError(false, infoWindow, map.getCenter());
-            }
+            marca = new google.maps.Marker({
+                position: pos,
+                map: map,
+                draggable: true,
+                title: 'Evento'
+            });
+
+            $('#posicion').val(marca.getPosition());
+            map.setCenter(pos);
 
             map.addListener('mouseout', function() {
                 $('#posicion').val(marca.getPosition());
