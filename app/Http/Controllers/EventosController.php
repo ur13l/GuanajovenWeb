@@ -11,6 +11,14 @@ use Illuminate\Http\Request;
 
 class EventosController extends Controller {
 
+    /**
+     * Requerir logueo para las rutas que impliquen el módulo de usuarios
+     * UsuariosController constructor.
+     */
+    public function __construct() {
+        $this->middleware('auth.web');
+    }
+
     public $meses = [
         'Enero' => '01',
         'Febrero' => '02',
@@ -180,5 +188,12 @@ class EventosController extends Controller {
                 'status' => 500
             ]);
         }
+    }
+
+    public function estadistica($idEvento) {
+        $evento = Evento::find($idEvento);
+        $titulo = 'Estadísticas de "'. $evento->titulo .'"';
+
+        return view('eventos.estadistica', ['titulo' => $titulo]);
     }
 }

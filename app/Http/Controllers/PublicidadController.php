@@ -13,6 +13,15 @@ use Illuminate\Http\Request;
 
 class PublicidadController {
     use ValidatesRequests;
+
+    /**
+     * Requerir logueo para las rutas que impliquen el módulo de usuarios
+     * UsuariosController constructor.
+     */
+    public function __construct() {
+        $this->middleware('auth.web');
+    }
+
     /**
      * Función que devuelve la vista del index de la sección de publicidad para el cargado de imágenes.
      * @route /publicidad/

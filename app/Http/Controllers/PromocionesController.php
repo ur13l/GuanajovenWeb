@@ -18,7 +18,13 @@ use Illuminate\Support\Facades\DB;
 class PromocionesController {
     use ValidatesRequests;
 
-
+    /**
+     * Requerir logueo para las rutas que impliquen el módulo de usuarios
+     * UsuariosController constructor.
+     */
+    public function __construct() {
+        $this->middleware('auth.web');
+    }
 
     /**
      * Crear promoción [POST]
