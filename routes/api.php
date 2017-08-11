@@ -66,3 +66,10 @@ Route::group(['prefix' => '/chat'], function() {
     Route::post('/mensajesAdmin', 'ChatApiController@mensajesAdmin');
     Route::post('/enviarAdmin', 'ChatApiController@enviarAdmin');
 });
+
+
+Route::group(['prefix' => '/documentos'], function () {
+   Route::group(['prefix' => '/pdf'], function() {
+      Route::get('idguanajoven', 'PdfController@generarPDF');
+   });
+});

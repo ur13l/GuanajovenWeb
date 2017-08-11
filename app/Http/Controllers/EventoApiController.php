@@ -28,8 +28,7 @@ class EventoApiController extends Controller {
 		));
 	}
 
-	public function marcarEvento(Request $request)
-    {
+	public function marcarEvento(Request $request) {
         $idEvento = $request->input('id_evento');
         $apiToken = $request->input('api_token');
         $latitudUsuario = $request->input('latitud');

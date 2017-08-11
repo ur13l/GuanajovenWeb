@@ -170,6 +170,13 @@ return [
         Mpociot\ApiDoc\ApiDocGeneratorServiceProvider::class,
         Artisaninweb\SoapWrapper\ServiceProvider::class,
 
+
+        //PDF generator library
+        Barryvdh\DomPDF\ServiceProvider::class,
+
+        //QR generator library
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
@@ -193,7 +200,6 @@ return [
     */
 
     'aliases' => [
-
         'App' => Illuminate\Support\Facades\App::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
         'Auth' => Illuminate\Support\Facades\Auth::class,
@@ -229,7 +235,9 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
-        'SoapWrapper' => Artisaninweb\SoapWrapper\Facade::class
+        'SoapWrapper' => Artisaninweb\SoapWrapper\Facade::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
     ],
 
 ];
