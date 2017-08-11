@@ -28,8 +28,7 @@ class EventoApiController extends Controller {
 		));
 	}
 
-	public function marcarEvento(Request $request)
-    {
+	public function marcarEvento(Request $request) {
         $idEvento = $request->input('id_evento');
         $apiToken = $request->input('api_token');
         $latitudUsuario = $request->input('latitud');
@@ -60,9 +59,16 @@ class EventoApiController extends Controller {
 
         if ($distanciaMetros <= 500) {
             if (NotificacionEvento::where('id_evento', '=', $idEvento)->where('id_usuario', '=', $usuario->id)->where('asistio', '=', 1)->count() == 0) {
-                $notificacion = NotificacionEvento::where('id_evento', $idEvento)
-                    ->where('id_usuario', $usuario->id)
-                    ->first();
+                $notificacion = NotificacionEvento::where('id_evento', $idEvento)->where('id_usuario', $usuario->id)->first();
+
+                if ($notificacion == null) {
+                    $registro = new NotificacionEvento();
+                    $registro->id_usuario = $usuario->id;
+                    $registro->id_evento = $idEvento;
+                    $registro->asistio = 1;
+                    $notificacion = $registro;
+                }
+
                 $notificacion->asistio = 1;
                 $notificacion->save();
 
