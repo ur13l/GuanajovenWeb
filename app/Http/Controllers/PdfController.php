@@ -26,20 +26,27 @@ class PdfController extends Controller
         $pdf->loadHTML($view)->save('pdf/'.$curp.'.pdf');
 
         $this->enviarCorreo($curp, $usuario->email);
+
+        return response()->json(array(
+            "success" => true,
+            "status" => 200,
+            "errors" => [],
+            "data" => []
+        ));
     }
 
     public function enviarCorreo($curp, $correo) {
         Mail::send([],['curp_usuario' => 'Esdfdgsdfg', 'titulo' => 'sdfgdsfgdfg', 'tipo' => 'la convocatoria'],
 
             function ($message) use ($curp, $correo) {
-                //Desde donde llega el mensaje
+            //Desde donde llega el mensaje
                 $message->from('guanajoven@gmail.com', 'Guanajoven');
                 //Mensaje para el usuario
-                $message->to( $correo, 'Administrador')->subject('Prueba mensaje ');
+                $message->to( $correo, 'Administrador')->subject('Credencial ID Guanajoven');
                 $message->attach('pdf/'.$curp.'.pdf');
             });
 
-        return view('correos.CorreoUsuarioRegistrado');
+
     }
 
 }
