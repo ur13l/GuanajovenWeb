@@ -31,7 +31,7 @@ class PdfController extends Controller
             "success" => true,
             "status" => 200,
             "errors" => [],
-            "data" => []
+            "data" => true
         ));
     }
 
