@@ -11,6 +11,14 @@ use Illuminate\Http\Request;
 
 class EventosController extends Controller {
 
+    /**
+     * Requerir logueo para las rutas que impliquen el módulo de usuarios
+     * UsuariosController constructor.
+     */
+    public function __construct() {
+        $this->middleware('auth.web');
+    }
+
     public $meses = [
         'Enero' => '01',
         'Febrero' => '02',
@@ -57,7 +65,16 @@ class EventosController extends Controller {
         $evento->area_responsable = '';
         $evento->save();
 
-        return view('eventos.nuevo', ['tipos' => $tipos, 'evento' => $evento]);
+        return view('eventos.nuevo', [
+            'tipos' => $tipos,
+            'evento' => $evento,
+            'fecha_inicio' => '',
+            'fecha_fin' => '',
+            'hora_inicio' => '',
+            'hora_fin' => '',
+            'latitud' => 21.095570,
+            'longitud' => -101.616843
+        ]);
     }
 
     /**
@@ -142,8 +159,19 @@ class EventosController extends Controller {
     public function editar($idEvento) {
         $evento = Evento::find($idEvento);
         $tipos = TipoEvento::all();
+        list($fechaInicio, $horaInicio) = explode(' ', $evento->fecha_inicio);
+        list($fechaFin, $horaFin) = explode(' ', $evento->fecha_fin);
 
-        return view('eventos.editar', ['tipos' => $tipos, 'evento' => $evento]);
+        return view('eventos.editar', [
+            'tipos' => $tipos,
+            'evento' => $evento,
+            'fecha_inicio' => $fechaInicio,
+            'fecha_fin' => $fechaFin,
+            'hora_inicio' => $horaInicio,
+            'hora_fin' => $horaFin,
+            'latitud' => $evento->latitud,
+            'longitud' => $evento->longitud
+        ]);
     }
 
     public function eliminar(Request $request) {
@@ -160,5 +188,12 @@ class EventosController extends Controller {
                 'status' => 500
             ]);
         }
+    }
+
+    public function estadistica($idEvento) {
+        $evento = Evento::find($idEvento);
+        $titulo = 'Estadísticas de "'. $evento->titulo .'"';
+
+        return view('eventos.estadistica', ['titulo' => $titulo]);
     }
 }

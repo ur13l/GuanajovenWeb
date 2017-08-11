@@ -12,6 +12,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 class UsuariosController {
+
+    /**
+     * Requerir logueo para las rutas que impliquen el módulo de usuarios
+     * UsuariosController constructor.
+     */
+    public function __construct() {
+        $this->middleware('auth.web');
+    }
+
     public function index(Request $request) {
         return view('usuarios.index');
     }

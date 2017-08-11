@@ -37,21 +37,21 @@
 
             <div class="row">
                 <div class="input-field col s6">
-                    <input id="fecha-inicio" type="text" class="datepicker vald" name="fecha_inicio" required>
+                    <input id="fecha-inicio" type="text" class="datepicker vald" value="{{ $fecha_inicio }}" name="fecha_inicio" required>
                     <label for="fecha-inicio">Fecha de inicio</label>
                 </div>
                 <div class="input-field col s6">
-                    <input id="hora-inicio" type="text" class="timepicker vald" name="hora_inicio" required>
+                    <input id="hora-inicio" type="text" class="timepicker vald" value="{{ $hora_inicio }}" name="hora_inicio" required>
                     <label for="hora-inicio">Hora de inicio</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6">
-                    <input id="fecha-fin" type="text" class="datepicker vald" name="fecha_fin" required>
+                    <input id="fecha-fin" type="text" class="datepicker vald" value="{{ $fecha_fin }}" name="fecha_fin" required>
                     <label for="fecha-fin">Fecha de finalización</label>
                 </div>
                 <div class="input-field col s6">
-                    <input id="hora-fin" type="text" class="timepicker vald" name="hora_fin" required>
+                    <input id="hora-fin" type="text" class="timepicker vald" value="{{ $hora_fin }}" name="hora_fin" required>
                     <label for="hora-fin">Hora de finalización</label>
                 </div>
             </div>
@@ -87,35 +87,28 @@
     <script>
         function initMap() {
             var map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: 23.36715613998013, lng: -102.33970642089844},
-                zoom: 8
+                center: {
+                    lat: Number('{{ $latitud }}'),
+                    lng: Number('{{ $longitud }}')
+                },
+                zoom: 15
             });
-            var infoWindow = new google.maps.InfoWindow;
             var marca = null;
 
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    var pos = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    };
+            var pos = {
+                lat: Number('{{ $latitud }}'),
+                lng: Number('{{ $longitud }}')
+            };
 
-                    infoWindow.setPosition(pos);
-                    marca = new google.maps.Marker({
-                        position: pos,
-                        map: map,
-                        draggable: true,
-                        title: 'Evento'
-                    });
-                    $('#posicion').val(marca.getPosition());
-                    map.setCenter(pos);
-                }, function() {
-                    handleLocationError(true, infoWindow, map.getCenter());
-                });
-            } else {
-                // Browser doesn't support Geolocation
-                handleLocationError(false, infoWindow, map.getCenter());
-            }
+            marca = new google.maps.Marker({
+                position: pos,
+                map: map,
+                draggable: true,
+                title: 'Evento'
+            });
+
+            $('#posicion').val(marca.getPosition());
+            map.setCenter(pos);
 
             map.addListener('mouseout', function() {
                 $('#posicion').val(marca.getPosition());
