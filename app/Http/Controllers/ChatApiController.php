@@ -13,7 +13,7 @@ use LRedis;
 
 class ChatApiController extends Controller
 {
-    
+
     public function enviar(Request $request) {
         $user = Auth::guard('api')->user();
         $chat = Chat::where('id_usuario', $user->id)->get()->first();
@@ -61,13 +61,13 @@ class ChatApiController extends Controller
         $chat = Chat::where('id_usuario', $user->id)->get()->first();
         return response()->json(
             array(
-                'success' => true, 
+                'success' => true,
                 'status' => 200,
                 'errors' => [],
                 'data' => $chat->mensajes()->orderBy('created_at', 'desc')->paginate(20)
             )
         );
-            
+
     }
 
      public function mensajesAdmin (Request $request) {
@@ -76,14 +76,14 @@ class ChatApiController extends Controller
         return response()->json(
              $chat->mensajes()->orderBy('created_at', 'desc')->paginate(20)
             );
-            
+
     }
 
 
     public function enviarAdmin(Request $request) {
         $user = Auth::guard('api')->user();
         $chat = Chat::find($request->active_chat);
-        
+
         $mensaje = Mensaje::create(array(
             'id_chat' => $chat->id_chat,
             'mensaje' => $request->mensaje,
