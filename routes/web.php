@@ -103,6 +103,7 @@ Route::group(['prefix' => 'eventos'], function () {
     Route::post('/editar/{idEvento}', 'EventosController@editar');
     Route::post('/eliminar', 'EventosController@eliminar');
     Route::post('/guardar/{idEvento}', 'EventosController@guardar');
+    Route::post('/estadisticas/{idEvento}', 'EventosController@estadistica');
 });
 
 //Video

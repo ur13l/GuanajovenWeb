@@ -28,8 +28,7 @@ class EventoApiController extends Controller {
 		));
 	}
 
-	public function marcarEvento(Request $request)
-    {
+	public function marcarEvento(Request $request) {
         $idEvento = $request->input('id_evento');
         $apiToken = $request->input('api_token');
         $latitudUsuario = $request->input('latitud');
@@ -60,9 +59,16 @@ class EventoApiController extends Controller {
 
         if ($distanciaMetros <= 500) {
             if (NotificacionEvento::where('id_evento', '=', $idEvento)->where('id_usuario', '=', $usuario->id)->where('asistio', '=', 1)->count() == 0) {
-                $notificacion = NotificacionEvento::where('id_evento', $idEvento)
-                    ->where('id_usuario', $usuario->id)
-                    ->first();
+                $notificacion = NotificacionEvento::where('id_evento', $idEvento)->where('id_usuario', $usuario->id)->first();
+
+                if ($notificacion == null) {
+                    $registro = new NotificacionEvento();
+                    $registro->id_usuario = $usuario->id;
+                    $registro->id_evento = $idEvento;
+                    $registro->asistio = 1;
+                    $notificacion = $registro;
+                }
+
                 $notificacion->asistio = 1;
                 $notificacion->save();
 
@@ -99,6 +105,59 @@ class EventoApiController extends Controller {
                     'puntos_otorgados' => 0,
                     'asistio' => 0
                 ]
+            ));
+        }
+    }
+
+    public function registrar(Request $request) {
+        $token = $request->input('token');
+        $idEvento = $request->input('id_evento');
+        $fechaActual = Carbon::now('America/Mexico_City')->toDateTimeString();
+        $codigoGuanajoven = CodigoGuanajoven::where('token', $token)
+            ->where('fecha_limite', '>', $fechaActual)
+            ->where('fecha_expiracion', '>', $fechaActual)
+            ->first();
+
+        if (isset($codigoGuanajoven)) {
+            $usuario = User::find($codigoGuanajoven->id_usuario);
+
+            if (isset($usuario)) {
+                $notificacion = NotificacionEvento::where('id_evento', $idEvento)
+                    ->where('id_usuario', $usuario->id)
+                    ->first();
+
+                if (isset($notificacion)) {
+                    $notificacion->dispositivo = 2;
+                    $notificacion->save();
+                } else {
+                    NotificacionEvento::create([
+                        'id_evento' => $idEvento,
+                        'id_usuario' => $usuario->id,
+                        'dispositivo' => 2,
+                        'asistio' => 1
+                    ]);
+                }
+
+                return response()->json(array(
+                    'status' => 200,
+                    'success' => true,
+                    'errors' => [],
+                    'data' => $usuario->email
+                ));
+            } else {
+                return response()->json(array(
+                    'status' => 404,
+                    'success' => false,
+                    'errors' => [],
+                    'data' => ''
+                ));
+            }
+        } else {
+            return response()->json(array(
+                'status' => 404,
+                'success' => false,
+                'errors' => [],
+                'data' => ''
             ));
         }
     }

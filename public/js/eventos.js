@@ -168,7 +168,7 @@ $(document).ready(function(){
                     Materialize.toast('La hora de finalización debe ser mayor a la hora de inicio', 3000, 'red');
                     mensaje_fecha = true;
                 }
-            } else if (fecha_fin < fecha_inicio) {
+            } else if (fecha_inicio > fecha_fin) {
                 $('#fecha-inicio').addClass('invalid');
                 $('#fecha-fin').addClass('invalid');
                 Materialize.toast('La fecha de finalización debe ser mayor a la fecha de inicio', 3000, 'red');

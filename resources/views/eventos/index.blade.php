@@ -22,6 +22,8 @@
                 <th data-field="descripcion">Descripción</th>
                 <th data-field="fecha_inicio">Inicia</th>
                 <th data-field="fecha_fin">Termina</th>
+                <th data-field="fecha_fin">Estadísticas</th>
+                <th data-field="fecha_fin">Editar</th>
                 <th data-field="eliminar">Eliminar</th>
 
             </tr>

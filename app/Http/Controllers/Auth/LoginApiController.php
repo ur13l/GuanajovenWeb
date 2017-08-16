@@ -75,6 +75,47 @@ class LoginApiController extends Controller
         }
     }
 
+    /**
+     * Función para logueo de administradores
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function loginAdmin(Request $request) {
+        $correo = $request->input("email");
+        $password = $request->input("password");
+        $data = null;
+        $user = User::where("email", $correo)->first();
+
+        if (isset($user)) {
+            if (Auth::once(['email' => $correo, 'password' => $password, 'admin' => 1])) {
+                $usuario = User::with('datosUsuario')
+                    ->with('codigoGuanajoven')
+                    ->find(Auth::user()->id);
+
+                return response()->json([
+                    "success" => true,
+                    "errors" => [],
+                    "status" => 200,
+                    "data" => $usuario
+                ]);
+            } else {
+                return response()->json([
+                    "success" => false,
+                    "errors" => ["Usuario o contraseña incorrectos"],
+                    "status" => 500,
+                    "data" => []
+                ]);
+            }
+        } else {
+            return response()->json([
+                "success" => false,
+                "errors" => ["Parece que aún no esta registrada esta cuenta"],
+                "status" => 200,
+                "data" => []
+            ]);
+        }
+    }
+
 
     /**
      * Función para verificar el acceso de usuario mediante Googl

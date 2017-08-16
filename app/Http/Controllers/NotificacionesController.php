@@ -16,6 +16,14 @@ use Illuminate\Support\Facades\View;
 class NotificacionesController extends Controller {
 
     /**
+     * Requerir logueo para las rutas que impliquen el módulo de usuarios
+     * UsuariosController constructor.
+     */
+    public function __construct() {
+        $this->middleware('auth.web');
+    }
+
+    /**
      * Notificación: Index
      * Método para cargar la vista principal de notificaciones.
      * @param Request $request

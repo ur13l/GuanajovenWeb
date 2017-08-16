@@ -12,6 +12,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 class ChatController {
     use ValidatesRequests;
+
+    /**
+     * Requerir logueo para las rutas que impliquen el módulo de usuarios
+     * UsuariosController constructor.
+     */
+    public function __construct() {
+        $this->middleware('auth.web');
+    }
+
     /**
      * Index [GET]
      * Carga el index de empresa con el listado de estas para revisar detalles, crear y eliminar
