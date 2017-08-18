@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 
 use App\Evento;
+use App\NotificacionEvento;
 use App\TipoEvento;
+use App\User;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -192,8 +194,31 @@ class EventosController extends Controller {
 
     public function estadistica($idEvento) {
         $evento = Evento::find($idEvento);
-        $titulo = 'Estadísticas de "'. $evento->titulo .'"';
+        $asistentes = NotificacionEvento::where('id_evento', $evento->id_evento)->get();
 
-        return view('eventos.estadistica', ['titulo' => $titulo]);
+        if (isset($asistentes)) {
+            $usuariosAsistentes = [];
+            $usuariosInteresados = [];
+
+            foreach ($asistentes as $asistente) {
+                $usuario = User::find($asistente->id_usuario);
+
+                if (isset($usuario)) {
+                    if ($asistente->asistio == 1) {
+                        array_push($usuariosAsistentes, $usuario);
+                    } else {
+                        array_push($usuariosInteresados, $usuario);
+                    }
+                }
+            }
+        } else {
+            $usuariosAsistentes = [];
+        }
+
+        return view('eventos.estadistica', [
+            'titulo' => $evento->titulo,
+            'usuariosAsistentes' => $usuariosAsistentes,
+            'usuariosInteresados' => $usuariosInteresados
+        ]);
     }
 }

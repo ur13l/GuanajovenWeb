@@ -137,6 +137,7 @@ class NotificacionesController extends Controller {
             'sound' => 'default',
             'priority' => 'high',
             'category' => 'URL_CATEGORY',
+            'content_available' => true,
             'tag' => $enlace);
 
         //Envío de las notificaciones a iOS y Android
