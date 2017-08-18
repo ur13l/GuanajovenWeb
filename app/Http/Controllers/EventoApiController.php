@@ -9,26 +9,30 @@ use App\Notifications\EventoNotificacion;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Expr\Array_;
 
-class EventoApiController extends Controller {
+class EventoApiController extends Controller
+{
 
-	public function obtenerEventos(Request $request) {
-		$timestamp  = $request->input('timestamp');
+    public function obtenerEventos(Request $request)
+    {
+        $timestamp = $request->input('timestamp');
 
-		$eventos = Evento::where('updated_at','>', $timestamp)
-		->orderBy('created_at')
-		->withTrashed()
-		->get();
+        $eventos = Evento::where('updated_at', '>', $timestamp)
+            ->orderBy('created_at')
+            ->withTrashed()
+            ->get();
 
-		return response()->json(array(
-			'status' => 200,
-			'success' => true,
-			'errors' => [],
-			'data' => $eventos
-		));
-	}
+        return response()->json(array(
+            'status' => 200,
+            'success' => true,
+            'errors' => [],
+            'data' => $eventos
+        ));
+    }
 
-	public function marcarEvento(Request $request) {
+    public function marcarEvento(Request $request)
+    {
         $idEvento = $request->input('id_evento');
         $apiToken = $request->input('api_token');
         $latitudUsuario = $request->input('latitud');
@@ -109,7 +113,8 @@ class EventoApiController extends Controller {
         }
     }
 
-    public function registrar(Request $request) {
+    public function registrar(Request $request)
+    {
         $token = $request->input('token');
         $idEvento = $request->input('id_evento');
         $fechaActual = Carbon::now('America/Mexico_City')->toDateTimeString();
@@ -161,4 +166,103 @@ class EventoApiController extends Controller {
             ));
         }
     }
+
+    public function usuariosRegistrados(Request $request)
+    {
+        $id_evento = $request->input("id_evento");
+
+        $eventos = NotificacionEvento::where('id_evento', '=', $id_evento)
+            ->where('asistio', '=', 1)
+            ->get();
+
+        if ($eventos != null) {
+
+            $usuarios = array();
+
+            foreach ($eventos as $evento) {
+                $usuario = User::where('id', '=', $evento->id_usuario)->first();
+                $datos_usuario = DatosUsuario::where('id_usuario', '=', $usuario->id)->get();
+
+                $usuario->nombre = $datos_usuario[0]->nombre;
+                $usuario->apellido_paterno = $datos_usuario[0]->apellido_paterno;
+                $usuario->apellido_materno = $datos_usuario[0]->apellido_materno;
+                $usuario->ruta_imagen = $datos_usuario[0]->ruta_imagen;
+
+
+                unset($usuario->id);
+                unset($usuario->admin);
+                unset($usuario->api_token);
+                unset($usuario->created_at);
+                unset($usuario->updated_at);
+                unset($usuario->deleted_at);
+
+                array_push($usuarios, $usuario);
+            }
+
+            return response()->json(array(
+                'status' => 200,
+                'success' => true,
+                'errors' => [],
+                'data' => $usuarios
+            ));
+        } else {
+            return response()->json(array(
+                'status' => 200,
+                'success' => true,
+                'errors' => [],
+                'data' => null
+            ));
+        }
+
+    }
+
+    public function usuariosInteresados(Request $request)
+    {
+        $id_evento = $request->input("id_evento");
+
+        $eventos = NotificacionEvento::where('id_evento', '=', $id_evento)
+            ->where('asistio', '=', 0)
+            ->where('le_interesa', '=', 1)
+            ->get();
+
+        if ($eventos != null) {
+
+            $usuarios = array();
+
+            foreach ($eventos as $evento) {
+                $usuario = User::where('id', '=', $evento->id_usuario)->first();
+
+                $datos_usuario = DatosUsuario::where('id_usuario', '=', $usuario->id)->get();
+
+                $usuario->nombre = $datos_usuario[0]->nombre;
+                $usuario->apellido_paterno = $datos_usuario[0]->apellido_paterno;
+                $usuario->apellido_materno = $datos_usuario[0]->apellido_materno;
+                $usuario->ruta_imagen = $datos_usuario[0]->ruta_imagen;
+
+                unset($usuario->id);
+                unset($usuario->admin);
+                unset($usuario->api_token);
+                unset($usuario->created_at);
+                unset($usuario->updated_at);
+                unset($usuario->deleted_at);
+
+                array_push($usuarios, $usuario);
+            }
+
+            return response()->json(array(
+                'status' => 200,
+                'success' => true,
+                'errors' => [],
+                'data' => $usuarios
+            ));
+        } else {
+            return response()->json(array(
+                'status' => 200,
+                'success' => true,
+                'errors' => [],
+                'data' => null
+            ));
+        }
+    }
+
 }

@@ -30,7 +30,8 @@ Route::get('/eventos','EventoApiController@obtenerEventos');
 Route::post('/eventos/marcar','EventoApiController@marcarEvento');
 Route::post('/eventos/registrar', 'EventoApiController@registrar');
 Route::get('/notificacionres', 'NotificacionesApiController@obtenerNotificaciones');
-
+Route::get('/eventos/usuariosregistrados', 'EventoApiController@usuariosRegistrados');
+Route::get('/eventos/usuariosinteresados', 'EventoApiController@usuariosInteresados');
 
 //Autenticación API
 Route::group(['prefix' => 'usuarios'], function () {
@@ -69,9 +70,13 @@ Route::group(['prefix' => '/chat'], function() {
     Route::post('/enviarAdmin', 'ChatApiController@enviarAdmin');
 });
 
-
 Route::group(['prefix' => '/documentos'], function () {
-   Route::group(['prefix' => '/pdf'], function() {
+
+    Route::group(['prefix' => '/pdf'], function() {
       Route::get('idguanajoven', 'PdfController@generarPDF');
+   });
+
+   Route::group(['prefix' => '/excel'], function () {
+       Route::get('reporteevento', 'ExcelController@obtenerUsuarios');
    });
 });

@@ -46,7 +46,7 @@ class PdfController extends Controller
                 $message->attach('pdf/'.$curp.'.pdf');
             });
 
-
+        unlink('pdf/'.$curp.'.pdf');
     }
 
 }
