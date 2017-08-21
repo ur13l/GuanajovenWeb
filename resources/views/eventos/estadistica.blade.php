@@ -15,45 +15,56 @@
 @endsection
 
 @section('contenedor')
+    <h2 style="margin-top: -5px; display: inline-block;">Evento "{{ $evento->titulo }}"</h2>
+    <div style="margin-top: -5px; display: inline-block; float: right;">
+        <div class="titulos-fecha-ini" style="display: inline-block;">
+            <h6 style="display: inline-block; font-weight: bold;">Fecha de inicio</h6><br/>
+            <h6 style="display: inline-block;">{{ date('d/m/Y H:i:s', strtotime($evento->fecha_inicio)) }}</h6>
+        </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div class="titulos-fecha-fin" style="display: inline-block;">
+            <h6 style="display: inline-block; font-weight: bold;">Fecha de finalización</h6><br/>
+            <h6 style="display: inline-block;">{{ date('d/m/Y H:i:s', strtotime($evento->fecha_fin)) }}</h6>
+        </div>
+    </div>
     <div class="row">
-        <h2>"{{ $titulo }}"</h2>
+        <h4>Lista de asistentes</h4>
+        <table id="tabla-asistentes" class="display highlight" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <th data-field="numero">#</th>
+                <th data-field="id_guanajoven">I.D. Guanajoven</th>
+                <th data-field="nombre">Nombre</th>
+                <th data-field="apellido_paterno">Apellido paterno</th>
+                <th data-field="curp">CURP</th>
+                <th data-field="correo">Correo</th>
+                <th data-field="genero">Género</th>
+                <th data-field="edad">Edad</th>
+            </tr>
+            </thead>
+            <tbody id="tabla-asistentes">
+            @foreach($usuariosAsistentes as $key => $usuario)
+                <tr>
+                    <td class="numero">{{ $key + 1 }}</td>
+                    <td class="id_guanajoven">{{ $usuario->codigoGuanajoven->id_codigo_guanajoven }}</td>
+                    <td class="nombre">{{ $usuario->datosUsuario->nombre }}</td>
+                    <td class="apellido_paterno">{{ $usuario->datosUsuario->apellido_paterno }}</td>
+                    <td class="curp">{{ $usuario->datosUsuario->curp }}</td>
+                    <td class="correo">{{ $usuario->email }}</td>
+                    <td class="genero">{{ $usuario->datosUsuario->genero->nombre }}</td>
+                    <td class="edad">{{ $usuario->edad }}</td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
     </div>
     <div class="row col-md-12">
         <div class="col-md-6" style="width: 48%; display: inline-block;">
             <canvas id="canvas-asistentes"></canvas>
         </div>
-        <div class="col-md-6" style="width: 48%; display: inline-block;">
-            <canvas id="canvas-interesados"></canvas>
-        </div>
-    </div>
-    <div class="row">
-        <h4>Lista de asistentes</h4>
-        <table class="highlight">
-            <thead>
-                <tr>
-                    <th data-field="curp">CURP</th>
-                    <th data-field="nombre">Nombre</th>
-                    <th data-field="apellido_paterno">Apellido paterno</th>
-                    <th data-field="apellido_materno">Apellido materno</th>
-                    <th data-field="correo">Correo</th>
-                </tr>
-            </thead>
-            <tbody id="tabla-asistentes">
-                @foreach($usuariosAsistentes as $usuario)
-                    <tr>
-                        <td class="curp">{{ $usuario->datosUsuario->curp }}</td>
-                        <td class="nombre">{{ $usuario->datosUsuario->nombre }}</td>
-                        <td class="apellido_paterno">{{ $usuario->datosUsuario->apellido_paterno }}</td>
-                        <td class="apellido_materno">{{ $usuario->datosUsuario->apellido_materno }}</td>
-                        <td class="correo">{{ $usuario->email }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
     </div>
     <script>
         var cantidad1 = Number('{{ count($usuariosAsistentes) }}');
-        var cantidad2 = Number('{{ count($usuariosInteresados) }}');
 
         var config = {
             type: 'bar',
@@ -86,42 +97,9 @@
             }
         };
 
-        var config2 = {
-            type: 'bar',
-            data: {
-                labels: [''],
-                datasets: [{
-                    label: 'Cantidad',
-                    backgroundColor: 'rgb(100, 200, 100)',
-                    data: [
-                        cantidad2
-                    ]
-                }]
-            },
-            options: {
-                responsive: true,
-                title:{
-                    display: true,
-                    text:'Usuarios interesados'
-                },
-                scales: {
-                    yAxes: [{
-                        display: true,
-                        ticks: {
-                            min: 0,
-                            max: cantidad2 + 1,
-                            stepSize: 1
-                        }
-                    }]
-                }
-            }
-        };
-
         window.onload = function() {
             var ctx = document.getElementById("canvas-asistentes").getContext("2d");
             window.myBar = new Chart(ctx, config);
-            var ctx = document.getElementById("canvas-interesados").getContext("2d");
-            window.myBar = new Chart(ctx, config2);
         };
     </script>
 @endsection
