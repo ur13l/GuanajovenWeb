@@ -198,16 +198,23 @@ class EventosController extends Controller {
 
         if (isset($asistentes)) {
             $usuariosAsistentes = [];
-            $usuariosInteresados = [];
 
             foreach ($asistentes as $asistente) {
                 $usuario = User::find($asistente->id_usuario);
 
                 if (isset($usuario)) {
                     if ($asistente->asistio == 1) {
+                        //Calcular edad
+                        $fecha_nacimiento = $usuario->datosUsuario->fecha_nacimiento->toDateTimeString();
+                        $fecha_nacimiento = date('d/m/Y', strtotime($fecha_nacimiento));
+                        $fecha_nacimiento = explode('/', $fecha_nacimiento);
+
+                        $edad = (date("md", date("U", mktime(0, 0, 0, $fecha_nacimiento[0], $fecha_nacimiento[1], $fecha_nacimiento[2]))) > date("md")
+                                ? ((date("Y") - $fecha_nacimiento[2]) - 1)
+                                : (date("Y") - $fecha_nacimiento[2]));
+                        $usuario->setAttribute('edad', $edad);
+
                         array_push($usuariosAsistentes, $usuario);
-                    } else {
-                        array_push($usuariosInteresados, $usuario);
                     }
                 }
             }
@@ -216,9 +223,8 @@ class EventosController extends Controller {
         }
 
         return view('eventos.estadistica', [
-            'titulo' => $evento->titulo,
+            'evento' => $evento,
             'usuariosAsistentes' => $usuariosAsistentes,
-            'usuariosInteresados' => $usuariosInteresados
         ]);
     }
 }
