@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CodigoGuanajoven;
 use App\DatosUsuario;
 use App\Evento;
 use App\NotificacionEvento;
@@ -182,11 +183,13 @@ class EventoApiController extends Controller
             foreach ($eventos as $evento) {
                 $usuario = User::where('id', '=', $evento->id_usuario)->first();
                 $datos_usuario = DatosUsuario::where('id_usuario', '=', $usuario->id)->get();
+                $id_guanajoven = CodigoGuanajoven::where('id_usuario', '=', $usuario->id)->first();
 
                 $usuario->nombre = $datos_usuario[0]->nombre;
                 $usuario->apellido_paterno = $datos_usuario[0]->apellido_paterno;
                 $usuario->apellido_materno = $datos_usuario[0]->apellido_materno;
                 $usuario->ruta_imagen = $datos_usuario[0]->ruta_imagen;
+                $usuario->id_guanajoven = $id_guanajoven->id_codigo_guanajoven;
 
 
                 unset($usuario->id);
@@ -195,6 +198,7 @@ class EventoApiController extends Controller
                 unset($usuario->created_at);
                 unset($usuario->updated_at);
                 unset($usuario->deleted_at);
+                unset($usuario->puntaje);
 
                 array_push($usuarios, $usuario);
             }
@@ -233,11 +237,14 @@ class EventoApiController extends Controller
                 $usuario = User::where('id', '=', $evento->id_usuario)->first();
 
                 $datos_usuario = DatosUsuario::where('id_usuario', '=', $usuario->id)->get();
+                $id_guanajoven = CodigoGuanajoven::where('id_usuario', '=', $usuario->id)->first();
+
 
                 $usuario->nombre = $datos_usuario[0]->nombre;
                 $usuario->apellido_paterno = $datos_usuario[0]->apellido_paterno;
                 $usuario->apellido_materno = $datos_usuario[0]->apellido_materno;
                 $usuario->ruta_imagen = $datos_usuario[0]->ruta_imagen;
+                $usuario->id_guanajoven = $id_guanajoven->id_codigo_guanajoven;
 
                 unset($usuario->id);
                 unset($usuario->admin);
@@ -245,6 +252,7 @@ class EventoApiController extends Controller
                 unset($usuario->created_at);
                 unset($usuario->updated_at);
                 unset($usuario->deleted_at);
+                unset($usuario->puntaje);
 
                 array_push($usuarios, $usuario);
             }

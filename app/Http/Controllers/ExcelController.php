@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\CodigoGuanajoven;
 use App\DatosUsuario;
 use App\Evento;
 use App\NotificacionEvento;
 use App\User;
+use FontLib\EOT\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Mail;
 
@@ -17,43 +20,27 @@ class ExcelController extends Controller {
         $id_evento = $request->input('id_evento');
         $correo = $request->input('correo');
 
-        $eventos = NotificacionEvento::where('id_evento', '=', $id_evento)
+        $eventos_usuarios_registrados = NotificacionEvento::where('id_evento', '=', $id_evento)
             ->where('asistio', '=', 1)
             ->get();
 
-        if (count($eventos) > 0) {
-            $usuarios = array();
+        $eventos_usuarios_interesados = NotificacionEvento::where('id_evento', '=', $id_evento)
+            ->where('asistio', '=', 0)
+            ->where('le_interesa', '=', 1)
+            ->get();
 
-            foreach ($eventos as $evento) {
-                $usuario = User::where('id', '=', $evento->id_usuario)->first();
+        $usuarios_registrados = count($eventos_usuarios_registrados) > 0;
+        $usuarios_interesados = count($eventos_usuarios_interesados) > 0;
 
-                $datos_usuario = DatosUsuario::where('id_usuario', '=', $usuario->id)->first();
 
-                $usuario->Email = $usuario->email;
-                $usuario->Nombre = $datos_usuario->nombre;
-                $usuario->Apellido_Paterno = $datos_usuario->apellido_paterno;
-                $usuario->Apellido_Materno = $datos_usuario->apellido_materno;
-                $usuario->Curp = $datos_usuario->curp;
-
-                unset($usuario->email);
-                unset($usuario->id);
-                unset($usuario->admin);
-                unset($usuario->api_token);
-                unset($usuario->created_at);
-                unset($usuario->updated_at);
-                unset($usuario->deleted_at);
-                unset($usuario->puntaje);
-                unset($usuario->id_google);
-                unset($usuario->id_facebook);
-                unset($usuario->password);
-                unset($usuario->remember_token);
-
-                array_push($usuarios, $usuario);
+        if ($usuarios_registrados || $usuarios_interesados) {
+            if (true === $usuarios_registrados) {
+                $evento = Evento::where('id_evento', '=', $eventos_usuarios_registrados[0]->id_evento)->first();
+            } else {
+                $evento = Evento::where('id_evento', '=', $eventos_usuarios_interesados[0]->id_evento)->first();
             }
 
-            $evento = Evento::where('id_evento', '=', $eventos[0]->id_evento)->first();
-
-            $this->generarExcel(collect($usuarios), $evento, $correo);
+            $this->generarExcel(collect($this->getUsuarios($eventos_usuarios_registrados)), collect($this->getUsuarios($eventos_usuarios_interesados)), $evento, $correo);
         } else {
             return response()->json(array(
                 "success" => true,
@@ -62,15 +49,17 @@ class ExcelController extends Controller {
                 "data" => false
             ));
         }
+
+
     }
 
 
-    public function generarExcel($usuarios, $evento, $correo) {
+    public function generarExcel($usuarios_registrados, $usuarios_interesados, $evento, $correo) {
         date_default_timezone_set('UTC');
 
         $date = date('Y-m-d h_i_s');
 
-        Excel::create($evento->titulo.'_Registro_'.$date, function ($excel) use ($usuarios, $date, $evento) {
+        Excel::create($evento->titulo.'_Registro_'.$date, function ($excel) use ($usuarios_registrados, $usuarios_interesados, $date, $evento) {
             $excel->setTitle($evento->titulo.'_Registro_'.$date);
             $excel->setCreator('Guanajoven')->setCompany('Guanajoven');
 
@@ -93,10 +82,17 @@ class ExcelController extends Controller {
                 }
             });
 
-            $excel->sheet('Usuarios_Registrados', function($sheet) use($usuarios) {
+
+            $excel->sheet('Usuarios_Registrados', function($sheet) use($usuarios_registrados) {
                 $sheet->setOrientation('landscape');
-                $sheet->fromArray($usuarios, NULL, 'A1');
+                $sheet->fromArray($usuarios_registrados, NULL, 'A1');
             });
+
+            $excel->sheet('Usuarios_Interesados', function ($sheet) use($usuarios_interesados) {
+               $sheet->setOrientation('landscape');
+               $sheet->fromArray($usuarios_interesados, null, 'A1');
+            });
+
 
         })->store('xlsx', 'excel');
 
@@ -127,5 +123,58 @@ class ExcelController extends Controller {
         unlink('excel/'.$titulo.'.xlsx');
 
     }
+
+    public function getUsuarios($eventos) {
+            $usuarios = array();
+
+            foreach ($eventos as $evento) {
+                $usuario = User::where('id', '=', $evento->id_usuario)->first();
+                $codigo_guanajoven = CodigoGuanajoven::where('id_usuario', '=', $evento->id_usuario)->first();
+
+                //dd($codigo_guanajoven);
+
+                $datos_usuario = DatosUsuario::where('id_usuario', '=', $usuario->id)->first();
+
+                $usuario->ID_Guanajoven = $codigo_guanajoven->id_codigo_guanajoven;
+                $usuario->Nombre = $datos_usuario->nombre;
+                $usuario->Apellido_Paterno = $datos_usuario->apellido_paterno;
+                $usuario->Apellido_Materno = $datos_usuario->apellido_materno;
+                $usuario->Curp = $datos_usuario->curp;
+
+                $usuario->Correo = $usuario->email;
+
+
+                if ($datos_usuario->id_genero == 1) {
+                    $usuario->Genero = 'Masculino';
+                } else {
+                    $usuario->Genero = 'Femenino';
+                }
+
+                $fecha_hoy = date('Y-m-d', time());
+                $array_fecha_nacimiento = date_parse($datos_usuario->fecha_nacimiento);
+                $fecha_nacimiento_usuario = $array_fecha_nacimiento['year'].'-'.$array_fecha_nacimiento['month'].'-'.$array_fecha_nacimiento['day'];
+                $años_usuario = date_diff(new \DateTime($fecha_hoy), new \DateTime($fecha_nacimiento_usuario))->y;
+
+                $usuario->Edad = $años_usuario;
+
+                unset($usuario->email);
+                unset($usuario->id);
+                unset($usuario->admin);
+                unset($usuario->api_token);
+                unset($usuario->created_at);
+                unset($usuario->updated_at);
+                unset($usuario->deleted_at);
+                unset($usuario->puntaje);
+                unset($usuario->id_google);
+                unset($usuario->id_facebook);
+                unset($usuario->password);
+                unset($usuario->remember_token);
+
+                array_push($usuarios, $usuario);
+            }
+
+            return $usuarios;
+    }
+
 
 }
