@@ -11,7 +11,7 @@ use App\Publicidad;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 
-class PublicidadController {
+class PublicidadController extends Controller {
     use ValidatesRequests;
 
     /**

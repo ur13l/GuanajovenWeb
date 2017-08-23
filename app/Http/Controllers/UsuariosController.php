@@ -11,7 +11,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class UsuariosController {
+class UsuariosController extends Controller{
 
     /**
      * Requerir logueo para las rutas que impliquen el módulo de usuarios

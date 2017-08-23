@@ -58,6 +58,7 @@ Route::group(['prefix' => '/notificaciones'], function() {
     Route::post('/cancelartoken', 'NotificacionesApiController@cancelar');
     Route::post('/convocatoria', 'ConvocatoriaNotificacionController@enviarNotificacion');
     Route::post('/evento', 'EventoNotificacionController@enviarNotificacion');
+    Route::post('/notificacionurl', 'NotificacionesApiController@notificacionurl');
     Route::any('/convocatoria/registrada', 'EnviarCorreosApiController@index')->name('convocatoria.registrada');
     Route::any('/evento/registrado', 'EnviarCorreosApiController@guardarVariablesEvento')->name('evento.registrado');
 });

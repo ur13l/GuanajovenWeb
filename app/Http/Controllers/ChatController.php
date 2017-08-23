@@ -10,7 +10,7 @@ use App\Utils\FileUtils;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-class ChatController {
+class ChatController  extends Controller{
     use ValidatesRequests;
 
     /**
@@ -18,7 +18,7 @@ class ChatController {
      * UsuariosController constructor.
      */
     public function __construct() {
-        $this->middleware('auth.web');
+       $this->middleware('auth.web');
     }
 
     /**

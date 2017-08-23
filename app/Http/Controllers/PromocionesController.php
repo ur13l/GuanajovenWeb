@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
-class PromocionesController {
+class PromocionesController  extends Controller{
     use ValidatesRequests;
 
     /**

@@ -102,8 +102,13 @@ class ChatApiController extends Controller
                     'sound' => 'default',
                     'priority' => 'high',
                     'category' => 'URL_CATEGORY',
+                    'content_available' => true,
                     'tag' => "chat");
 
+
+
+
+        NotificationsUtils::sendNotification($tokens, $message, 'notification');
         NotificationsUtils::sendNotification($tokens, $message, 'data');
 
         return response()->json(array(
