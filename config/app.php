@@ -177,6 +177,9 @@ return [
         //QR generator library
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
 
+        //Excel generator library
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
@@ -238,6 +241,7 @@ return [
         'SoapWrapper' => Artisaninweb\SoapWrapper\Facade::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];

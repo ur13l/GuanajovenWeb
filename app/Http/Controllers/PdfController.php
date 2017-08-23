@@ -23,6 +23,10 @@ class PdfController extends Controller
         $view = view('pdf.CredencialGuanajoven', compact('api_token','nombre', 'curp'))->render();
         $pdf = \App::make('dompdf.wrapper');
 
+        if (!is_dir('pdf')) {
+            mkdir('pdf', 0777, true);
+        }
+
         $pdf->loadHTML($view)->save('pdf/'.$curp.'.pdf');
 
         $this->enviarCorreo($curp, $usuario->email);
@@ -46,7 +50,7 @@ class PdfController extends Controller
                 $message->attach('pdf/'.$curp.'.pdf');
             });
 
-
+        unlink('pdf/'.$curp.'.pdf');
     }
 
 }
