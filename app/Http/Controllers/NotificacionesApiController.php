@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\LoginToken;
+use App\Notificacion;
 use Illuminate\Http\Request;
 
 class NotificacionesApiController extends Controller
@@ -75,6 +76,38 @@ class NotificacionesApiController extends Controller
             ]);
         }
     }
+
+
+
+        /**
+         * Función para obtener url dando el título y mensaje
+         * @param Request $request
+         * @return \Illuminate\Http\JsonResponse
+         */
+        public function notificacionurl(Request $request) {
+            $titulo = $request->input('titulo');
+            $mensaje = $request->input('mensaje');
+            $objetoNotificacion = Notificacion::where([
+                  ['titulo', '=', $titulo],
+                  ['mensaje', '=', $mensaje],
+              ])->orderBy('fecha_emision', 'desc')->get()->first();
+
+            /*  if($objetoNotificacion->url == null){
+                $objetoNotificacion->url = "";
+              }*/
+                return response()->json([
+                    "success" => true,
+                    "errors" => [],
+                    "status" => 200,
+                    "data" => $objetoNotificacion->url
+                ]);
+
+        }
+
+
+
+
+
 
     public function obtenerNotificaciones(Request $request) {
         $timestamp = $request->input('timestamp');
