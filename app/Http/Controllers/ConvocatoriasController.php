@@ -15,7 +15,7 @@ use App\Utils\FileUtils;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 
-class ConvocatoriasController {
+class ConvocatoriasController extends Controller {
     use ValidatesRequests;
 
     /**

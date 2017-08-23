@@ -16,7 +16,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class EmpresaController {
+class EmpresaController  extends Controller{
     use ValidatesRequests;
 
     /**
