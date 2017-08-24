@@ -451,6 +451,7 @@ class UserApiController extends Controller {
             $errors[] = "El token de código joven no se pudo actualizar";
         }
 
+
         return response()->json(array(
             'data' => $token,
             'success' => $success,
