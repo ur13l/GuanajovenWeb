@@ -78,9 +78,9 @@ class UserApiController extends Controller {
 
             $curp = $request->input('curp');
 
-            //$response = $this->calcularCurp($curp);
+            $response = $this->calcularCurp($curp);
 
-          //  if(isset($response['statusOper'])) {
+           if(isset($response['statusOper'])) {
             //User
             $correo = $request->input("email");
             $password = $request->input("password");
@@ -179,9 +179,9 @@ class UserApiController extends Controller {
                     }
                 }
             }
-        //    } else {
-          //      $errors[] = "El CURP Proporcionado no se encuentra registrado.";
-        //    }
+           } else {
+               $errors[] = "El CURP Proporcionado no se encuentra registrado.";
+           }
         }
 
         if (count($errors) > 0) {
