@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\User;
 
 class LoginController extends Controller
 {
@@ -17,8 +18,17 @@ class LoginController extends Controller
         $correo = $request->input("email");
         $password = $request->input("password");
 
+
+
+
         if (Auth::attempt(['email' => $correo, 'password' => $password])) {
-            return redirect()->intended('/eventos/inicio');
+            $usuario = User::where('email', $correo )->get()->first();
+            if($usuario->admin == "1"){
+                return redirect()->intended('/eventos/inicio');
+            }else{
+                return view('index', ["errors" => ["Usuario sin permisos de administrador"]]);
+            }
+
         } else {
             return view('index', ["errors" => ["Usuario o contraseña incorrecto"]]);
         }

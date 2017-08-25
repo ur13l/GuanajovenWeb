@@ -80,6 +80,8 @@ class ChatApiController extends Controller
     }
 
 
+
+    
     public function enviarAdmin(Request $request) {
         $user = Auth::guard('api')->user();
         $chat = Chat::find($request->active_chat);
@@ -106,10 +108,14 @@ class ChatApiController extends Controller
                     'tag' => "chat");
 
 
+  $dispositivo = LoginToken::where('device_token',$tokens[0])->get()->first();
 
 
-        NotificationsUtils::sendNotification($tokens, $message, 'notification');
-        NotificationsUtils::sendNotification($tokens, $message, 'data');
+    if($dispositivo->os == "ios"){
+       NotificationsUtils::sendNotification($tokens, $message, 'notification');
+    }else{
+      NotificationsUtils::sendNotification($tokens, $message, 'data');
+    }
 
         return response()->json(array(
             'success' => true,
