@@ -77,7 +77,15 @@ Route::group(['prefix' => 'chat'], function() {
       Route::get('/', 'ChatController@index')->name('chat');
 });
 
+//Jóvenes
 
+Route::group(['prefix' => 'jovenes'], function(){
+  Route::get('/', 'JovenesController@index');  
+  Route::get('/nuevo', 'JovenesController@nuevo');
+  Route::post('/crear', 'JovenesController@crear');
+  Route::post('/borrar', 'JovenesController@borrar');
+  Route::get('/editar', 'JovenesController@editar');
+});
 
 
 //Notificaciones
