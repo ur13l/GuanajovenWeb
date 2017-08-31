@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Guanajoven - Iniciar sesión</title>
+    <link rel="shortcut icon" type="image/png" href="{{ url('/img/icono.png') }}" />
     <link rel="stylesheet" href="{{url('materialize/css/materialize.min.css')}}">
     <link rel="stylesheet" href="{{url('css/style.css')}}">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
