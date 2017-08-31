@@ -119,12 +119,12 @@
                     </div>
 
                     <div class="input-field col s2">
-                        <input type="number" id="txt_age1" style="display:none" name="txt_age1" value="">
+                      <!--  <input type="number" id="txt_age1" style="display:none" name="txt_age1" value="">-->
                     </div>
                     <div class="input-field col s2">
-                        <input type="number" id="txt_age2" style="display:none" name="txt_age2" value="">
+                        <!--<input type="number" id="txt_age2" style="display:none" name="txt_age2" value="">-->
                     </div>
-                    <p class="col s2" id="label_age" style="display:none"> años </p>
+                    <!--<p class="col s2" id="label_age" style="display:none"> años </p>-->
                 </div>
 
             </div>
