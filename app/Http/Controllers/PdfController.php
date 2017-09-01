@@ -29,8 +29,6 @@ class PdfController extends Controller
 
         $pdf->loadHTML($view)->save('pdf/'.$curp.'.pdf');
 
-  //  dd("hola");
-
 
         $this->enviarCorreo($curp, $usuario->email);
 
@@ -53,7 +51,7 @@ class PdfController extends Controller
                 $message->attach('pdf/'.$curp.'.pdf');
             });
 
-        unlink('pdf/'.$curp.'.pdf');
+        //unlink('pdf/'.$curp.'.pdf');
     }
 
 }
