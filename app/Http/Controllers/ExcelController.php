@@ -116,7 +116,7 @@ class ExcelController extends Controller {
                     //Desde donde llega el mensaje
                     $message->from('guanajoven@gmail.com', 'Guanajoven');
                     //Mensaje para el usuario
-                    $message->to($correo, 'Administrador')->subject($titulo);
+                    $message->to('jose.camacho@inquality.com.mx', 'Administrador')->subject($titulo);
                     $message->attach('excel/'.$titulo.'.xlsx');
                 });
 
