@@ -113,7 +113,7 @@ class NotificacionesController extends Controller {
                         ->where('os', 'ios')
                         ->pluck('device_token')->toArray();
 
-                    dd($tokensAndroid);
+                //    dd($tokensAndroid);
                 break;
             case 3:
                 $mayor->year = $mayor->year - $age1;
