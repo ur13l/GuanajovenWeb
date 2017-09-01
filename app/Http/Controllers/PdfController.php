@@ -29,6 +29,9 @@ class PdfController extends Controller
 
         $pdf->loadHTML($view)->save('pdf/'.$curp.'.pdf');
 
+  //  dd("hola");
+
+
         $this->enviarCorreo($curp, $usuario->email);
 
         return response()->json(array(
