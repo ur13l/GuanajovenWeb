@@ -32,10 +32,11 @@ class CreateRolPermisoTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
-        Schema::table('rol_permiso', function (Blueprint $table) {
-            //
-        });
+    public function down() {
+        Schema::dropIfExists('rol_permiso');
+    }
+
+    private function addOrUpdate(Blueprint $table) {
+
     }
 }

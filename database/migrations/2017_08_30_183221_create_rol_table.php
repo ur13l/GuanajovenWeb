@@ -13,15 +13,15 @@ class CreateRolTable extends Migration
      */
     public function up()
     {
-        Schema::table('rol', function (Blueprint $table) {
-            $table->increments('id');
-
-            $table->string('nombre');
-            $table->string('nombre_vista');
-
-            $table->timestamps();
-            $table->softDeletes();
-        });
+        if (Schema::hasTable('rol')) {
+            Schema::table('rol', function (Blueprint $table) {
+                $this->addOrUptade($table);
+            });
+        } else {
+            Schema::create('rol', function (Blueprint $table) {
+               $this->addOrUptade($table);
+            });
+        }
     }
 
     /**
@@ -31,8 +31,16 @@ class CreateRolTable extends Migration
      */
     public function down()
     {
-        Schema::table('rol', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('rol');
+    }
+
+    private function addOrUptade(Blueprint $table) {
+        $table->increments('id');
+
+        $table->string('nombre');
+        $table->string('nombre_vista');
+
+        $table->timestamps();
+        $table->softDeletes();
     }
 }
