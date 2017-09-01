@@ -155,7 +155,7 @@ class EventoApiController extends Controller
                 return response()->json(array(
                     'status' => 404,
                     'success' => false,
-                    'errors' => [],
+                    'errors' => ["No existe usuario"],
                     'data' => ''
                 ));
             }
@@ -163,7 +163,7 @@ class EventoApiController extends Controller
             return response()->json(array(
                 'status' => 404,
                 'success' => false,
-                'errors' => [],
+                'errors' => ["No existe código"],
                 'data' => ''
             ));
         }

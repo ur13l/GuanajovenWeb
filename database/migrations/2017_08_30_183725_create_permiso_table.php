@@ -13,15 +13,15 @@ class CreatePermisoTable extends Migration
      */
     public function up()
     {
-        Schema::table('permiso', function (Blueprint $table) {
-            $table->increments('id');
-
-            $table->string('nombre');
-            $table->string('nombre_vista');
-
-            $table->timestamps();
-            $table->softDeletes();
-        });
+        if (Schema::hasTable('permiso')) {
+            Schema::table('permiso', function (Blueprint $table) {
+                $this->addOrUpdate($table);
+            });
+        } else {
+            Schema::create('permiso', function (Blueprint $table) {
+                $this->addOrUpdate($table);
+            });
+        }
     }
 
     /**
@@ -31,8 +31,16 @@ class CreatePermisoTable extends Migration
      */
     public function down()
     {
-        Schema::table('permiso', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('permiso');
+    }
+
+    private function addOrUpdate(Blueprint $table) {
+        $table->increments('id');
+
+        $table->string('nombre');
+        $table->string('nombre_vista');
+
+        $table->timestamps();
+        $table->softDeletes();
     }
 }
