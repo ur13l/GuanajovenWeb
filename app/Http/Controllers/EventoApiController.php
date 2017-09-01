@@ -274,4 +274,8 @@ class EventoApiController extends Controller
         }
     }
 
+    private function subir() {
+
+}
+
 }
