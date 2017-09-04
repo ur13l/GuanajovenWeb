@@ -121,8 +121,8 @@ class EventoApiController extends Controller
         $idEvento = $request->input('id_evento');
         $fechaActual = Carbon::now('America/Mexico_City')->toDateTimeString();
         $codigoGuanajoven = CodigoGuanajoven::where('token', $token)
-            ->where('fecha_limite', '>', $fechaActual)
-            ->where('fecha_expiracion', '>', $fechaActual)
+            //->where('fecha_limite', '>', $fechaActual)
+            //->where('fecha_expiracion', '>', $fechaActual)
             ->first();
 
         if (isset($codigoGuanajoven)) {
@@ -155,7 +155,7 @@ class EventoApiController extends Controller
                 return response()->json(array(
                     'status' => 404,
                     'success' => false,
-                    'errors' => [],
+                    'errors' => ["No existe usuario"],
                     'data' => ''
                 ));
             }
@@ -163,7 +163,7 @@ class EventoApiController extends Controller
             return response()->json(array(
                 'status' => 404,
                 'success' => false,
-                'errors' => [],
+                'errors' => ["No existe código"],
                 'data' => ''
             ));
         }
@@ -273,5 +273,9 @@ class EventoApiController extends Controller
             ));
         }
     }
+
+    private function subir() {
+
+}
 
 }
