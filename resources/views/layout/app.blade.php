@@ -66,7 +66,7 @@
 
                 <ul class="right hide-on-med-and-down">
                   <!--  <li><a href="{{url('reportes')}}">Reportes</a></li>-->
-                    <li><a href="{{url('usuarios')}}">Usuarios</a></li>
+                    <li><a href="{{url('jovenes')}}">Jóvenes</a></li>
                     <li><a href="{{url('eventos/inicio')}}">Eventos</a></li>
                     <li><a href="{{url('publicidad')}}">Publicidad</a></li>
                     <li><a href="{{url('convocatorias')}}">Convocatorias</a></li>
@@ -78,7 +78,7 @@
                 </ul>
                 <ul class="side-nav" id="mobile-demo">
                   <!--  <li><a href="{{url('reportes')}}">Reportes</a></li>-->
-                    <li><a href="{{url('usuarios')}}">Usuarios</a></li>
+                    <li><a href="{{url('jovenes')}}">Jóvenes</a></li>
                     <li><a href="{{url('eventos/inicio')}}">Eventos</a></li>
                     <li><a href="{{url('publicidad')}}">Publicidad</a></li>
                     <li><a href="{{url('convocatorias')}}">Convocatorias</a></li>
