@@ -72,6 +72,12 @@ class PromocionesApiController extends Controller
                     $usuario_promocion_save->id_promocion = $promocion->id_promocion;
                     $usuario_promocion_save->codigo_promocion = $promocion->codigo_promocion;
                     $usuario_promocion_save->save();
+
+                    return response()->json(array(
+                        "success" => true,
+                        "status" => 404,
+                        "errors" => [],
+                        "data" => true));
                 } else {
                     return response()->json(array(
                         "success" => true,
