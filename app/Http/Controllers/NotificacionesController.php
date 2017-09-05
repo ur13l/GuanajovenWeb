@@ -102,26 +102,16 @@ class NotificacionesController extends Controller {
             case 2:
                 $mayor->year = $mayor->year - $age1;
                 $menor->year = $menor->year - $age2;
-                $tokens = $tokens->where('fecha_nacimiento', '<', $mayor->year )
-                    ->where('fecha_nacimiento', '>', $menor->year);
-                /*    $tokens1 = clone $tokens;
-                    $tokens2 = clone $tokens;
-                    $tokensAndroid = $tokens1->select('device_token')
-                        ->where('os', 'android')
-                        ->pluck('device_token')->toArray();
-                    $tokensIOS = $tokens2->select('device_token')
-                        ->where('os', 'ios')
-                        ->pluck('device_token')->toArray();*/
-
-                //    dd($tokensAndroid);
+                $tokens = $tokens->where('fecha_nacimiento', '<', $mayor->year."-01-01" )
+                    ->where('fecha_nacimiento', '>', $menor->year."-01-01");
                 break;
             case 3:
                 $mayor->year = $mayor->year - $age1;
-                $tokens = $tokens->where('fecha_nacimiento', '<', $mayor->year );
+                $tokens = $tokens->where('fecha_nacimiento', '<', $mayor->year."-01-01" );
                 break;
             case 4:
                 $menor->year = $menor->year - $age1;
-                $tokens = $tokens->where('fecha_nacimiento', '>', $menor->year);
+                $tokens = $tokens->where('fecha_nacimiento', '>', $menor->year."-01-01");
                 break;
 
         }

@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Carbon\Carbon;
 use App\DatosUsuario;
 
 class JovenesController extends Controller
 {
 
     public function index(Request $request){
-      $usuarios = User::all();
+       $usuarios = User::leftJoin('datos_usuario', 'usuario.id', '=', 'datos_usuario.id_usuario')
+       ->where('fecha_nacimiento', '>',Carbon::now('America/Mexico_City')->subYears(30) )->paginate(2);
+
       //$usuarios = datosUsuario::orderBy('nombre', 'desc')->paginate(3);
       return view('jovenes.index', ['usuarios' => $usuarios]);
     }
@@ -89,8 +92,7 @@ class JovenesController extends Controller
        'trabaja' => $trabaja,
        'id_programa_beneficiario' => $id_programa_beneficiario
      ));
-     header('Location: /Prueba1/public/jovenes');
-     die();
+     return redirect()->back();
     }
 
     public function passGenerator(){
@@ -131,7 +133,6 @@ class JovenesController extends Controller
       $id_usuario = $request->input('id_usuario');
       $usuario = User::find($id_usuario);
       $usuario->delete();
-      header('Location: /Prueba1/public/jovenes');
-      die();     
+      return redirect()->back();    
     }
 }

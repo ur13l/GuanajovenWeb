@@ -165,9 +165,8 @@ function eventosUI() {
 
 function getNotifications(page) {
     $.ajax({
-        url: '/notificaciones/lista?page=' + page
+        url: $("#_url").val() + '/notificaciones/lista?page=' + page
     }).done(function(data) {
-        console.log(data);
         $("#table").html(data);
     });
 }
