@@ -13,7 +13,7 @@ class CreateDependenciaTable extends Migration
      */
     public function up()
     {
-        Schema::table('dependencia', function (Blueprint $table) {
+        Schema::create('dependencia', function (Blueprint $table) {
             $table->increments('id');
 
             $table->string('nombre');

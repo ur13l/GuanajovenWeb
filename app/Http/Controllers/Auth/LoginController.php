@@ -21,8 +21,6 @@ class LoginController extends Controller
         $password = $request->input("password");
 
 
-
-
         if (Auth::attempt(['email' => $correo, 'password' => $password])) {
             $usuario = User::where('email', $correo )->get()->first();
             if($usuario->admin == "1"){
