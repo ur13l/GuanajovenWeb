@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\User;
 use Carbon\Carbon;
 use App\DatosUsuario;
+use Illuminate\Support\Facades\View;
+
 
 class JovenesController extends Controller
 {
@@ -14,9 +16,29 @@ class JovenesController extends Controller
        $usuarios = User::leftJoin('datos_usuario', 'usuario.id', '=', 'datos_usuario.id_usuario')
        ->where('fecha_nacimiento', '>',Carbon::now('America/Mexico_City')->subYears(30) )->paginate(2);
 
-      //$usuarios = datosUsuario::orderBy('nombre', 'desc')->paginate(3);
-      return view('jovenes.index', ['usuarios' => $usuarios]);
+       return view('jovenes.index', ['usuarios' => $usuarios]);
     }
+
+    public function lista(Request $request) {
+      $usuarios = User::leftJoin('datos_usuario', 'usuario.id', '=', 'datos_usuario.id_usuario')
+      ->where('fecha_nacimiento', '>',Carbon::now('America/Mexico_City')->subYears(30) )->paginate(2);
+      return View::make('jovenes.lista')->with('usuarios', $usuarios)->render();
+    }
+
+    public function buscar(Request $request){
+      $q = $request->q;
+      $usuarios = User::leftJoin('datos_usuario', 'usuario.id', '=', 'datos_usuario.id_usuario')
+      ->where('fecha_nacimiento', '>',Carbon::now('America/Mexico_City')->subYears(30) )
+      ->where(function ($query) use ($q){
+        $query -> where('nombre', 'like', "%$q%")
+               -> orWhere('apellido_paterno', 'like', "%$q%")
+               -> orWhere('apellido_materno', 'like', "%$q%")
+               -> orWhere('curp', 'like', "%$q%");
+      })
+      ->paginate(2);      
+
+    }
+
 
     public function nuevo() {
         return view('jovenes.nuevo');

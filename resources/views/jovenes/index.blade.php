@@ -6,7 +6,7 @@
 
 @section('head')
     <script type="text/javascript" src="{{url('/js/jquery.validate.js')}}"></script>
-    <script type="text/javascript" src="{{url('/js/joven/borrar.js')}}"></script>
+    <script type="text/javascript" src="{{url('/js/joven/index.js')}}"></script>
 @endsection
 
 @section('cabecera')
@@ -25,9 +25,8 @@
         <div class="col s4 offset-s8">
             <div class="left-align">
                 <div class="input-field">
-                    <input id="search" type="search" required>
-                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                    <i class="material-icons">close</i>
+                   <i class="material-icons prefix">search</i>
+                   <input id="icon_search" type="text" class="validate">
                 </div>
             </div>
         </div>
