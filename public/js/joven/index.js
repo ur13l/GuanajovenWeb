@@ -1,7 +1,7 @@
 $(function(){
 
     //Funcionalidad de los botones para eliminar un joven.
-    $(".borrar").click(function(){
+    $(document).on('click', '.borrar', function(e){
         var btn = $(this),
             yesButton = null,
             id;
@@ -12,15 +12,29 @@ $(function(){
     $(document).on('click', '.pagination a', function(e) {
         e.preventDefault();
         var page = $(this).attr('href').split('page=')[1];
-        getNotifications(page);
+        getJovenes(page, $("#icon_search").val());
+
      });
-
-     function getNotifications(page) {
-        $.ajax({
-            url: $("#_url").val() + '/jovenes/lista?page=' + page
-        }).done(function(data) {
-            $("#table").html(data);
-        });
-    }
-
+    
+    $("#icon_search").on("keyup paste change", function(e){
+        getJovenes(1, $(this).val())
+    }) 
+     
 });
+
+var xhr;
+function getJovenes(page, q) {
+    if(xhr){
+        xhr.abort();
+    }
+    xhr = $.ajax({
+        url: $("#_url").val() + '/jovenes/buscar',
+        data: {
+            page: page,
+            q: q
+        }
+    }).done(function(data) {
+        $("#table").html(data);
+    });
+}
+
