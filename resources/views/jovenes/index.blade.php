@@ -6,7 +6,7 @@
 
 @section('head')
     <script type="text/javascript" src="{{url('/js/jquery.validate.js')}}"></script>
-    <script type="text/javascript" src="{{url('/js/joven/borrar.js')}}"></script>
+    <script type="text/javascript" src="{{url('/js/joven/index.js')}}"></script>
 @endsection
 
 @section('cabecera')
@@ -25,9 +25,8 @@
         <div class="col s4 offset-s8">
             <div class="left-align">
                 <div class="input-field">
-                    <input id="search" type="search" required>
-                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                    <i class="material-icons">close</i>
+                   <i class="material-icons prefix">search</i>
+                   <input id="icon_search" type="text" class="validate">
                 </div>
             </div>
         </div>
@@ -64,9 +63,9 @@
                                 <td>{{isset($user->datosUsuario) ? $user->datosUsuario->apellido_paterno : ""}}</td>
                                 <td>{{isset($user->datosUsuario) ? $user->datosUsuario->apellido_materno : ""}}</td>
                                 <td>{{isset($user->datosUsuario) ? $user->datosUsuario->curp : ""}}</td>
-                                <td>{{isset($user->codigoGuanajoven) ? $user->codigoGuanajoven->email: ""}}</td>
-                                <td>{{isset($user->datosUsuario) ? $user->datosUsuario->id_municipio : ""}}</td>
-                                <td>{{isset($user->datosUsuario) ? $user->datosUsuario->id_genero: ""}}</td>
+                                <td>{{$user->email}}</td>
+                                <td>{{isset($user->datosUsuario) ? $user->datosUsuario->municipio->nombre : ""}}</td>
+                                <td>{{isset($user->datosUsuario) ? $user->datosUsuario->genero->nombre: ""}}</td>
                                 <td>{{$user->created_at->format('d/m/Y h:i:s')}}</td>
                                 <td>{{isset($user->datosUsuario) ? $user->datosUsuario->fecha_nacimiento->diffInYears(\Carbon\Carbon::now()) : ""}}</td>
                                 <td class="center-align"><i class="material-icons grey-text" style="cursor: pointer" data-user-id="{{$user->id}}">mode_edit</i></td>

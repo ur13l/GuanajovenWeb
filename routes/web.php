@@ -85,6 +85,7 @@ Route::group(['prefix' => 'jovenes'], function(){
   Route::post('/crear', 'JovenesController@crear');
   Route::post('/borrar', 'JovenesController@borrar');
   Route::get('/editar', 'JovenesController@editar');
+  Route::get('/buscar', 'JovenesController@buscar');
 });
 
 
