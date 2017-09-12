@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Funcionario;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -20,19 +21,14 @@ class LoginController extends Controller
         $correo = $request->input("email");
         $password = $request->input("password");
 
-
         if (Auth::attempt(['email' => $correo, 'password' => $password])) {
             $usuario = User::where('email', $correo )->get()->first();
             if($usuario->admin == "1"){
-                     $bitacora = BitacoraUsuario::create(array(
-                          'id_usuario' => $usuario->id,
-                          'fecha' => Carbon::now('America/Mexico_City')
-                      ));
-                return redirect()->intended('/eventos/inicio');
-            }else{
+                     $funcionario = Funcionario::where('id_usuario', '=', $usuario->id);
+                return redirect()->intended('/eventos/inicio')->with('rol_funcionario', $funcionario->rol);
+            } else {
                 return view('index', ["errors" => ["Usuario sin permisos de administrador"]]);
             }
-
         } else {
             return view('index', ["errors" => ["Usuario o contraseña incorrecto"]]);
         }

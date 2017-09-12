@@ -75,7 +75,7 @@ class PromocionesApiController extends Controller
 
                     return response()->json(array(
                         "success" => true,
-                        "status" => 404,
+                        "status" => 200,
                         "errors" => [],
                         "data" => true));
                 } else {
