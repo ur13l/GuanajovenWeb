@@ -4,16 +4,42 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Carbon\Carbon;
 use App\DatosUsuario;
+use Illuminate\Support\Facades\View;
+
 
 class JovenesController extends Controller
 {
 
     public function index(Request $request){
-      $usuarios = User::all();
-      //$usuarios = datosUsuario::orderBy('nombre', 'desc')->paginate(3);
-      return view('jovenes.index', ['usuarios' => $usuarios]);
+       $usuarios = User::leftJoin('datos_usuario', 'usuario.id', '=', 'datos_usuario.id_usuario')
+       ->where('fecha_nacimiento', '>',Carbon::now('America/Mexico_City')->subYears(30) )->paginate(20);
+
+       return view('jovenes.index', ['usuarios' => $usuarios]);
     }
+
+    public function buscar(Request $request){
+      $q = $request->q;
+      $usuarios = User::leftJoin('datos_usuario', 'usuario.id', '=', 'datos_usuario.id_usuario')
+        -> leftJoin('municipio', 'datos_usuario.id_municipio', '=', 'municipio.id_municipio')
+        -> leftJoin('genero', 'datos_usuario.id_genero', '=', 'genero.id_genero')
+        -> leftJoin('codigo_guanajoven', 'usuario.id', '=', 'codigo_guanajoven.id_usuario')
+      ->where('fecha_nacimiento', '>',Carbon::now('America/Mexico_City')->subYears(30))
+      ->where(function ($query) use ($q){
+        $query -> where('id_codigo_guanajoven', 'like', "%$q%")
+               -> orWhere('datos_usuario.nombre', 'like', "%$q%")
+               -> orWhere('apellido_paterno', 'like', "%$q%")
+               -> orWhere('apellido_materno', 'like', "%$q%")
+               -> orWhere('curp', 'like', "%$q%")
+               -> orWhere('email', 'like', "%$q%")
+               -> orWhere('municipio.nombre', 'like', "%$q%")
+               -> orWhere('genero.nombre', 'like', "%$q%");
+      })
+      ->paginate(20);      
+      return View::make('jovenes.lista')->with('usuarios', $usuarios)->render();      
+    }
+
 
     public function nuevo() {
         return view('jovenes.nuevo');
@@ -30,15 +56,7 @@ class JovenesController extends Controller
         'codigo_postal' => 'required',
         'telefono' => 'required',
         'curp' => 'required',
-        'id_estado' => 'required',
-        'id_nivel_estudios' => 'required',
-        'id_pueblo_indigena' => 'required',
-        'id_capacidad_diferente' => 'required',
-        'premios' => 'required',
-        'proyectos_sociales' => 'required',
-        'apoyo_proyectos_sociales' => 'required',
-        'trabaja' => 'required',
-        'id_programa_beneficiario' => 'required'
+        
       ]);
 
       $nombre = $request->input('nombre');
@@ -89,8 +107,7 @@ class JovenesController extends Controller
        'trabaja' => $trabaja,
        'id_programa_beneficiario' => $id_programa_beneficiario
      ));
-     header('Location: /Prueba1/public/jovenes');
-     die();
+     return redirect()->back();
     }
 
     public function passGenerator(){
@@ -131,7 +148,6 @@ class JovenesController extends Controller
       $id_usuario = $request->input('id_usuario');
       $usuario = User::find($id_usuario);
       $usuario->delete();
-      header('Location: /Prueba1/public/jovenes');
-      die();     
+      return redirect()->back();    
     }
 }

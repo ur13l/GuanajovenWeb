@@ -81,3 +81,5 @@ Route::group(['prefix' => '/documentos'], function () {
        Route::get('reporteevento', 'ExcelController@obtenerUsuarios');
    });
 });
+
+Route::post('/promociones/registrar', 'PromocionesApiController@registrar');

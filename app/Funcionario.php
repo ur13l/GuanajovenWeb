@@ -3,12 +3,16 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class Funcionario extends Model
 {
     protected $table = 'funcionario';
 
     protected $primaryKey = 'id';
+
+    use SoftDeletes;
 
     protected $fillable = [
         'id_usuario',

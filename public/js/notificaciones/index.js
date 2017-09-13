@@ -70,7 +70,7 @@ function eventosUI() {
             $("#txt_age2").rules('remove', "required");
         }
 
-        //Si se selecciona ENTRE, se abilita el campo 2 con validación
+        //Si se selecciona ENTRE, se habilita el campo 2 con validación
         if(this.value == 2){
             $("#txt_age2").css("display", "inline");
             $("#txt_age2").rules('add', {
@@ -165,9 +165,8 @@ function eventosUI() {
 
 function getNotifications(page) {
     $.ajax({
-        url: '/notificaciones/lista?page=' + page
+        url: $("#_url").val() + '/notificaciones/lista?page=' + page
     }).done(function(data) {
-        console.log(data);
         $("#table").html(data);
     });
 }
