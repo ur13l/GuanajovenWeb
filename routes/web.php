@@ -17,11 +17,12 @@ Route::get('/', function () {
     return view('index');
 });
 
+Route::get('/home', 'Auth\LoginController@mostrarVista');
+
 //Usuarios
 Route::post('/usuarios/login', 'Auth\LoginController@login');
 
 Route::get('/usuarios/logout', 'Auth\LoginController@getlogout');
-
 
 
 //Publicidad
@@ -80,7 +81,7 @@ Route::group(['prefix' => 'chat'], function() {
 //Jóvenes
 
 Route::group(['prefix' => 'jovenes'], function(){
-  Route::get('/', 'JovenesController@index');  
+  Route::get('/', 'JovenesController@index');
   Route::get('/nuevo', 'JovenesController@nuevo');
   Route::post('/crear', 'JovenesController@crear');
   Route::post('/borrar', 'JovenesController@borrar');
