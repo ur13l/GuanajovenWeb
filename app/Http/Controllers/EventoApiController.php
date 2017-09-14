@@ -125,37 +125,48 @@ class EventoApiController extends Controller
             //->where('fecha_expiracion', '>', $fechaActual)
             ->first();
 
-        if (isset($codigoGuanajoven)) {
-            $usuario = User::find($codigoGuanajoven->id_usuario);
+        $notificacion_existe = NotificacionEvento::where('id_evento', '=', $idEvento)->where('id_usuario', '=', $codigoGuanajoven->id_usuario)->first();
 
-            if (isset($usuario)) {
-                $notificacion = NotificacionEvento::where('id_evento', $idEvento)
-                    ->where('id_usuario', $usuario->id)
-                    ->first();
+        if (!isset($notificacion_existe)) {
+            if (isset($codigoGuanajoven)) {
+                $usuario = User::find($codigoGuanajoven->id_usuario);
 
-                if (isset($notificacion)) {
-                    $notificacion->dispositivo = 2;
-                    $notificacion->save();
+                if (isset($usuario)) {
+                    $notificacion = NotificacionEvento::where('id_evento', $idEvento)
+                        ->where('id_usuario', $usuario->id)
+                        ->first();
+
+                    if (isset($notificacion)) {
+                        $notificacion->dispositivo = 2;
+                        $notificacion->save();
+                    } else {
+                        NotificacionEvento::create([
+                            'id_evento' => $idEvento,
+                            'id_usuario' => $usuario->id,
+                            'dispositivo' => 2,
+                            'asistio' => 1
+                        ]);
+                    }
+
+                    return response()->json(array(
+                        'status' => 200,
+                        'success' => true,
+                        'errors' => [],
+                        'data' => $usuario->email
+                    ));
                 } else {
-                    NotificacionEvento::create([
-                        'id_evento' => $idEvento,
-                        'id_usuario' => $usuario->id,
-                        'dispositivo' => 2,
-                        'asistio' => 1
-                    ]);
+                    return response()->json(array(
+                        'status' => 404,
+                        'success' => false,
+                        'errors' => ["No existe usuario"],
+                        'data' => ''
+                    ));
                 }
-
-                return response()->json(array(
-                    'status' => 200,
-                    'success' => true,
-                    'errors' => [],
-                    'data' => $usuario->email
-                ));
             } else {
                 return response()->json(array(
                     'status' => 404,
                     'success' => false,
-                    'errors' => ["No existe usuario"],
+                    'errors' => ["No existe código"],
                     'data' => ''
                 ));
             }
@@ -163,7 +174,7 @@ class EventoApiController extends Controller
             return response()->json(array(
                 'status' => 404,
                 'success' => false,
-                'errors' => ["No existe código"],
+                'errors' => ["Usuario ya había sido registrado"],
                 'data' => ''
             ));
         }
