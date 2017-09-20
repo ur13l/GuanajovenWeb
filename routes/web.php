@@ -11,13 +11,9 @@
 |
 */
 //Route::auth();
-
-
 Route::get('/', function () {
     return view('index');
 });
-
-Route::get('/home', 'Auth\LoginController@mostrarVista');
 
 //Usuarios
 Route::post('/usuarios/login', 'Auth\LoginController@login');
@@ -45,17 +41,6 @@ Route::group(['prefix' => 'convocatorias'], function() {
     Route::post('/editar', 'ConvocatoriasController@editar');
 });
 
-//Convocatorias
-Route::group(['prefix' => 'convocatorias'], function() {
-    Route::get('/', 'ConvocatoriasController@index')->name('convocatorias');
-    Route::get('/nueva', 'ConvocatoriasController@nueva');
-    Route::post('/eliminar', 'ConvocatoriasController@eliminar');
-    Route::post('/crear', 'ConvocatoriasController@crear');
-    Route::get('/editar/{id_convocatoria}', 'ConvocatoriasController@vistaEditar');
-    Route::post('/editar', 'ConvocatoriasController@editar');
-});
-
-
 //Empresas
 Route::group(['prefix' => 'empresas'], function() {
     Route::get('/', 'EmpresaController@index')->name('empresas');
@@ -79,7 +64,6 @@ Route::group(['prefix' => 'chat'], function() {
 });
 
 //Jóvenes
-
 Route::group(['prefix' => 'jovenes'], function(){
   Route::get('/', 'JovenesController@index');
   Route::get('/nuevo', 'JovenesController@nuevo');
@@ -88,7 +72,6 @@ Route::group(['prefix' => 'jovenes'], function(){
   Route::get('/editar', 'JovenesController@editar');
   Route::get('/buscar', 'JovenesController@buscar');
 });
-
 
 //Notificaciones
 Route::group(['prefix' => 'notificaciones'], function() {

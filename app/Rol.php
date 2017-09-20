@@ -22,4 +22,8 @@ class Rol extends Model
         'deleted_at'
     ];
 
+    public function permisos() {
+        return $this->belongsToMany('App\Permiso', 'rol_permiso', 'id_rol', 'id_permiso');
+    }
+
 }
