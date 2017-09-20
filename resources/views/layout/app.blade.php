@@ -66,6 +66,7 @@
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down">
                 <!--  <li><a href="{{url('reportes')}}">Reportes</a></li>-->
+                    <li><a href="{{url('inicio')}}">Inicio</a></li>
                     <li><a href="{{url('jovenes')}}"> Jóvenes </a></li>
                     <li><a href="{{url('eventos/inicio')}}">Eventos</a></li>
                     <li><a href="{{url('publicidad')}}">Publicidad</a></li>
@@ -78,6 +79,7 @@
                 </ul>
                 <ul class="side-nav" id="mobile-demo">
                   <!--  <li><a href="{{url('reportes')}}">Reportes</a></li>-->
+                      <li><a href="{{url('inicio')}}">Inicio</a></li>
                     <li><a href="{{url('jovenes')}}">Jóvenes</a></li>
                     <li><a href="{{url('eventos/inicio')}}">Eventos</a></li>
                     <li><a href="{{url('publicidad')}}">Publicidad</a></li>

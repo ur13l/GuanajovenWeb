@@ -43,7 +43,7 @@ class LoginController extends Controller
 
 
                 session(['funcionario' => $funcionario]);*/
-                return redirect()->intended('/eventos/inicio');
+                return redirect()->intended('/inicio');
             } else {
                 return view('index', ["errors" => ["Usuario sin permisos de administrador"]]);
             }
