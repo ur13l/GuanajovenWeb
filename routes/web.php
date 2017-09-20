@@ -102,4 +102,7 @@ Route::group(['prefix' => 'eventos'], function () {
 //Video
 Route::get('/video', 'VideoController@index');
 
+//Inicio
+Route::get('/inicio', 'InicioController@index');
+
 Auth::routes();
