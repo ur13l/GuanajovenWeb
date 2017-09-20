@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Area;
+use App\Dependencia;
+use App\Direccion;
 use App\Funcionario;
 use App\Http\Controllers\Controller;
+use App\Permiso;
+use App\Puesto;
+use App\Rol;
+use App\RolPermiso;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,11 +32,18 @@ class LoginController extends Controller
 
         if (Auth::attempt(['email' => $correo, 'password' => $password])) {
             $usuario = User::where('email', $correo )->get()->first();
-            if($usuario->admin == "1"){
-                     $funcionario = Funcionario::where('id_usuario', '=', $usuario->id)->first();
-                     //$this->iniciar($funcionario->id_rol);
+            if($usuario->admin == "1") {
+                /*$funcionario = Funcionario::where('id_usuario', '=', $usuario->id)->first();
+                $rol = Rol::where('id', '=', $funcionario->id_rol)->first();
+                $roles_permisos = RolPermiso::where('id_rol', '=', $rol->id)->first();
+
+                dd($rol->permisos());
+
+                //echo $roles_permisos['id_rol'];
+
+
+                session(['funcionario' => $funcionario]);*/
                 return redirect()->intended('/eventos/inicio');
-                //return redirect()->intended('/home')->with('id_rol', $funcionario->id_rol);
             } else {
                 return view('index', ["errors" => ["Usuario sin permisos de administrador"]]);
             }
@@ -40,15 +54,8 @@ class LoginController extends Controller
 
     public function getlogout(){
         Auth::logout();
+        //session()->flush();
         return redirect('/');
     }
-
-    /*
-    public function mostrarVista() {
-        $id_rol = "id_rol";
-        return view('layout.app')->with('id_rol', $id_rol);
-    }*/
-
-
 
 }
