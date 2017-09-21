@@ -39,9 +39,6 @@ class LoginController extends Controller
 
                 dd($rol->permisos());
 
-                //echo $roles_permisos['id_rol'];
-
-
                 session(['funcionario' => $funcionario]);*/
                 return redirect()->intended('/inicio');
             } else {
