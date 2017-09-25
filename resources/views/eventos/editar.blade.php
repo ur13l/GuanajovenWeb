@@ -1,1 +1,1 @@
-@include('eventos.detalle', ['titulo' => 'Editar Evento', 'evento' => $evento])
+@include('eventos.detalle', ['titulo' => 'Editar Evento', 'evento' => $evento, 'accion' => 'editar'])

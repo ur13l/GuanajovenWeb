@@ -22,6 +22,7 @@
     <div class="row">
         <form class="col s12" action="{{ url('/eventos/guardar/' . $evento->id_evento) }}" method="post" id="form-nuevo-evento">
             <input type="hidden" id="posicion" name="posicion" value="">
+            <input type="hidden" id="accion" name="accion" value="{{$accion}}">
             <div class="row">
                 <div class="input-field col s12">
                     <input id="titulo" type="text" class="vald" name="titulo" value="{{ $evento->titulo }}" required>
