@@ -107,7 +107,7 @@ class EventosController extends Controller {
         $direccion = $resultado->results[0]->formatted_address;
 
         //Formatear fechas con horas
-        $fechaI = explode(' ', $fechaI);
+        $fechaI = explode('-', $fechaI);
         $horaI = explode(':', $horaI);
         $anioI = $fechaI[2];
         $mesI = rtrim($fechaI[1], ',');
