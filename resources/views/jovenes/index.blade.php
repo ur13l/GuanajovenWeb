@@ -44,7 +44,7 @@
                         <th class="header" data-field="codigo_guanajoven.id"><i class="material-icons grey-text" style="cursor">arrow_drop_up</i>Código</th>
                         <th class="header" data-field="datos_usuario.nombre">Nombre</th>
                         <th class="header" data-field="datos_usuario.apellido_paterno">Apellido Paterno</th>
-                        <th class="header" data-field="datos_usuario.apelldo_materno">Apellido Materno</th>
+                        <th class="header" data-field="datos_usuario.apellido_materno">Apellido Materno</th>
                         <th class="header" data-field="datos_usuario.curp">CURP</th>
                         <th class="header" data-field="usuario.email">Correo electrónico</th>
                         <th class="header" data-field="municipio.nombre">Municipio</th>
