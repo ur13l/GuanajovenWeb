@@ -282,3 +282,6 @@ Div contenedor para las imágenes que se cortarán al centro.
 }
 
 
+img#image{
+    margin-top: 50px;
+}

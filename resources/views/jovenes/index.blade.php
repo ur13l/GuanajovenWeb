@@ -17,11 +17,11 @@
 
     <!-- Cuerpo del index -->
     <div class="row">
-        <div class="col s1">
+        <!--<div class="col s1">
             <div class="fixed-action-btn">
                 <a class="btn-floating btn-large waves-effect waves-light" style="background: #BF3364" href="{{url('jovenes/nuevo')}}"><i class="material-icons">add</i></a>
             </div>      
-        </div>
+        </div>-->
         <div class="col s4 offset-s8">
             <div class="left-align">
                 <div class="input-field">
@@ -41,18 +41,18 @@
             <table class="highlight">
                 <thead>
                     <tr>
-                        <th data-field="codigo">Código</th>
-                        <th data-field="nombre">Nombre</th>
-                        <th data-field="apellido_paterno">Apellido Paterno</th>
-                        <th data-field="apelldo_materno">Apellido Materno</th>
-                        <th data-field="curp">CURP</th>
-                        <th data-field="email">Correo electrónico</th>
-                        <th data-field="municipio">Municipio</th>
-                        <th data-field="id_genero">Género</th>
-                        <th data-field="fecha_registro">Fecha de registro</th>
-                        <th data-field="edad">Edad</th>
-                        <th data-field="editar">Editar</th>
-                        <th data-field="eliminar">Eliminar</th>
+                        <th class="header" data-field="codigo_guanajoven.id"><i class="material-icons grey-text" style="cursor">arrow_drop_up</i>Código</th>
+                        <th class="header" data-field="datos_usuario.nombre">Nombre</th>
+                        <th class="header" data-field="datos_usuario.apellido_paterno">Apellido Paterno</th>
+                        <th class="header" data-field="datos_usuario.apelldo_materno">Apellido Materno</th>
+                        <th class="header" data-field="datos_usuario.curp">CURP</th>
+                        <th class="header" data-field="usuario.email">Correo electrónico</th>
+                        <th class="header" data-field="municipio.nombre">Municipio</th>
+                        <th class="header" data-field="genero.nombre">Género</th>
+                        <th class="header" data-field="datos_usuario.edad">Edad</th>
+                        <th class="header" data-field="usuario.created_at">Fecha de registro</th>
+                        <!--<th data-field="editar">Editar</th>
+                        <th data-field="eliminar">Eliminar</th>-->
                     </tr>
                 </thead>
                 <tbody id="tabla-usuarios">
@@ -66,10 +66,10 @@
                                 <td>{{$user->email}}</td>
                                 <td>{{isset($user->datosUsuario) ? $user->datosUsuario->municipio->nombre : ""}}</td>
                                 <td>{{isset($user->datosUsuario) ? $user->datosUsuario->genero->nombre: ""}}</td>
-                                <td>{{$user->created_at->format('d/m/Y h:i:s')}}</td>
                                 <td>{{isset($user->datosUsuario) ? $user->datosUsuario->fecha_nacimiento->diffInYears(\Carbon\Carbon::now()) : ""}}</td>
-                                <td class="center-align"><i class="material-icons grey-text" style="cursor: pointer" data-user-id="{{$user->id}}">mode_edit</i></td>
-                                <td class="center-align"><i class="material-icons grey-text borrar" style="cursor: pointer" data-user-id="{{$user->id}}">delete</i></td>
+                                <td>{{$user->created_at->format('d/m/Y')}}</td>
+                                <!--<td class="center-align"><i class="material-icons grey-text" style="cursor: pointer" data-user-id="{{$user->id}}">mode_edit</i></td>
+                                <td class="center-align"><i class="material-icons grey-text borrar" style="cursor: pointer" data-user-id="{{$user->id}}">delete</i></td>-->
                             </tr>
                         @endforeach
                 </tbody>
@@ -81,6 +81,7 @@
         </div>
     </div>
     <!--Modal para eliminar joven-->
+    <!--
     <div id="modal-borrar" class="modal">
         <form action="{{url('/jovenes/borrar')}}" method="post">
             <div class="modal-content">
@@ -94,7 +95,7 @@
                 <input type="submit" href="#" class="waves-effect waves-green btn-flat"  value="Sí" id="yesBtn"/>
             </div>
         </form>
-    </div>
+    </div>-->
 @endsection
 
 

@@ -15,14 +15,31 @@ $(function(){
         getJovenes(page, $("#icon_search").val());
 
      });
+
+    $(document).on('click', '.header', function(e){   
+        if(columna == $(this).data('field')){
+            if(tipo == "asc"){
+                tipo = "desc";
+            }
+            else{
+                tipo = "asc";
+            }
+        }
+        else {
+            tipo ="asc";
+        }
+        columna = $(this).data('field')
+    
+        getJovenes(1, $("#icon_search").val());
+    });
     
     $("#icon_search").on("keyup paste change", function(e){
         getJovenes(1, $(this).val())
     }) 
      
 });
-
-var xhr;
+ 
+var xhr, columna = "usuario.id", tipo="asc";
 function getJovenes(page, q) {
     if(xhr){
         xhr.abort();
@@ -31,7 +48,9 @@ function getJovenes(page, q) {
         url: $("#_url").val() + '/jovenes/buscar',
         data: {
             page: page,
-            q: q
+            q: q,
+            columna: columna,
+            tipo: tipo 
         }
     }).done(function(data) {
         $("#table").html(data);

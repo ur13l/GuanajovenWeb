@@ -23,23 +23,29 @@
     @foreach($errors->all() as $error)
       <div class="red-text">{{$error}}</div>
     @endforeach
-    <div class="row">
-      <div class="col s11">
-        <ul class="tabs">
-          <li class="tab col s3"><a class="active" href="#DUsuario">Datos de usuario</a></li>      
-          <li class="tab col s3"><a href="#DPerfil">Datos de perfil</a></li>
-          <li class="tab col s3"><a href="#Documentos">Documentos</a></li>
-        </ul>
+    <nav class="clean">
+      <div class="nav-wrapper">
+        <div class="col s12">
+          <a href="#!" class="breadcrumb">Datos de Usuario</a>
+          <a href="#!" class="breadcrumb">Datos de Perfil</a>
+          <a href="#!" class="breadcrumb">Documentos</a>
+        </div>
       </div>
+    </nav>
+          
+      <!--
       <div id="DUsuario" class="col s12">
         <form id="form-nj" method="post" action="{{url('/jovenes/crear')}}" class="col s12" enctype="multipart/form-data">
           <input type="hidden" name="_token" value="{{ csrf_token() }}">
           <div class="row">
+            <div class="col s12">
+              <img id="image" class="circle" src="{{url('/img/jovenes/default-user-image.png')}}" height="180" width="180"></img>
+            </div>
             <div class="input-field col s8">
               <div class="file-field input-field col s8">
                 <div class="btn" style="background: #BF3364;">
                   <span>Imagen</span>
-                  <input type="file">
+                  <input type="file" onchange="readURL(this)">
                 </div>
                 <div class="file-path-wrapper">
                   <input class="file-path validate" type="text" placeholder="Cargar imagen">
@@ -61,6 +67,9 @@
             <div class="input-field col s8">
               <input id="curp" name="curp" type="text" class="validate">
               <label for="curp">CURP</label>
+            </div>
+            <div class="input field col s8">
+              <a href="https://consultas.curp.gob.mx/CurpSP/inicio2_2.jsp">¿No conoces tu CURP?, ¡Consúltalo aquí!</a>
             </div>
             <div class="input-field col s8">
               <input id="telefono" name="telefono" type="text" class="validate">
@@ -274,15 +283,6 @@
       <div id="Documentos" class="col s12">
         <div class="file-field input-field col s8">
           <div class="btn" style="background: #BF3364;">
-            <span>Imagen</span>
-            <input type="file">
-          </div>
-          <div class="file-path-wrapper">
-            <input class="file-path validate" type="text" placeholder="Cargar imagen">
-          </div>
-        </div>
-        <div class="file-field input-field col s8">
-          <div class="btn" style="background: #BF3364;">
             <span>Documentos</span>
             <input type="file" multiple>
           </div>
@@ -290,7 +290,7 @@
             <input class="file-path validate" type="text" placeholder="Cargar documentos">
           </div>
         </div>
-      </div>
+      </div>-->
     </div> 
   </div>    
 </div>
