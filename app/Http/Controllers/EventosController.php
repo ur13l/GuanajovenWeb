@@ -105,37 +105,40 @@ class EventosController extends Controller {
         $resource = $client->get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $latitud . ',' . $longitud . '&sensor=true');
         $resultado = json_decode($resource->getBody());
         $direccion = $resultado->results[0]->formatted_address;
-
+        $fechaInicio = $fechaI . " " . $horaI;  
+        $fechaFin = $fechaF . " " . $horaF;  
+/*
         //Formatear fechas con horas
         $fechaI = explode('-', $fechaI);
         $horaI = explode(':', $horaI);
         $anioI = $fechaI[2];
         $mesI = rtrim($fechaI[1], ',');
-        $mesI = $this->meses[$mesI];
+        //$mesI = intval($mesI);
         $diaI = $fechaI[0];
         $horaIn = $horaI[0];
         $MinIn = $horaI[1];
 
 
-        $fechaF = explode(' ', $fechaF);
+        $fechaF = explode('-', $fechaF);
         $horaF = explode(':', $horaF);
         $anioF = $fechaF[2];
         $mesF = rtrim($fechaF[1], ',');
-        $mesF = $this->meses[$mesF];
+        //$mesF = intval($mesF);
         $diaF = $fechaF[0];
         $horaFn = $horaF[0];
         $MinFn = $horaF[1];
 
         $fechaInicio = Carbon::create($anioI, $mesI, $diaI, $horaIn, $MinIn, 0);
         $fechaFin = Carbon::create($anioF, $mesF, $diaF, $horaFn, $MinFn, 0);
+*/
 
         //Guardar evento
         $evento = Evento::find($idEvento);
 
         $evento->titulo = $titulo;
         $evento->descripcion = $descripcion;
-        $evento->fecha_inicio = $fechaInicio->toDateTimeString();
-        $evento->fecha_fin = $fechaFin->toDateTimeString();
+        $evento->fecha_inicio = $fechaInicio;
+        $evento->fecha_fin = $fechaFin;
         $evento->id_tipo_evento = $tipoEvento;
         $evento->latitud = $latitud;
         $evento->longitud = $longitud;
