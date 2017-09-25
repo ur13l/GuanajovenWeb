@@ -21,6 +21,8 @@ class JovenesController extends Controller
 
     public function buscar(Request $request){
       $q = $request->q;
+      $columna = $request->columna ?: 'usuario.id';
+      $tipo = $request->tipo ?: 'asc';
       $usuarios = User::leftJoin('datos_usuario', 'usuario.id', '=', 'datos_usuario.id_usuario')
         -> leftJoin('municipio', 'datos_usuario.id_municipio', '=', 'municipio.id_municipio')
         -> leftJoin('genero', 'datos_usuario.id_genero', '=', 'genero.id_genero')
@@ -36,10 +38,10 @@ class JovenesController extends Controller
                -> orWhere('municipio.nombre', 'like', "%$q%")
                -> orWhere('genero.nombre', 'like', "%$q%");
       })
+      ->orderBy($columna, $tipo)
       ->paginate(20);      
       return View::make('jovenes.lista')->with('usuarios', $usuarios)->render();      
     }
-
 
     public function nuevo() {
         return view('jovenes.nuevo');

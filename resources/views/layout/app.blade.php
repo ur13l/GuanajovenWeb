@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <title>@yield('title')</title>
         <link rel="shortcut icon" type="image/png" href="{{ url('/img/icono.png') }}" />
+        <link type="image/png" href="{{ url('/img/default-user-image.png') }}" />
         <input type="hidden" id="url" name="url" value="{{url('/')}}">
         <link rel="stylesheet" href="{{url('materialize/css/materialize.min.css')}}">
         <link rel="stylesheet" href="{{url('css/style.css')}}">
