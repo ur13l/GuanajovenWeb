@@ -91,7 +91,7 @@ class EventosController extends Controller {
         $fechaF = $request->input('fecha_fin');
         $horaI = $request->input('hora_inicio');
         $horaF = $request->input('hora_fin');
-        $tipoEvento = $request->input('tipo-seleccionado');
+        $tipoEvento = $request->input('tipo-evento');
         $posicion = explode(', ', $request->input('posicion'));
         $puntos = $request->input('puntos-otorgados');
         $area = $request->input('area-responsable');
@@ -104,7 +104,9 @@ class EventosController extends Controller {
         $client = new Client();
         $resource = $client->get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $latitud . ',' . $longitud . '&sensor=true');
         $resultado = json_decode($resource->getBody());
-        $direccion = $resultado->results[0]->formatted_address;
+        if(count($resultado->results) > 0) { 
+            $direccion = $resultado->results[0]->formatted_address;
+        }
         $fechaInicio = $fechaI . " " . $horaI;  
         $fechaFin = $fechaF . " " . $horaF;  
 /*
