@@ -41,7 +41,7 @@
             <table class="highlight">
                 <thead>
                     <tr>
-                        <th class="header" data-field="codigo_guanajoven.id"><i class="material-icons grey-text" style="cursor">arrow_drop_up</i>Código</th>
+                        <th class="header" data-field="codigo_guanajoven.id_codigo_guanajoven">Código</th>
                         <th class="header" data-field="datos_usuario.nombre">Nombre</th>
                         <th class="header" data-field="datos_usuario.apellido_paterno">Apellido Paterno</th>
                         <th class="header" data-field="datos_usuario.apellido_materno">Apellido Materno</th>

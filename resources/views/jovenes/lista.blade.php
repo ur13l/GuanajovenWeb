@@ -7,10 +7,10 @@
         <table class="highlight">
             <thead>
                 <tr>
-                    <th class="header" data-field="codigo_guanajoven.id">Código</th>
+                    <th class="header" data-field="codigo_guanajoven.id_codigo_guanajoven">Código</th>
                     <th class="header" data-field="datos_usuario.nombre">Nombre</th>
                     <th class="header" data-field="datos_usuario.apellido_paterno">Apellido Paterno</th>
-                    <th class="header" data-field="datos_usuario.apelldo_materno">Apellido Materno</th>
+                    <th class="header" data-field="datos_usuario.apellido_materno">Apellido Materno</th>
                     <th class="header" data-field="datos_usuario.curp">CURP</th>
                     <th class="header" data-field="usuario.email">Correo electrónico</th>
                     <th class="header" data-field="municipio.nombre">Municipio</th>
