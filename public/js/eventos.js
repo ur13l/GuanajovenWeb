@@ -95,6 +95,7 @@ $(document).ready(function(){
         var fecha_fin = $('#fecha-fin').val();
         var hora_inicio = $('#hora-inicio').val();
         var hora_fin = $('#hora-fin').val();
+        var tipo_evento = $("#tipo-evento").val();
         var evaluar_fecha = false;
 
         if (titulo == '' || titulo == null) {
@@ -121,7 +122,7 @@ $(document).ready(function(){
             $('#area-responsable').removeClass('invalid');
         }
 
-        if (tipo_evento == '' || tipo_evento == null) {
+        if (tipo_evento == '0') {
             $('#tipo-evento').addClass('invalid');
         } else {
             $('#tipo-evento').removeClass('invalid');
