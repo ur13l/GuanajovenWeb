@@ -7,16 +7,16 @@
         <table class="highlight">
             <thead>
                 <tr>
-                    <th data-field="codigo">Código</th>
-                    <th data-field="nombre">Nombre</th>
-                    <th data-field="apellido_paterno">Apellido Paterno</th>
-                    <th data-field="apelldo_materno">Apellido Materno</th>
-                    <th data-field="curp">CURP</th>
-                    <th data-field="email">Correo electrónico</th>
-                    <th data-field="municipio">Municipio</th>
-                    <th data-field="id_genero">Género</th>
-                    <th data-field="fecha_registro">Fecha de registro</th>
-                    <th data-field="edad">Edad</th>
+                    <th class="header" data-field="codigo_guanajoven.id">Código</th>
+                    <th class="header" data-field="datos_usuario.nombre">Nombre</th>
+                    <th class="header" data-field="datos_usuario.apellido_paterno">Apellido Paterno</th>
+                    <th class="header" data-field="datos_usuario.apelldo_materno">Apellido Materno</th>
+                    <th class="header" data-field="datos_usuario.curp">CURP</th>
+                    <th class="header" data-field="usuario.email">Correo electrónico</th>
+                    <th class="header" data-field="municipio.nombre">Municipio</th>
+                    <th class="header" data-field="genero.nombre">Género</th>
+                    <th class="header" data-field="datos_usuario.edad">Edad</th>
+                    <th class="header" data-field="usuario.created_at">Fecha de registro</th>
                     <th data-field="editar">Editar</th>
                     <th data-field="eliminar">Eliminar</th>
                 </tr>
