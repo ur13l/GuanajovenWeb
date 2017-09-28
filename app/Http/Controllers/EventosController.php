@@ -75,7 +75,8 @@ class EventosController extends Controller {
             'hora_inicio' => '',
             'hora_fin' => '',
             'latitud' => 21.095570,
-            'longitud' => -101.616843
+            'longitud' => -101.616843,
+            'accion' => 'nuevo'
         ]);
     }
 
@@ -87,11 +88,12 @@ class EventosController extends Controller {
     public function guardar(Request $request, $idEvento) {
         $titulo = $request->input('titulo');
         $descripcion = $request->input('descripcion');
+        $accion = $request->input('accion');
         $fechaI = $request->input('fecha_inicio');
         $fechaF = $request->input('fecha_fin');
         $horaI = $request->input('hora_inicio');
         $horaF = $request->input('hora_fin');
-        $tipoEvento = $request->input('tipo-seleccionado');
+        $tipoEvento = $request->input('tipo-evento');
         $posicion = explode(', ', $request->input('posicion'));
         $puntos = $request->input('puntos-otorgados');
         $area = $request->input('area-responsable');
@@ -104,38 +106,43 @@ class EventosController extends Controller {
         $client = new Client();
         $resource = $client->get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $latitud . ',' . $longitud . '&sensor=true');
         $resultado = json_decode($resource->getBody());
-        $direccion = $resultado->results[0]->formatted_address;
+        if(count($resultado->results) > 0) { 
+            $direccion = $resultado->results[0]->formatted_address;
+        }
+        $fechaInicio = $fechaI . " " . $horaI;  
+        $fechaFin = $fechaF . " " . $horaF;  
 
-        //Formatear fechas con horas
-        $fechaI = explode(' ', $fechaI);
-        $horaI = explode(':', $horaI);
-        $anioI = $fechaI[2];
-        $mesI = rtrim($fechaI[1], ',');
-        $mesI = $this->meses[$mesI];
-        $diaI = $fechaI[0];
-        $horaIn = $horaI[0];
-        $MinIn = $horaI[1];
+        if($accion == "nuevo" ) {
+            //Formatear fechas con horas
+            $fechaI = explode(' ', $fechaI);
+            $horaI = explode(':', $horaI);
+            $anioI = $fechaI[2];
+            $mesI = rtrim($fechaI[1], ',');
+            $mesI = $this->meses[$mesI];
+            $diaI = $fechaI[0];
+            $horaIn = $horaI[0];
+            $MinIn = $horaI[1];
 
+            $fechaF = explode(' ', $fechaF);
+            $horaF = explode(':', $horaF);
+            $anioF = $fechaF[2];
+            $mesF = rtrim($fechaF[1], ',');
+            $mesF = $this->meses[$mesF];
+            $diaF = $fechaF[0];
+            $horaFn = $horaF[0];
+            $MinFn = $horaF[1];
 
-        $fechaF = explode(' ', $fechaF);
-        $horaF = explode(':', $horaF);
-        $anioF = $fechaF[2];
-        $mesF = rtrim($fechaF[1], ',');
-        $mesF = $this->meses[$mesF];
-        $diaF = $fechaF[0];
-        $horaFn = $horaF[0];
-        $MinFn = $horaF[1];
-
-        $fechaInicio = Carbon::create($anioI, $mesI, $diaI, $horaIn, $MinIn, 0);
-        $fechaFin = Carbon::create($anioF, $mesF, $diaF, $horaFn, $MinFn, 0);
+            $fechaInicio = Carbon::create($anioI, $mesI, $diaI, $horaIn, $MinIn, 0);
+            $fechaFin = Carbon::create($anioF, $mesF, $diaF, $horaFn, $MinFn, 0);
+        }
 
         //Guardar evento
         $evento = Evento::find($idEvento);
 
         $evento->titulo = $titulo;
         $evento->descripcion = $descripcion;
-        $evento->fecha_inicio = $fechaInicio->toDateTimeString();
-        $evento->fecha_fin = $fechaFin->toDateTimeString();
+        $evento->fecha_inicio = $fechaInicio;
+        $evento->fecha_fin = $fechaFin;
         $evento->id_tipo_evento = $tipoEvento;
         $evento->latitud = $latitud;
         $evento->longitud = $longitud;
@@ -172,7 +179,8 @@ class EventosController extends Controller {
             'hora_inicio' => $horaInicio,
             'hora_fin' => $horaFin,
             'latitud' => $evento->latitud,
-            'longitud' => $evento->longitud
+            'longitud' => $evento->longitud,
+            'accion' => 'editar'
         ]);
     }
 

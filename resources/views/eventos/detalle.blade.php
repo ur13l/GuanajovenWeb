@@ -22,6 +22,7 @@
     <div class="row">
         <form class="col s12" action="{{ url('/eventos/guardar/' . $evento->id_evento) }}" method="post" id="form-nuevo-evento">
             <input type="hidden" id="posicion" name="posicion" value="">
+            <input type="hidden" id="accion" name="accion" value="{{$accion}}">
             <div class="row">
                 <div class="input-field col s12">
                     <input id="titulo" type="text" class="vald" name="titulo" value="{{ $evento->titulo }}" required>
@@ -68,13 +69,17 @@
             <div class="row">
                 <div class="input-field col s12">
                     <select required id="tipo-evento" name="tipo-evento" class="validate">
-                        <option value="" disabled selected>Elige una opción</option>
+                        <option value="" disabled>Elige una opción</option>
                         @foreach($tipos as $tipo)
-                            <option value="{{$tipo->id_tipo_evento}}">{{$tipo->nombre}}</option>
+                            @if($evento->id_tipo_evento == $tipo->id_tipo_evento) 
+                             <option value="{{$tipo->id_tipo_evento}}" selected>{{$tipo->nombre}}</option>
+                            @else
+                             <option value="{{$tipo->id_tipo_evento}}">{{$tipo->nombre}}</option>
+                            @endif
                         @endforeach
                     </select>
                     <label>Tipo de evento</label>
-                    <input type="hidden" name="tipo-seleccionado" id="tipo-seleccionado">
+                    <input type="hidden" name="tipo-seleccionado" val="{{$evento->id_tipo_evento}}" id="tipo-seleccionado">
                 </div>
             </div>
             <div class="row">
