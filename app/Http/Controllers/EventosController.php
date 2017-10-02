@@ -22,18 +22,18 @@ class EventosController extends Controller {
     }
 
     public $meses = [
-        'Enero' => '01',
-        'Febrero' => '02',
-        'Marzo' => '03',
-        'Abril' => '04',
-        'Mayo' => '05',
-        'Junio' => '06',
-        'Julio' => '07',
-        'Agosto' => '08',
-        'Septiembre' => '09',
-        'Octubre' => '10',
-        'Noviembre' => '11',
-        'Diciembre' => '12',
+        'enero' => '01',
+        'febrero' => '02',
+        'marzo' => '03',
+        'abril' => '04',
+        'mayo' => '05',
+        'junio' => '06',
+        'julio' => '07',
+        'agosto' => '08',
+        'septiembre' => '09',
+        'octubre' => '10',
+        'noviembre' => '11',
+        'diciembre' => '12',
     ];
 
     /**
@@ -93,6 +93,7 @@ class EventosController extends Controller {
         $fechaF = $request->input('fecha_fin');
         $horaI = $request->input('hora_inicio');
         $horaF = $request->input('hora_fin');
+        $direccion = null;
         $tipoEvento = $request->input('tipo-evento');
         $posicion = explode(', ', $request->input('posicion'));
         $puntos = $request->input('puntos-otorgados');
@@ -106,19 +107,19 @@ class EventosController extends Controller {
         $client = new Client();
         $resource = $client->get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $latitud . ',' . $longitud . '&sensor=true');
         $resultado = json_decode($resource->getBody());
-        if(count($resultado->results) > 0) { 
+        if(count($resultado->results) > 0) {
             $direccion = $resultado->results[0]->formatted_address;
         }
-        $fechaInicio = $fechaI . " " . $horaI;  
-        $fechaFin = $fechaF . " " . $horaF;  
+        $fechaInicio = $fechaI . " " . $horaI;
+        $fechaFin = $fechaF . " " . $horaF;
 
-        if($accion == "nuevo" ) {
+
             //Formatear fechas con horas
             $fechaI = explode(' ', $fechaI);
             $horaI = explode(':', $horaI);
             $anioI = $fechaI[2];
             $mesI = rtrim($fechaI[1], ',');
-            $mesI = $this->meses[$mesI];
+            $mesI = $this->meses[strtolower($mesI)];
             $diaI = $fechaI[0];
             $horaIn = $horaI[0];
             $MinIn = $horaI[1];
@@ -127,14 +128,14 @@ class EventosController extends Controller {
             $horaF = explode(':', $horaF);
             $anioF = $fechaF[2];
             $mesF = rtrim($fechaF[1], ',');
-            $mesF = $this->meses[$mesF];
+            $mesF = $this->meses[strtolower($mesF)];
             $diaF = $fechaF[0];
             $horaFn = $horaF[0];
             $MinFn = $horaF[1];
 
             $fechaInicio = Carbon::create($anioI, $mesI, $diaI, $horaIn, $MinIn, 0);
             $fechaFin = Carbon::create($anioF, $mesF, $diaF, $horaFn, $MinFn, 0);
-        }
+
 
         //Guardar evento
         $evento = Evento::find($idEvento);

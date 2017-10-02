@@ -11,7 +11,7 @@ $(document).ready(function(){
     labelMonthPrev: 'Anterior',
     labelMonthSelect: 'Selecciona un mes',
     labelYearSelect: 'Selecciona un año',
-    monthsFull: [ 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre' ],
+    monthsFull: [ 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre' ],
     monthsShort: [ 'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic' ],
     weekdaysFull: [ 'Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado' ],
     weekdaysShort: [ 'Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb' ],
@@ -28,6 +28,10 @@ $(document).ready(function(){
     autoclose:true,
     hour24: true
   });
+
+  $("#fecha-inicio").val(moment($("#fecha-inicio").val()).format("DD MMMM, YYYY"));
+  $("#fecha-fin").val(moment($("#fecha-fin").val()).format("DD MMMM, YYYY"));
+
 
   //Necesario para sustituir el select común de HTML5 por el de Materialize
    $('select').material_select();
