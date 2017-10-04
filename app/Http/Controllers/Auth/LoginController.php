@@ -36,9 +36,6 @@ class LoginController extends Controller
             $usuario = User::where('email', $correo )->get()->first();
             if($usuario->admin == "1") {
                 $funcionario = Funcionario::where('id_usuario', '=', $usuario->id)->first();
-                $rol = Rol::where('id', '=', $funcionario->id_rol)->first();
-
-                //TODO Revisar la parte de obtener permisos apartir de un rol
 
                 session(['funcionario' => $funcionario]);
                 return redirect()->intended('/inicio');
