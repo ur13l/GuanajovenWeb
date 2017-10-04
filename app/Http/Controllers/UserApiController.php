@@ -441,7 +441,7 @@ class UserApiController extends Controller {
         $errors = [];
         if($user->codigoGuanajoven->fecha_limite->gt(Carbon::now('America/Mexico_City'))) {
             $user->codigoGuanajoven->token = str_random(128);
-            $user->codigoGuanajoven->fecha_expiracion = Carbon::now('America/Mexico_City')->addDay(1);
+            $user->codigoGuanajoven->fecha_expiracion = Carbon::now('America/Mexico_City')->addDay(30);
             $user->codigoGuanajoven->save();
             //$token = $user->codigoGuanajoven->id_codigo_guanajoven."-".$user->datosUsuario->curp."-".$user->datosUsuario->nombre."-".$user->email;
             $token =  $user->codigoGuanajoven->token;
