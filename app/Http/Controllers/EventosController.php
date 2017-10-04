@@ -188,17 +188,8 @@ class EventosController extends Controller {
     public function eliminar(Request $request) {
         $idEvento = $request->input('idEvento');
         $evento = Evento::find($idEvento);
-
-        try {
-            $evento->delete();
-            return response()->json([
-                'status' => 200
-            ]);
-        } catch (\Exception $ex) {
-            return response()->json([
-                'status' => 500
-            ]);
-        }
+        $evento->delete();
+        return  redirect()->route('eventos');
     }
 
     public function estadistica($idEvento) {

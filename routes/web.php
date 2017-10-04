@@ -91,7 +91,7 @@ Route::get('/usuarios', 'UsuariosController@index');
 
 //Eventos
 Route::group(['prefix' => 'eventos'], function () {
-    Route::get('/inicio', 'EventosController@index');
+    Route::get('/inicio', 'EventosController@index')->name('eventos');
     Route::get('/nuevo', 'EventosController@nuevo');
     Route::post('/editar/{idEvento}', 'EventosController@editar');
     Route::post('/eliminar', 'EventosController@eliminar');

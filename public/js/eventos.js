@@ -50,6 +50,7 @@ $(document).ready(function(){
      $(this).removeClass("invalid");
    });
 
+
    //Manejador del botón de eliminar selección
    $("#delete-selection").on('click', function(){
      $("#delete-message").html("¿Confirma que desea eliminar los eventos seleccionados?");
@@ -63,6 +64,7 @@ $(document).ready(function(){
        $('#tipo-seleccionado').val($('#tipo-evento').val());
    });
 
+   /*
    //Eliminar evento
     $('.delete').on('click', function () {
         var item_evento = $(this).parent();
@@ -87,6 +89,7 @@ $(document).ready(function(){
             }
         });
     });
+    */
 
    //Verificar datos y guardar el evento
    $('#guardar-evento').on('click', function () {
@@ -188,5 +191,16 @@ $(document).ready(function(){
             Materialize.toast('Llena todos los campos', 3000, 'red');
         }
    });
+
+   /**
+    * Función index para eliminar
+    */
+    $(".deleteP").click(function(){
+        var btn = $(this),
+            yesButton = null,
+            id;
+        $('#deleteModalEv').openModal();
+        $("#id-eliminar").val(btn.data('id'));
+    });
 });
 
