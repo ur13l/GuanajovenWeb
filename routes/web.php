@@ -20,6 +20,10 @@ Route::post('/usuarios/login', 'Auth\LoginController@login');
 
 Route::get('/usuarios/logout', 'Auth\LoginController@getlogout');
 
+Route::get('/usuarios/nuevo', 'UsuariosController@nuevo');
+
+Route::post('/usuarios/curp', 'UserApiController@obtenerCurp');
+
 
 //Publicidad
 Route::group(['prefix' => 'publicidad'], function () {

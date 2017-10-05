@@ -27,4 +27,8 @@ class UsuariosController extends Controller{
 
         return view('usuarios.index', ['usuarios' => $usuarios]);
     }
+
+    public function nuevo(Request $request) {
+        return view('usuarios.nuevo');
+    }
 }

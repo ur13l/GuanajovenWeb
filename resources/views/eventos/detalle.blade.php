@@ -66,6 +66,7 @@
                     <label for="area-responsable">Área responsable</label>
                 </div>
             </div>
+
             <div class="row">
                 <div class="input-field col s12">
                     <select required id="tipo-evento" name="tipo-evento" class="validate">
@@ -82,6 +83,7 @@
                     <input type="hidden" name="tipo-seleccionado" val="{{$evento->id_tipo_evento}}" id="tipo-seleccionado">
                 </div>
             </div>
+
             <div class="row">
                 <button type="button" class="waves-effect waves-light btn rose-code" id="guardar-evento" style="background: #BF3364;">
                     <i class="material-icons left">library_books</i>Guardar
