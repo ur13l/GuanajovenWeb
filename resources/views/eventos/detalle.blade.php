@@ -42,7 +42,7 @@
                     <label for="fecha-inicio">Fecha de inicio</label>
                 </div>
                 <div class="input-field col s6">
-                    <input id="hora-inicio" type="text" class="timepicker vald" value="{{ $hora_inicio }}" name="hora_inicio" required>
+                    <input id="hora-inicio" type="text" class="timepicker vald" value="{{ date_format(date_create($hora_inicio), 'H:i') }}" name="hora_inicio" required>
                     <label for="hora-inicio">Hora de inicio</label>
                 </div>
             </div>
@@ -52,7 +52,7 @@
                     <label for="fecha-fin">Fecha de finalización</label>
                 </div>
                 <div class="input-field col s6">
-                    <input id="hora-fin" type="text" class="timepicker vald" value="{{ $hora_fin }}" name="hora_fin" required>
+                    <input id="hora-fin" type="text" class="timepicker vald" value="{{ date_format(date_create($hora_fin), 'H:i') }}" name="hora_fin" required>
                     <label for="hora-fin">Hora de finalización</label>
                 </div>
             </div>
@@ -71,7 +71,7 @@
                     <select required id="tipo-evento" name="tipo-evento" class="validate">
                         <option value="" disabled>Elige una opción</option>
                         @foreach($tipos as $tipo)
-                            @if($evento->id_tipo_evento == $tipo->id_tipo_evento) 
+                            @if($evento->id_tipo_evento == $tipo->id_tipo_evento)
                              <option value="{{$tipo->id_tipo_evento}}" selected>{{$tipo->nombre}}</option>
                             @else
                              <option value="{{$tipo->id_tipo_evento}}">{{$tipo->nombre}}</option>

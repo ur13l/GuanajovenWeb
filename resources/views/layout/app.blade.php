@@ -68,11 +68,24 @@
                 <ul class="right hide-on-med-and-down">
                 <!--  <li><a href="{{url('reportes')}}">Reportes</a></li>-->
                     <li><a href="{{url('inicio')}}">Inicio</a></li>
+
+                    @if(session('funcionario')->rol()->nombre == 'rol_administrador_sistema')
+                    <li><a href="{{url('usuarios')}}">Usuarios</a></li>
+                    @endif
+
                     <li><a href="{{url('jovenes')}}"> Jóvenes </a></li>
                     <li><a href="{{url('eventos/inicio')}}">Eventos</a></li>
+
+                    @if(session('funcionario')->rol()->nombre == 'rol_administrador_sistema' || session('funcionario')->rol()->nombre == 'rol_director')
                     <li><a href="{{url('publicidad')}}">Publicidad</a></li>
+                    @endif
+
                     <li><a href="{{url('convocatorias')}}">Convocatorias</a></li>
+
+                    @if(session('funcionario')->rol()->nombre == 'rol_administrador_sistema' || session('funcionario')->rol()->nombre == 'rol_director')
                     <li><a href="{{url('empresas')}}">Promociones</a></li>
+                    @endif
+
                     <li><a href="{{url('notificaciones')}}">Notificaciones</a></li>
                     <li><a href="{{url('chat')}}">Chat</a></li>
                     <!--<li><a href="{{url('video')}}">Video</a></li>-->

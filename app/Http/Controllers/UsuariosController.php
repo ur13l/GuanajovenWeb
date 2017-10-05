@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Funcionario;
 use Illuminate\Http\Request;
 
 class UsuariosController extends Controller{
@@ -22,6 +23,8 @@ class UsuariosController extends Controller{
     }
 
     public function index(Request $request) {
-        return view('usuarios.index');
+        $usuarios = Funcionario::where('estatus', '=', 1)->paginate(20);
+
+        return view('usuarios.index', ['usuarios' => $usuarios]);
     }
 }
