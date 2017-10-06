@@ -9,8 +9,15 @@
 namespace App\Http\Controllers;
 
 
+use App\Area;
+use App\Dependencia;
+use App\Direccion;
 use App\Funcionario;
+use App\Permiso;
+use App\Puesto;
+use App\Rol;
 use Illuminate\Http\Request;
+use PhpParser\Node\Scalar\MagicConst\Dir;
 
 class UsuariosController extends Controller{
 
@@ -29,6 +36,15 @@ class UsuariosController extends Controller{
     }
 
     public function nuevo(Request $request) {
-        return view('usuarios.nuevo');
+        $roles = Rol::all();
+        $permisos = Permiso::all();
+        $puestos = Puesto::all();
+        $areas = Area::all();
+        $direcciones = Direccion::all();
+        $dependencias = Dependencia::all();
+
+        return view('usuarios.nuevo',
+            ['roles' => $roles, 'permisos' => $permisos, 'puestos' => $puestos,
+            'areas' => $areas, 'direcciones' => $direcciones, 'dependencias' => $dependencias]);
     }
 }

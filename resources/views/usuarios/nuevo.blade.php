@@ -66,61 +66,54 @@
                 <div class="input-field col s12">
                     <select required id="rol" name="rol" class="select-wrapper validate">
                         <option value="" selected>Elige una opción</option>
-                        <option value="rol_administrador">Administrador</option>
-                        <option value="rol_director">Director</option>
-                        <option value="rol_subdirector">Sub-Director</option>
+                        @foreach($roles as $rol)
+                            <option value="{{ $rol->nombre }}">{{ $rol->nombre_vista }}</option>
+                        @endforeach
                     </select>
                     <label for="rol">Rol</label>
                 </div>
 
                 <div class="col s12">
                     <ul class="list-group">
-                        <li id="item_usuarios" class="list-group-item">Usuarios</li>
-                        <li id="item_jovenes" class="list-group-item">Jovenes</li>
-                        <li id="item_eventos" class="list-group-item">Eventos</li>
-                        <li id="item_publicidad" class="list-group-item">Publicidad</li>
-                        <li id="item_convocatorias" class="list-group-item">Convocatorias</li>
-                        <li id="item_promociones" class="list-group-item">Promociones</li>
-                        <li id="item_notificaciones" class="list-group-item">Notificaciones</li>
-                        <li id="item_chat" class="list-group-item">Chat</li>
+                        @foreach($permisos as $permiso)
+                            <li id="{{ $permiso->nombre }}" class="list-group-item">{{ $permiso->nombre_vista }}</li>
+                        @endforeach
                     </ul>
                 </div>
 
                 <div class="input-field col s12">
                     <select required id="puesto" name="puesto" class="select-wrapper validate">
                         <option value="" selected>Elige una opción</option>
-                        <option value="1">Puesto 1</option>
-                        <option value="2">Puesto 2</option>
-                        <option value="3">Puesto 3</option>
-                        <option value="4">Puesto 4</option>
-                        <option value="5">Puesto 5</option>
+                        @foreach($puestos as $puesto)
+                            <option value="{{ $puesto->id }}">{{ $puesto->nombre }}</option>
+                        @endforeach
                     </select>
                     <label for="puesto">Puesto</label>
                 </div>
 
                 <div class="col s4">
                     <ul class="list-group">
-                        <li class="list-group-item">Área 1</li>
-                        <li class="list-group-item">Área 2</li>
-                        <li class="list-group-item">Área 3</li>
+                        @foreach($areas as $area)
+                            <li class="list-group-item">{{ $area->nombre }}</li>
+                        @endforeach
                     </ul>
                 </div>
 
                 <div class="col s4">
                     <ul class="list-group">
-                        <li class="list-group-item">Dirección 1</li>
-                        <li class="list-group-item">Dirección 2</li>
+                        @foreach($direcciones as $direccion)
+                            <li class="list-group-item">{{ $direccion->nombre }}</li>
+                        @endforeach
                     </ul>
                 </div>
 
                 <div class="col s4">
                     <ul class="list-group">
-                        <li class="list-group-item">Dependencia 1</li>
-                        <li class="list-group-item">Dependencia 2</li>
-                        <li class="list-group-item">Dependencia 3</li>
+                        @foreach($dependencias as $dependencia)
+                            <li class="list-group-item">{{ $dependencia->nombre }}</li>
+                        @endforeach
                     </ul>
                 </div>
-
 
                 <input class="input-field btn right" style="background: #BF3364;" type="submit" value="Registrar">
             </div>
@@ -130,26 +123,30 @@
     <script>
         $(function () {
             $('#curp').keyup(function () {
-               if ($('#curp').val().length == 18) {
-                   $.ajax({
-                       type: "POST",
-                       url: 'curp',
-                       headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                       data: {
-                           curp: $('#curp').val()
-                       },
-                       success: function(data) {
-                           console.log(data)
-                           $('#nombre').val(data.data.nombres).trigger('change')
-                           $('#apellido_paterno').val(data.data.PrimerApellido).trigger('change')
-                           $('#apellido_materno').val(data.data.SegundoApellido).trigger('change')
-                           $('#fecha_nacimiento').val(data.data.fechNac).trigger('change')
-                       },
-                       error: function(data) {
-                           console.log('Error:', data);
-                       }
-                   });
-               }
+                if ($('#curp').val().length == 18) {
+                    $.ajax({
+                        type: "POST",
+                        url: 'curp',
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        data: {
+                            curp: $('#curp').val()
+                        },
+                        success: function (data) {
+                            $('#nombre').val(data.data.nombres).trigger('change');
+                            $('#apellido_paterno').val(data.data.PrimerApellido).trigger('change');
+                            $('#apellido_materno').val(data.data.SegundoApellido).trigger('change');
+                            $('#fecha_nacimiento').val(data.data.fechNac).trigger('change')
+                        },
+                        error: function (data) {
+                            console.log('Error:', data);
+                        }
+                    });
+                } else if ($('#curp').val().length < 18) {
+                    $('#nombre').val('')
+                    $('#apellido_paterno').val('');
+                    $('#apellido_materno').val('');
+                    $('#fecha_nacimiento').val('');
+                }
             });
 
             $('#rol').change(function () {
