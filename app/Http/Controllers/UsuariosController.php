@@ -47,4 +47,8 @@ class UsuariosController extends Controller{
             ['roles' => $roles, 'permisos' => $permisos, 'puestos' => $puestos,
             'areas' => $areas, 'direcciones' => $direcciones, 'dependencias' => $dependencias]);
     }
+
+    public function ok($method, $parameters)
+    {
+    }
 }

@@ -32,7 +32,9 @@
                 </thead>
 
 
-                {{dd($usuarios)}}
+
+
+                {{dd($usuarios[0]->id)}}
 
                 <tbody id="tabla-usuarios">
                 @foreach($usuarios as $user)
