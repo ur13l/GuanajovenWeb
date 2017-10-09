@@ -123,13 +123,14 @@
     <script>
         $(function () {
             $('#curp').keyup(function () {
-                if ($('#curp').val().length == 18) {
+                if ($('#curp').val().length === 18) {
+                    var curp = $('#curp').val().toLocaleUpperCase();
                     $.ajax({
                         type: "POST",
                         url: 'curp',
                         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                         data: {
-                            curp: $('#curp').val()
+                            curp: curp
                         },
                         success: function (data) {
                             $('#nombre').val(data.data.nombres).trigger('change');

@@ -31,6 +31,9 @@
                 </tr>
                 </thead>
 
+
+                {{dd($usuarios)}}
+
                 <tbody id="tabla-usuarios">
                 @foreach($usuarios as $user)
                     <td style="width: 100px">{{$user->id}}</td>
