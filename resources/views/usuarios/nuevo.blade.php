@@ -67,7 +67,7 @@
                     <select required id="rol" name="rol" class="select-wrapper validate">
                         <option value="" selected>Elige una opción</option>
                         @foreach($roles as $rol)
-                            <option value="{{ $rol->nombre }}">{{ $rol->nombre_vista }}</option>
+                            <option value="{{ $rol->id }}">{{ $rol->nombre_vista }}</option>
                         @endforeach
                     </select>
                     <label for="rol">Rol</label>
@@ -76,7 +76,7 @@
                 <div class="col s12">
                     <ul class="list-group">
                         @foreach($permisos as $permiso)
-                            <li id="{{ $permiso->nombre }}" class="list-group-item">{{ $permiso->nombre_vista }}</li>
+                            <li id="{{ $permiso->id }}" class="list-group-item">{{ $permiso->nombre_vista }}</li>
                         @endforeach
                     </ul>
                 </div>
@@ -151,48 +151,25 @@
             });
 
             $('#rol').change(function () {
-                switch ($('#rol').val()) {
-                    case 'rol_administrador':
-                        $('#item_usuarios').attr('class', 'list-group-item list-group-item-info')
-                        $('#item_jovenes').attr('class', 'list-group-item list-group-item-info')
-                        $('#item_eventos').attr('class', 'list-group-item list-group-item-info')
-                        $('#item_publicidad').attr('class', 'list-group-item list-group-item-info')
-                        $('#item_convocatorias').attr('class', 'list-group-item list-group-item-info')
-                        $('#item_promociones').attr('class', 'list-group-item list-group-item-info')
-                        $('#item_notificaciones').attr('class', 'list-group-item list-group-item-info')
-                        $('#item_chat').attr('class', 'list-group-item list-group-item-info')
-                        break;
-                    case 'rol_director':
-                        $('#item_usuarios').attr('class', 'list-group-item')
-                        $('#item_jovenes').attr('class', 'list-group-item list-group-item-info')
-                        $('#item_eventos').attr('class', 'list-group-item list-group-item-info')
-                        $('#item_publicidad').attr('class', 'list-group-item list-group-item-info')
-                        $('#item_convocatorias').attr('class', 'list-group-item list-group-item-info')
-                        $('#item_promociones').attr('class', 'list-group-item list-group-item-info')
-                        $('#item_notificaciones').attr('class', 'list-group-item list-group-item-info')
-                        $('#item_chat').attr('class', 'list-group-item list-group-item-info')
-                        break;
-                    case 'rol_subdirector':
-                        $('#item_usuarios').attr('class', 'list-group-item')
-                        $('#item_jovenes').attr('class', 'list-group-item list-group-item-info')
-                        $('#item_eventos').attr('class', 'list-group-item list-group-item-info')
-                        $('#item_publicidad').attr('class', 'list-group-item')
-                        $('#item_convocatorias').attr('class', 'list-group-item list-group-item-info')
-                        $('#item_promociones').attr('class', 'list-group-item')
-                        $('#item_notificaciones').attr('class', 'list-group-item list-group-item-info')
-                        $('#item_chat').attr('class', 'list-group-item list-group-item-info')
-                        break;
-                    default:
-                        $('#item_usuarios').attr('class', 'list-group-item')
-                        $('#item_jovenes').attr('class', 'list-group-item')
-                        $('#item_eventos').attr('class', 'list-group-item')
-                        $('#item_publicidad').attr('class', 'list-group-item')
-                        $('#item_convocatorias').attr('class', 'list-group-item')
-                        $('#item_promociones').attr('class', 'list-group-item')
-                        $('#item_notificaciones').attr('class', 'list-group-item')
-                        $('#item_chat').attr('class', 'list-group-item')
-                        break;
-                }
+                var id_rol = $('#rol').val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'obtenerPermisos',
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    data: {
+                        id_rol : id_rol
+                    },
+                    success: function(data) {
+                        $.each(data, function(index, value) {
+                            $('#' + value.id).attr('class', 'list-group-item list-group-item-info');
+                        });
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+
             })
         })
     </script>

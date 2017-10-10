@@ -24,6 +24,8 @@ Route::get('/usuarios/nuevo', 'UsuariosController@nuevo');
 
 Route::post('/usuarios/curp', 'UserApiController@obtenerCurp');
 
+Route::post('/usuarios/obtenerPermisos', 'UsuariosController@obtenerPermisos');
+
 
 //Publicidad
 Route::group(['prefix' => 'publicidad'], function () {

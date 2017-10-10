@@ -18,6 +18,7 @@ use App\Puesto;
 use App\Rol;
 use Illuminate\Http\Request;
 use PhpParser\Node\Scalar\MagicConst\Dir;
+use DB;
 
 class UsuariosController extends Controller{
 
@@ -48,7 +49,21 @@ class UsuariosController extends Controller{
             'areas' => $areas, 'direcciones' => $direcciones, 'dependencias' => $dependencias]);
     }
 
-    public function ok($method, $parameters)
-    {
+    /**
+     * Devuelve los permisos apartir de un rol
+     */
+    public function obtenerPermisos(Request $request) {
+        $id_rol = $request->id_rol;
+
+        $roles_permisos = DB::table('rol_permiso')->where('id_rol', '=', $id_rol)->get();
+
+        $permisos = array();
+
+        foreach($roles_permisos as $rol_permiso) {
+            $permiso = Permiso::where('id', '=', $rol_permiso->id_permiso)->first();
+            array_push($permisos, $permiso);
+        }
+
+        return response()->json($permisos);
     }
 }

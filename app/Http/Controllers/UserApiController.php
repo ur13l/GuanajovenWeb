@@ -460,4 +460,15 @@ class UserApiController extends Controller {
             'errors' => $errors
         ));
     }
+
+    /**
+     * Devuelve los permisos apartir de un rol
+     */
+    public function obtenerPermisos(Request $request) {
+        $id_rol = $request->id_rol;
+
+        $rol_permiso = DB::table('rol_pemriso')->where('id_rol', '=', $id_rol);
+
+        return response()-json($rol_permiso);
+    }
 }
