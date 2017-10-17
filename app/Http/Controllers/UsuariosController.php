@@ -57,13 +57,16 @@ class UsuariosController extends Controller{
 
         $roles_permisos = DB::table('rol_permiso')->where('id_rol', '=', $id_rol)->get();
 
-        $permisos = array();
+        $permisos = Permiso::all();
+        $permisos_rol = array();
 
         foreach($roles_permisos as $rol_permiso) {
             $permiso = Permiso::where('id', '=', $rol_permiso->id_permiso)->first();
-            array_push($permisos, $permiso);
+            array_push($permisos_rol, $permiso);
         }
 
-        return response()->json($permisos);
+        $data = array('permisos' => $permisos, 'permisos_rol' => $permisos_rol);        
+
+        return $data;
     }
 }

@@ -161,9 +161,13 @@
                         id_rol : id_rol
                     },
                     success: function(data) {
-                        $.each(data, function(index, value) {
+                        
+                        console.log(data.permisos_rol);
+
+                        $.each(data.permisos_rol, function(index, value) {
                             $('#' + value.id).attr('class', 'list-group-item list-group-item-info');
                         });
+
                     },
                     error: function(data) {
                         console.log(data);
