@@ -50,7 +50,7 @@ class UserApiController extends Controller {
             'nombre' => 'required|string',
             'apellido_paterno' => 'required|string',
             'genero' => 'required|string',
-            'codigo_postal' => 'required|integer|',
+            'codigo_postal' => 'required|integer',
             'fecha_nacimiento' => 'required|string',
             'estado_nacimiento' => 'required|string',
             'curp' => 'required|string|unique:datos_usuario'
@@ -428,12 +428,6 @@ class UserApiController extends Controller {
           'data' => $position
       ));
     }
-
-
-
-
-
-
 
     public function actualizarTokenGuanajoven(Request $request) {
         $user = Auth::guard('api')->user();

@@ -29,9 +29,17 @@ $(document).ready(function(){
     hour24: true
   });
 
-  $("#fecha-inicio").val(moment($("#fecha-inicio").val()).format("DD MMMM, YYYY"));
-  $("#fecha-fin").val(moment($("#fecha-fin").val()).format("DD MMMM, YYYY"));
+  if(moment($("#fecha-inicio").val()).format("DD MMMM, YYYY") != "Invalid date") {
+    $("#fecha-inicio").val(moment($("#fecha-inicio").val()).format("DD MMMM, YYYY"));
+  }
+  if(moment($("#fecha-fin").val()).format("DD MMMM, YYYY") != "Invalid date"){
+    $("#fecha-fin").val(moment($("#fecha-fin").val()).format("DD MMMM, YYYY"));
+  }
 
+  if(location.href.includes("nuevo")) {
+    $("#hora-inicio").val("");
+    $("#hora-fin").val("");
+  }
 
   //Necesario para sustituir el select común de HTML5 por el de Materialize
    $('select').material_select();
