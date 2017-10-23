@@ -34,8 +34,8 @@ class UserApiController extends Controller {
 
     /**
      * Usuario: Registrar
-     * params: [curp*, email, password*, password_confirmation*, nombre*, apellido_paterno*, apellido_materno*, genero*,
-     * codigo_postal*, fecha_nacimiento*, estado_nacimiento, id_ocupacion, telefono, estado, ruta_imagen, id_google, id_facebook].
+     * params: [curp*, email, password*, confirmar_password*, nombre*, apellido_paterno*, apellido_materno*, genero*,
+     * codigo_postal*, fecha_nacimiento*, estado_nacimiento, ruta_imagen, id_google, id_facebook].
      * Método que sirve para registrar usuarios.
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -77,10 +77,16 @@ class UserApiController extends Controller {
         } else {
 
             $curp = $request->input('curp');
-
             $response = $this->calcularCurp($curp);
+            if(isset($response['statusOper'])) {
 
-           if(isset($response['statusOper'])) {
+            $id_estado = "";
+            $id_municipio = "";
+            $codigo_postal = $request->input("codigo_postal");
+            $objeto = $this->obtenerEstadoMunicipio($codigo_postal);
+            if ($objeto){
+            list($id_estado, $id_municipio) = explode(",", $objeto);
+
             //User
             $correo = $request->input("email");
             $password = $request->input("password");
@@ -105,81 +111,64 @@ class UserApiController extends Controller {
           //  $id_ocupacion = $request->input("id_ocupacion");
             $telefono = $request->input("telefono");
 
-            $id_estado = "";
-            $id_municipio = "";
-            $codigo_postal = $request->input("codigo_postal");
-            if (isset($codigo_postal)) {
-                $objeto = $this->obtenerEstadoMunicipio($codigo_postal);
-                if ($objeto == false){
-                    array_push($errors, "No se pudo verificar tu código postal. Por favor verifica que es correcto.");
-                } else {
-                    list($id_estado, $id_municipio) = explode(",", $objeto);
-                }
-            }
+
 
             if ($id_estado || $id_municipio) {
                 $genero = $request->input("genero");
-                $id_genero = "";
-                if (isset($genero)) {
-                    $id_genero = $this->revisarGenero($genero);
+                $id_genero = $this->revisarGenero($genero);
+                $id_estado_nacimiento = $this->consultaEstado($estado_nacimiento);
 
-                    if ($id_genero == false) {
-                        array_push($errors, "No se pudo validar el genero. Por favor verifica tus datos");
-                    } else {
-                        $id_estado_nacimiento = "";
-                        if (isset($estado_nacimiento)) {
-                            $id_estado_nacimiento = $this->consultaEstado($estado_nacimiento);
 
-                            if ($id_estado_nacimiento == false) {
-                                array_push($errors, "No se pudo encontrar el estado de nacimiento. Por favor verifica tus datos");
-                            } else {
-                                $ruta_imagen = "";
-                                $datos = $request->input('ruta_imagen');
-                                if (isset($datos)) {
-                                    $ruta = "storage/usuarios/";
-                                    $ruta_imagen = url(ImageController::guardarImagen($datos, $ruta, uniqid("usuario_")));
-                                }
-
-                                $datosUsuario = DatosUsuario::create([
-                                    'id_usuario' => $id,
-                                    'nombre' => $nombre,
-                                    'apellido_paterno' => $apellido_paterno,
-                                    'apellido_materno' => $apellido_materno,
-                                    'id_genero' => $id_genero,
-                                    'fecha_nacimiento' => $fecha_nacimiento,
-                                    'id_estado_nacimiento' => $id_estado_nacimiento,
-                                    //'id_ocupacion' => $id_ocupacion,
-                                    'codigo_postal' => $codigo_postal,
-                                    'telefono' => $telefono,
-                                    'curp' => $curp,
-                                    'id_estado' => $id_estado,
-                                    'id_municipio' => $id_municipio,
-                                    'ruta_imagen' => $ruta_imagen
-                                ]);
-
-                                $fechaLimite = Carbon::createFromFormat('d/m/Y', $request->input("fecha_nacimiento"));
-                                $fechaLimite->year = $fechaLimite->year + 30;
-
-                                $codigo_guanajoven = CodigoGuanajoven::create([
-                                    'id_usuario' => $id,
-                                    'token' => str_random(128),
-                                    'fecha_expiracion' => Carbon::now('America/Mexico_City')->addDay(),
-                                    'fecha_limite' => $fechaLimite
-                                ]);
-                                if (isset($usuario) && isset($datosUsuario)) {
-                                    $data =User::
-                                        with('datosUsuario')
-                                        ->with('codigoGuanajoven')
-                                        ->find($usuario->id);
-                                } else {
-                                    array_push($errors, "¡Ops!, parece que algo salió mal. Verifíca que todos tus datos sean correctos.");
-                                }
-                            }
-                        }
+                    $ruta_imagen = "";
+                    $datos = $request->input('ruta_imagen');
+                    if (isset($datos)) {
+                        $ruta = "storage/usuarios/";
+                        $ruta_imagen = url(ImageController::guardarImagen($datos, $ruta, uniqid("usuario_")));
                     }
-                }
+
+                    $datosUsuario = DatosUsuario::create([
+                        'id_usuario' => $id,
+                        'nombre' => $nombre,
+                        'apellido_paterno' => $apellido_paterno,
+                        'apellido_materno' => $apellido_materno,
+                        'id_genero' => $id_genero,
+                        'fecha_nacimiento' => $fecha_nacimiento,
+                        'id_estado_nacimiento' => $id_estado_nacimiento,
+                        //'id_ocupacion' => $id_ocupacion,
+                        'codigo_postal' => $codigo_postal,
+                        'telefono' => $telefono,
+                        'curp' => $curp,
+                        'id_estado' => $id_estado,
+                        'id_municipio' => $id_municipio,
+                        'ruta_imagen' => $ruta_imagen
+                    ]);
+
+                    $fechaLimite = Carbon::createFromFormat('d/m/Y', $request->input("fecha_nacimiento"));
+                    $fechaLimite->year = $fechaLimite->year + 30;
+
+                    $codigo_guanajoven = CodigoGuanajoven::create([
+                        'id_usuario' => $id,
+                        'token' => str_random(128),
+                        'fecha_expiracion' => Carbon::now('America/Mexico_City')->addDay(),
+                        'fecha_limite' => $fechaLimite
+                    ]);
+                    if (isset($usuario) && isset($datosUsuario)) {
+                        $data =User::
+                            with('datosUsuario')
+                            ->with('codigoGuanajoven')
+                            ->find($usuario->id);
+                    } else {
+                        array_push($errors, "¡Ops!, parece que algo salió mal. Verifíca que todos tus datos sean correctos.");
+                    }
+
             }
-           } else {
+
+
+        } else {
+            array_push($errors, "No se pudo verificar tu código postal. Por favor verifica que es correcto.");
+        }
+    }
+           else {
                $errors[] = "El CURP Proporcionado no se encuentra registrado.";
            }
         }
