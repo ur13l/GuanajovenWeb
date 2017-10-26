@@ -53,6 +53,7 @@ class EventosController extends Controller {
      */
     public function nuevo() {
         $tipos = TipoEvento::all();
+
         $evento = new Evento();
 
         $evento->titulo = '';
@@ -65,7 +66,6 @@ class EventosController extends Controller {
         $evento->direccion = '';
         $evento->puntos_otorgados = 0;
         $evento->area_responsable = '';
-        $evento->save();
 
         return view('eventos.nuevo', [
             'tipos' => $tipos,
@@ -138,7 +138,12 @@ class EventosController extends Controller {
 
 
         //Guardar evento
-        $evento = Evento::find($idEvento);
+        if(isset($idEvento)) {
+            $evento = Evento::find($idEvento);
+        }
+        else {
+            $evento = new Evento();
+        }
 
         $evento->titulo = $titulo;
         $evento->descripcion = $descripcion;
