@@ -30,18 +30,6 @@ class ChatApiController extends Controller
             'visto' => false
         ));
 
-        $tokens = LoginToken::where('os', 'web')->pluck('device_token')->toArray();
-        //Generación del mensaje.
-                $message = array(
-                    'title' => "Nuevo mensaje",
-                    'body' => $mensaje->mensaje,
-                    'link_url' => "chat",
-                    'sound' => 'default',
-                    'priority' => 'high',
-                    'category' => 'URL_CATEGORY',
-                    'tag' => "chat");
-        NotificationsUtils::sendNotification($tokens, $message, 'data');
-
         $redis = LRedis::connection();
         $msArray = array(
             "id_chat" => $chat->id_chat,
