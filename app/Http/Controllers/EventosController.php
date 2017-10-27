@@ -85,7 +85,8 @@ class EventosController extends Controller {
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function guardar(Request $request, $idEvento) {
+    public function guardar(Request $request) {
+        $idEvento = $request->input('id_evento');
         $titulo = $request->input('titulo');
         $descripcion = $request->input('descripcion');
         $accion = $request->input('accion');

@@ -20,9 +20,10 @@
         <div id="map" style="height: 100%;"></div>
     </div>
     <div class="row">
-        <form class="col s12" action="{{ url('/eventos/guardar/' . $evento->id_evento) }}" method="post" id="form-nuevo-evento">
+        <form class="col s12" action="{{ url('/eventos/guardar') }}" method="post" id="form-nuevo-evento">
             <input type="hidden" id="posicion" name="posicion" value="">
             <input type="hidden" id="accion" name="accion" value="{{$accion}}">
+            <input type="hidden" id="id_evento" name="id_evento" value="{{$evento->id_evento}}">
             <div class="row">
                 <div class="input-field col s12">
                     <input id="titulo" type="text" class="vald" name="titulo" value="{{ $evento->titulo }}" required>
