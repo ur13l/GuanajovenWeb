@@ -22,8 +22,8 @@
             max-width: 20000px;
         }
 
-        ::-webkit-scrollbar { 
-            display: none; 
+        ::-webkit-scrollbar {
+            display: none;
         }
         nav {
             position: fixed;
@@ -33,8 +33,8 @@
     </style>
     <link href="{{url('/css/chat.css')}}" rel="stylesheet">
     <link rel="manifest" href="{{url('/manifest.json')}}">
-    
-  
+
+
 @endsection
 
 @section('contenedor')
@@ -45,12 +45,12 @@
     <div class="row">
         <div class="col s4 list">
             <div class="collection" id="lista-chats">
-                @foreach($chats as $chat)        
+                @foreach($chats as $chat)
                 <a href="#!" class="collection-item avatar chat-item">
 
-                <input type="hidden" value="{{$chat->id_chat}}" id="chat{{$chat->id_chat}}"> 
+                <input type="hidden" value="{{$chat->id_chat}}" id="chat{{$chat->id_chat}}">
                         <img src="{{$chat->usuario->datosUsuario->ruta_imagen}}" alt="" class="circle">
-                   
+
                     <span  class="title accent-color-text">{{$chat->usuario->datosUsuario->nombre}}</span>
                     <p class="grey-text">
                     {{$chat->ultimoMensaje()->mensaje}}
@@ -58,7 +58,7 @@
                     <p class="grey-text secondary-content" style="margin-top:-5px" href="#!">{{
                         $chat->ultimoMensaje()->created_at->format('d/m/Y') == \Carbon\Carbon::now("America/Mexico_City")->format('d/m/Y') ?
                         $chat->ultimoMensaje()->created_at->format('H:i') :
-                        $chat->ultimoMensaje()->created_at->format('d/m/Y') 
+                        $chat->ultimoMensaje()->created_at->format('d/m/Y')
                         }}</p>
                     @if( $chat->contarNoLeidos() > 0 )
                         <p href="#!"  class="secondary-content primary-color-text"><span style="margin-top:25px" class="badge">{{$chat->contarNoLeidos()}}</span></p>
@@ -73,11 +73,12 @@
                 </ul>
                 <div class="campo-mensaje">
                     <form id="form_enviar">
-                        <input id="mensaje" name="mensaje" value="" type="text">   
+                        <input id="mensaje" name="mensaje" value="" type="text">
+                        <input id="enviarMensaje" class="mensaje-izquierda primary-color" type="button" value="Enviar">
                     </form>
                 </div>
             </div>
-            
+
         </div>
              <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
     <script>
@@ -89,6 +90,6 @@
                 $("#lista-mensajes").append("<li class='mensaje-izquierda primary-color'>" +  mensaje.mensaje  + "</li>");
             }
         });
-    </script> 
+    </script>
 
 @endsection
