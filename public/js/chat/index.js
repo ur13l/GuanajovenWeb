@@ -11,16 +11,16 @@ $(function() {
                 busqueda: buscar
             },
             success: function(data) {
-                console.log(data);
                 var lista_chats = $('#lista-chats');
                 lista_chats.html("");
 
                 jQuery.each(data, function(index, val) {
 
                     var idItem = val.chat_id !== null ? val.chat_id : val.user_id;
+                    var claseItem = val.chat_id !== null ? 'chat-item' : 'user-item';
 
                     lista_chats.append(
-                        '      <a href="#!" class="collection-item avatar chat-item">' +
+                        '      <a href="#!" class="collection-item avatar ' + claseItem + '">' +
                         '      <input type="hidden" value="' + idItem + '" id="chat' + idItem + '">' +
                         '              <img src="' + val.ruta_imagen + '" alt="" class="circle">' +
                         '          <span  class="title accent-color-text">' + val.nombre + '</span>' +
@@ -31,6 +31,8 @@ $(function() {
                 });
 
                 chat_item_event();
+                user_item_event();
+
             }
         });
     });
@@ -86,6 +88,35 @@ $(function() {
         });
     }
     chat_item_event();
+
+
+
+    function user_item_event() {
+        $(".user-item").click(function() {
+
+            var idUser = $(this).find("[type=hidden]").val();
+
+            $.ajax({
+                url: $("#_url").val() + "/api/chat/nuevoChat",
+                method: "POST",
+                data: {
+                    user_id: idUser
+                },
+                success: function(data) {
+                    console.log(data);
+
+                    $(this).removeClass('user-item');
+                    $(this).addClass('chat-item');
+                    $("#_active_chat").val(data);
+
+
+                    $("#lista-mensajes").html("");
+                    $("#lista-mensajes")[0].scrollTop = $("#lista-mensajes")[0].scrollHeight;
+                }
+            })
+        });
+    }
+    user_item_event();
 
 });
 

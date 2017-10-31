@@ -59,6 +59,21 @@ class ChatApiController extends Controller
       return response()->json($items);
     }
 
+
+
+    public function nuevoChat(Request $request){
+        $chat = Chat::where('id_usuario', $request->user_id)->get()->first();
+        if(!isset($chat)) {
+            $chat = Chat::create(array(
+                'id_usuario' => $request->user_id
+            ));
+        }
+
+        return $chat->id_chat;
+    }
+
+
+
     public function enviar(Request $request) {
         $user = Auth::guard('api')->user();
         $chat = Chat::where('id_usuario', $user->id)->get()->first();
