@@ -38,7 +38,7 @@ Route::group(['prefix' => 'publicidad'], function () {
 
 
 //Convocatorias
-Route::group(['prefix' => 'convocatorias'], function() {
+Route::group(['prefix' => 'convocatorias', 'middleware' => ['auth.web']], function() {
     Route::get('/', 'ConvocatoriasController@index')->name('convocatorias');
     Route::get('/nueva', 'ConvocatoriasController@nueva');
     Route::post('/eliminar', 'ConvocatoriasController@eliminar');
@@ -46,6 +46,11 @@ Route::group(['prefix' => 'convocatorias'], function() {
     Route::get('/editar/{id_convocatoria}', 'ConvocatoriasController@vistaEditar');
     Route::post('/editar', 'ConvocatoriasController@editar');
 });
+
+Route::group(['prefix' => 'convocatorias'], function() {
+    Route::any('/registrada', 'ConvocatoriasController@registrada')->name('convocatoria.registrada');
+});
+
 
 //Empresas
 Route::group(['prefix' => 'empresas'], function() {
@@ -94,6 +99,9 @@ Route::get('/historial', 'HistorialController@index');
 Route::get('/reportes', 'ReportesController@index');
 //Usuarios
 Route::get('/usuarios', 'UsuariosController@index');
+Route::post('/usuarios/passwordactualizada', function() {
+        return view('usuarios.password_actualizado');
+});
 
 //Eventos
 Route::group(['prefix' => 'eventos'], function () {
