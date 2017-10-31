@@ -20,6 +20,8 @@ class EnviarCorreosApiController extends Controller
     protected $idEvento;
     protected $nombreEvento;
 
+    
+
 
     //En caso de ser un email de Eventos
     public function guardarVariablesEvento(Request $request) {
