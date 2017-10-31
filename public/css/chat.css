@@ -22,6 +22,7 @@
     bottom: 0;
     width:66%;
     right:0;
+    padding-right: 10%;
 }
 
 #lista-mensajes {
@@ -56,4 +57,9 @@
     margin-top: -61px;
     margin-left: 85%;
     width: 13%;
+}
+
+.buscarUsuarioDiv{
+    padding: 0px 10px 1px 10px;
+    margin-top: 16px;
 }

@@ -44,6 +44,9 @@
     <input type="hidden" id="_active_chat" value="1">
     <div class="row">
         <div class="col s4 list">
+            <div class="buscarUsuarioDiv">
+                <input type="text" name="" id="buscarUsuarios">
+            </div>
             <div class="collection" id="lista-chats">
                 @foreach($chats as $chat)
                 <a href="#!" class="collection-item avatar chat-item">
@@ -74,7 +77,7 @@
                 <div class="campo-mensaje">
                     <form id="form_enviar">
                         <input id="mensaje" name="mensaje" value="" type="text">
-                        <input id="enviarMensaje" class="mensaje-izquierda primary-color" type="button" value="Enviar">
+                        <input id="enviarMensaje" class="mensaje-izquierda primary-color" type="submit" value="Enviar">
                     </form>
                 </div>
             </div>

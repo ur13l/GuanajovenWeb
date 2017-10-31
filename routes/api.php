@@ -71,6 +71,7 @@ Route::group(['prefix' => '/chat'], function() {
     Route::post('/mensajes', 'ChatApiController@mensajes');
     Route::post('/mensajesAdmin', 'ChatApiController@mensajesAdmin');
     Route::post('/enviarAdmin', 'ChatApiController@enviarAdmin');
+    Route::post('/buscarUsuarios','ChatApiController@buscarUsuarios');
 });
 
 Route::group(['prefix' => '/documentos'], function () {

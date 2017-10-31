@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Chat;
+use App\DatosUsuario;
 use App\Mensaje;
 use App\LoginToken;
 use App\Events\ChatEvent;
@@ -13,6 +14,50 @@ use LRedis;
 
 class ChatApiController extends Controller
 {
+
+    public function buscarUsuarios(Request $request){
+      $nombre = $request->busqueda;
+
+      $users = DatosUsuario::where('nombre',$nombre)
+                ->orWhere('nombre', 'like', '%' . $nombre . '%')
+                ->select('nombre','id_usuario','ruta_imagen')
+                ->orderBy('nombre')
+                ->get();
+
+      $items = array();
+
+      foreach ($users as $user) {
+           $chat = Chat::where('id_usuario', $user->id_usuario)->get()->first();
+           $chat_id = null;
+           $ultimo_mensaje = "";
+           $no_leidos = "";
+           $fecha_ultimo = "";
+
+           if(isset($chat)){
+                $chat_id = $chat->id_chat;
+                $ultimo_mensaje = $chat->ultimoMensaje()->mensaje;
+                $no_leidos = $chat->contarNoLeidos();
+           
+                $fecha_ultimo = $chat->ultimoMensaje()->created_at->format('d/m/Y') == \ Carbon\Carbon::now("America/Mexico_City")->format('d/m/Y') ?
+                    $chat->ultimoMensaje()->created_at->format('H:i') :
+                    $chat->ultimoMensaje()->created_at->format('d/m/Y');
+           }
+
+           $item = array(
+                'user_id' => $user->id_usuario,
+                'nombre' => $user->nombre,
+                'ruta_imagen' => $user->ruta_imagen,
+                'chat_id'   => $chat_id,
+                'ultimo_mensaje' => $ultimo_mensaje,
+                'no_leidos' => $no_leidos,
+                'fecha_ultimo' => $fecha_ultimo
+           );     
+
+           array_push($items, $item);
+      }
+
+      return response()->json($items);
+    }
 
     public function enviar(Request $request) {
         $user = Auth::guard('api')->user();
@@ -69,7 +114,7 @@ class ChatApiController extends Controller
 
 
 
-    
+
     public function enviarAdmin(Request $request) {
         $user = Auth::guard('api')->user();
         $chat = Chat::find($request->active_chat);
