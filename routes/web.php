@@ -110,9 +110,12 @@ Route::group(['prefix' => 'eventos'], function () {
     Route::post('/editar/{idEvento}', 'EventosController@editar');
     Route::post('/eliminar', 'EventosController@eliminar');
     Route::post('/guardar', 'EventosController@guardar');
-    Route::post('/estadisticas/{idEvento}', 'EventosController@estadistica');
+    Route::post('/estadisticas/{idEvento}', 'EventosController@estadistica'); 
 });
 
+Route::group(['prefix' => 'eventos'], function() {
+    Route::any('/registrado', 'EventosController@registrado')->name('evento.registrado');
+});
 //Video
 Route::get('/video', 'VideoController@index');
 

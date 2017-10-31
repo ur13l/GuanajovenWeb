@@ -25,9 +25,6 @@ Route::post('/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail
 Route::get('/publicidad', 'PublicidadApiController@obtenerPublicidad');
 Route::get('/promociones', 'PromocionesApiController@obtenerEmpresasPromociones');
 Route::get('/regiones', 'RegionApiController@obtenerRegiones');
-Route::get('/eventos','EventoApiController@obtenerEventos');
-Route::post('/eventos/marcar','EventoApiController@marcarEvento');
-Route::post('/eventos/registrar', 'EventoApiController@registrar');
 Route::get('/notificacionres', 'NotificacionesApiController@obtenerNotificaciones');
 Route::get('/eventos/usuariosregistrados', 'EventoApiController@usuariosRegistrados');
 Route::get('/eventos/usuariosinteresados', 'EventoApiController@usuariosInteresados');
@@ -60,9 +57,7 @@ Route::group(['prefix' => 'profile'], function () {
 Route::group(['prefix' => '/notificaciones'], function() {
     Route::post('/enviartoken', 'NotificacionesApiController@registrar');
     Route::post('/cancelartoken', 'NotificacionesApiController@cancelar');
-    Route::post('/evento', 'EventoNotificacionController@enviarNotificacion');
     Route::post('/notificacionurl', 'NotificacionesApiController@notificacionurl');
-    Route::middleware([])->any('/evento/registrado', 'EnviarCorreosApiController@guardarVariablesEvento')->name('evento.registrado');
 });
 
 
@@ -72,6 +67,13 @@ Route::group(['prefix' => '/chat'], function() {
     Route::post('/mensajesAdmin', 'ChatApiController@mensajesAdmin');
     Route::post('/enviarAdmin', 'ChatApiController@enviarAdmin');
     Route::post('/buscarUsuarios','ChatApiController@buscarUsuarios');
+});
+
+Route::group(['prefix' => '/eventos'], function() {
+    Route::get('/','EventoApiController@obtenerEventos');
+    Route::post('/marcar','EventoApiController@marcarEvento');
+    Route::post('/registrar', 'EventoApiController@registrar');
+    Route::post('/notificacion', 'EventoApiController@enviarNotificacion');
 });
 
 Route::group(['prefix' => '/documentos'], function () {
