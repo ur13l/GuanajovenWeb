@@ -16,6 +16,10 @@ use PhpParser\Node\Expr\Array_;
 class EventoApiController extends Controller
 {
 
+    /**
+     * Eventos: Obtener
+     * Devuelve la lista de eventos activos.
+     */
     public function obtenerEventos(Request $request)
     {
         $timestamp = $request->input('timestamp');
@@ -32,6 +36,11 @@ class EventoApiController extends Controller
         ));
     }
 
+    /**
+     * Evento: Marcar
+     * params: [id_evento, api_token, latitud, longitud]
+     * Método para indicar que a un usuario está en el área de un evento.
+     */
     public function marcarEvento(Request $request)
     {
         $idEvento = $request->input('id_evento');
