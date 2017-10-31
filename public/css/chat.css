@@ -50,3 +50,10 @@
     margin-bottom: 10px;
     color: white;
 }
+
+#enviarMensaje {
+    position: absolute;
+    margin-top: -61px;
+    margin-left: 85%;
+    width: 13%;
+}
