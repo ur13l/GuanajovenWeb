@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\CodigoGuanajoven;
 use App\DatosUsuario;
 use App\Evento;
+use Auth;
 use App\NotificacionEvento;
 use App\Notifications\EventoNotificacion;
 use App\User;
@@ -293,8 +294,44 @@ class EventoApiController extends Controller
         }
     }
 
+
+    /**
+     * Evento: Enviar notificacion
+     * params: [api_token, id_evento]
+     * Se llama cuando un usuario se interesa en un evento nuevo
+     * @param Request $request
+     * @return Response
+     */
+    public function enviarNotificacion(Request $request) {
+        $apiToken = $request->api_token;
+        $idEvento = $request->id_evento;
+        $evento = Evento::find($idEvento);
+        $usuario = Auth::guard('api')->user();
+        
+        if ($evento->usuarios()->find($usuario->id)) {
+            return response()->json(array(
+                "success" => false,
+                "status" => 500,
+                "errors" => ["El usuario ya se registró en este evento."]
+            ));
+        } else {
+            $datosUsuario = DatosUsuario::where('id_usuario', $usuario->id)->first();
+            $usuario->notify(new EventoNotificacion($evento, $datosUsuario));
+            return response()->json(array(
+                "success" => true,
+                "status" => 200,
+                "errors" => [],
+                "data" => $evento
+            ));
+        }
+        
+    }
+
+
     private function subir() {
 
-}
+    }
+
+
 
 }

@@ -214,7 +214,7 @@ class ConvocatoriasController extends Controller {
         $usuario = User::find($id_usuario);
 
         if ($convocatoria->usuarios->contains($usuario)) {
-            return view('convocatorias.usuario_listo', ['titulo' => $nombre_convocatoria]);
+            return view('layout.usuario_listo', ['titulo' => $nombre_convocatoria]);
         } else {
             return $this->enviarCorreoGuanajoven($usuario, $convocatoria, $curp_usuario, $nombre_convocatoria);
         }
@@ -225,7 +225,7 @@ class ConvocatoriasController extends Controller {
     private function enviarCorreoGuanajoven($usuario, $convocatoria,$curp_usuario, $nombre_convocatoria) {
         $convocatoria->usuarios()->attach($usuario->id);
 
-        Mail::send('correos.convocatoria_registrada',
+        Mail::send('correos.notificacion_enviada',
             //variables para la vista
             ['curp_usuario' => $curp_usuario, 'titulo' => $nombre_convocatoria, 'tipo' => 'la convocatoria', 'logo' => url('/img/logo_guanajoven.png')],
 
@@ -236,7 +236,7 @@ class ConvocatoriasController extends Controller {
             $message->to( $usuario->email, 'Administrador')->subject('Nuevo registro a convocatoria: '.$nombre_convocatoria);
         });
 
-        return view('convocatorias.usuario_registrado', ['titulo' => $nombre_convocatoria]);
+        return view('layout.usuario_registrado', ['titulo' => $nombre_convocatoria]);
     }
 
 

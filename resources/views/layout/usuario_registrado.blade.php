@@ -238,7 +238,7 @@
 
                                                     <p style="margin: 20px 0;; font-size: 14px; mso-line-height-rule: exactly; line-height: 24px; margin: 30px 0;; ;">
 
-                                                        <span style="font-weight: bold;;">Has sido registrado a la convocatoria {{ $titulo }}. En breve te enviaremos un correo confirmando tu registro.  </span>
+                                                        <span style="font-weight: bold;;">Has sido registrado a {{ $titulo }}. En breve te enviaremos un correo confirmando tu registro.  </span>
 
                                                     </p>
 
