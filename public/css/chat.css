@@ -55,16 +55,24 @@
 #enviarMensaje {
     position: absolute;
     margin-top: -61px;
-    margin-left: 85%;
+    margin-left: 86%;
     width: 13%;
 }
 
 .buscarUsuarioDiv{
-    padding: 0px 10px 1px 10px;
     margin-top: 16px;
 }
 
 #lista-chats{
     overflow: scroll;
-    height: 70rem;
+    height: 650px;
+}
+
+#contenedor_izq{
+    position: fixed;
+}
+
+#buscarUsuarios{
+    margin-bottom: 0px;
+    background-color: rgba(7, 70, 119, 0.05);
 }

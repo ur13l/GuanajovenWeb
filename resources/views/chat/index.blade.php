@@ -43,7 +43,7 @@
     <input type="hidden" id="_api_token" value="{{Auth::user()->api_token}}">
     <input type="hidden" id="_active_chat" value="1">
     <div class="row">
-        <div class="col s4 list">
+        <div class="col s4 list" id="contenedor_izq">
             <div class="buscarUsuarioDiv">
                 <input type="text" name="" id="buscarUsuarios">
             </div>
