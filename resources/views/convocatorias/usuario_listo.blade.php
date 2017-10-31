@@ -221,7 +221,7 @@
                                         <tbody><tr>
                                             <td class="" style="padding: 20px 0; text-align: center; ;">
 
-                                                <img alt="error" class=" " src="https://cdn0.iconfinder.com/data/icons/smile-emoticons/78/smyle_emoticons-02-512.png" style="border: 0; height: auto; max-width: 100%; vertical-align: middle; ;" width="200">
+                                                <img alt="error" class=" " src="{{url('/img/logo_guanajoven.png')}}" style="border: 0; height: auto; max-width: 100%; vertical-align: middle; ;" width="200">
 
                                             </td>
                                         </tr>
