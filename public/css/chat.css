@@ -73,6 +73,8 @@
 }
 
 #buscarUsuarios{
+    padding-left: 15px;
+    width: -webkit-fill-available;
     margin-bottom: 0px;
     background-color: rgba(7, 70, 119, 0.05);
 }
