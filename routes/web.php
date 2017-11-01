@@ -104,7 +104,7 @@ Route::post('/usuarios/passwordactualizada', function() {
 });
 
 //Eventos
-Route::group(['prefix' => 'eventos'], function () {
+Route::group(['prefix' => 'eventos', 'middleware' => ['auth.web']], function () {
     Route::get('/inicio', 'EventosController@index')->name('eventos');
     Route::get('/nuevo', 'EventosController@nuevo');
     Route::post('/editar/{idEvento}', 'EventosController@editar');

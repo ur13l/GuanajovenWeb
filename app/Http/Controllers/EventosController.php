@@ -19,7 +19,7 @@ class EventosController extends Controller {
      * UsuariosController constructor.
      */
     public function __construct() {
-        $this->middleware('auth.web');
+        //$this->middleware('auth.web');
     }
 
     public $meses = [

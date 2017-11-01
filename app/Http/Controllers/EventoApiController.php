@@ -69,9 +69,6 @@ class EventoApiController extends Controller
 
         $distanciaMetros = $distanciaTotal * 1000;
 
-        //dd($distanciaMetros);
-
-
         if ($distanciaMetros <= 500) {
             if (NotificacionEvento::where('id_evento', '=', $idEvento)->where('id_usuario', '=', $usuario->id)->where('asistio', '=', 1)->count() == 0) {
                 $notificacion = NotificacionEvento::where('id_evento', $idEvento)->where('id_usuario', $usuario->id)->first();
@@ -130,40 +127,31 @@ class EventoApiController extends Controller
         $idEvento = $request->input('id_evento');
         $fechaActual = Carbon::now('America/Mexico_City')->toDateTimeString();
         $codigoGuanajoven = CodigoGuanajoven::where('token', $token)
-            //->where('fecha_limite', '>', $fechaActual)
-            //->where('fecha_expiracion', '>', $fechaActual)
             ->first();
+        $evento = Evento::find($idEvento);
+        $usuario = User::find($codigoGuanajoven->id_usuario);
 
-        $notificacion_existe = NotificacionEvento::where('id_evento', '=', $idEvento)->where('id_usuario', '=', $codigoGuanajoven->id_usuario)->first();
+        $notificacion = $evento->usuarios()->find($usuario->id);
 
-        if (!isset($notificacion_existe)) {
+        if (!isset($notificacion) || $notificacion->asistio !== 1) {
             if (isset($codigoGuanajoven)) {
                 $usuario = User::find($codigoGuanajoven->id_usuario);
 
                 if (isset($usuario)) {
-                    $notificacion = NotificacionEvento::where('id_evento', $idEvento)
-                        ->where('id_usuario', $usuario->id)
-                        ->first();
-
-                    if (isset($notificacion)) {
-                        $notificacion->dispositivo = 2;
-                        $notificacion->save();
-                    } else {
-                        NotificacionEvento::create([
-                            'id_evento' => $idEvento,
-                            'id_usuario' => $usuario->id,
-                            'dispositivo' => 2,
-                            'asistio' => 1
-                        ]);
+                    if(!isset($notificacion)) {
+                        $evento->usuarios()->attach($usuario->id, ['dispositivo' => 2, 'asistio' => 1]);  
+                            
+                    } 
+                    else {
+                        $notificacion->pivot->dispositivo = 2;
+                        $notificacion->pivot->asistio = 1;
+                        $notificacion->pivot->save();
                     }
-
-                    return response()->json(array(
-                        'status' => 200,
-                        'success' => true,
-                        'errors' => [],
-                        'data' => $usuario->email
-                    ));
-                } else {
+                        $puntaje = $usuario->puntaje;
+                        $sumaPuntajes = $puntaje + $evento->puntos_otorgados;
+                        $usuario->update(['puntaje' => $sumaPuntajes]);
+                }
+                else {
                     return response()->json(array(
                         'status' => 404,
                         'success' => false,
@@ -171,6 +159,14 @@ class EventoApiController extends Controller
                         'data' => ''
                     ));
                 }
+
+                return response()->json(array(
+                    'status' => 200,
+                    'success' => true,
+                    'errors' => [],
+                    'data' => $usuario->email
+                ));
+                 
             } else {
                 return response()->json(array(
                     'status' => 404,
