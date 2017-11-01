@@ -56,13 +56,19 @@
 
                     <span  class="title accent-color-text">{{$chat->usuario->datosUsuario->nombre}}</span>
                     <p class="grey-text">
-                    {{$chat->ultimoMensaje()->mensaje}}
+                    @if( $chat->ultimoMensaje() )
+                        {{$chat->ultimoMensaje()->mensaje}}
+                    @endif
                     </p>
-                    <p class="grey-text secondary-content" style="margin-top:-5px" href="#!">{{
+                    <p class="grey-text secondary-content" style="margin-top:-5px" href="#!">
+                    @if( $chat->ultimoMensaje() )
+                        {{
                         $chat->ultimoMensaje()->created_at->format('d/m/Y') == \Carbon\Carbon::now("America/Mexico_City")->format('d/m/Y') ?
                         $chat->ultimoMensaje()->created_at->format('H:i') :
                         $chat->ultimoMensaje()->created_at->format('d/m/Y')
-                        }}</p>
+                        }}
+                    @endif
+                    </p>
                     @if( $chat->contarNoLeidos() > 0 )
                         <p href="#!"  class="secondary-content primary-color-text"><span style="margin-top:25px" class="badge">{{$chat->contarNoLeidos()}}</span></p>
                     @endif

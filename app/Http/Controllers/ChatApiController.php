@@ -35,12 +35,15 @@ class ChatApiController extends Controller
 
            if(isset($chat)){
                 $chat_id = $chat->id_chat;
-                $ultimo_mensaje = $chat->ultimoMensaje()->mensaje;
-                $no_leidos = $chat->contarNoLeidos();
-           
-                $fecha_ultimo = $chat->ultimoMensaje()->created_at->format('d/m/Y') == \ Carbon\Carbon::now("America/Mexico_City")->format('d/m/Y') ?
-                    $chat->ultimoMensaje()->created_at->format('H:i') :
-                    $chat->ultimoMensaje()->created_at->format('d/m/Y');
+
+                if( $chat->ultimoMensaje() ){
+                    $ultimo_mensaje = $chat->ultimoMensaje()->mensaje;
+                    $no_leidos = $chat->contarNoLeidos();
+               
+                    $fecha_ultimo = $chat->ultimoMensaje()->created_at->format('d/m/Y') == \ Carbon\Carbon::now("America/Mexico_City")->format('d/m/Y') ?
+                        $chat->ultimoMensaje()->created_at->format('H:i') :
+                        $chat->ultimoMensaje()->created_at->format('d/m/Y');
+                }
            }
 
            $item = array(

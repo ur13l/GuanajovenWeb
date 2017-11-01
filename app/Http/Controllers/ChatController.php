@@ -28,7 +28,6 @@ class ChatController  extends Controller{
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request) {
-        //$chats = Chat::join('mensaje', 'mensaje.id_chat', '=', 'chat.id_chat')->paginate(30);
         $chats = Chat::paginate(30);
 
         return view('chat.index', ['chats' => $chats] );
