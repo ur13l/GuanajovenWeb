@@ -51,26 +51,26 @@
                 @foreach($chats as $chat)
                 <a href="#!" class="collection-item avatar chat-item">
 
-                <input type="hidden" value="{{$chat->id_chat}}" id="chat{{$chat->id_chat}}">
-                        <img src="{{$chat->usuario->datosUsuario->ruta_imagen}}" alt="" class="circle">
+                <input type="hidden" value="{{$chat['chat']->id_chat}}" id="chat{{$chat['chat']->id_chat}}">
+                        <img src="{{$chat['chat']->usuario->datosUsuario->ruta_imagen}}" alt="" class="circle">
 
-                    <span  class="title accent-color-text">{{$chat->usuario->datosUsuario->nombre}}</span>
+                    <span  class="title accent-color-text">{{$chat['chat']->usuario->datosUsuario->nombre}}</span>
                     <p class="grey-text">
-                    @if( $chat->ultimoMensaje() )
-                        {{$chat->ultimoMensaje()->mensaje}}
+                    @if( $chat['chat']->ultimoMensaje() )
+                        {{$chat['chat']->ultimoMensaje()->mensaje}}
                     @endif
                     </p>
                     <p class="grey-text secondary-content" style="margin-top:-5px" href="#!">
-                    @if( $chat->ultimoMensaje() )
+                    @if( $chat['chat']->ultimoMensaje() )
                         {{
-                        $chat->ultimoMensaje()->created_at->format('d/m/Y') == \Carbon\Carbon::now("America/Mexico_City")->format('d/m/Y') ?
-                        $chat->ultimoMensaje()->created_at->format('H:i') :
-                        $chat->ultimoMensaje()->created_at->format('d/m/Y')
+                        $chat['chat']->ultimoMensaje()->created_at->format('d/m/Y') == \Carbon\Carbon::now("America/Mexico_City")->format('d/m/Y') ?
+                        $chat['chat']->ultimoMensaje()->created_at->format('H:i') :
+                        $chat['chat']->ultimoMensaje()->created_at->format('d/m/Y')
                         }}
                     @endif
                     </p>
-                    @if( $chat->contarNoLeidos() > 0 )
-                        <p href="#!"  class="secondary-content primary-color-text"><span style="margin-top:25px" class="badge">{{$chat->contarNoLeidos()}}</span></p>
+                    @if( $chat['chat']->contarNoLeidos() > 0 )
+                        <p href="#!"  class="secondary-content primary-color-text"><span style="margin-top:25px" class="badge">{{$chat['chat']->contarNoLeidos()}}</span></p>
                     @endif
                 </a>
                 @endforeach
