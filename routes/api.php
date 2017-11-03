@@ -68,6 +68,7 @@ Route::group(['prefix' => '/chat'], function() {
     Route::post('/enviarAdmin', 'ChatApiController@enviarAdmin');
     Route::post('/buscarUsuarios','ChatApiController@buscarUsuarios');
     Route::post('/nuevoChat','ChatApiController@nuevoChat');
+    Route::post('/getChat','ChatApiController@getChat');
 });
 
 Route::group(['prefix' => '/eventos'], function() {

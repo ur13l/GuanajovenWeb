@@ -1,8 +1,16 @@
 $(function() {
 
+    function listChatsRefresh() {
+
+    }
+
     $("#buscarUsuarios").keydown(function() {
 
         var buscar = $(this).val();
+
+        if (buscar.length == 0) {
+            listChatsRefresh();
+        }
 
         $.ajax({
             url: $("#_url").val() + "/api/chat/buscarUsuarios",
@@ -18,15 +26,16 @@ $(function() {
 
                     var idItem = val.chat_id !== null ? val.chat_id : val.user_id;
                     var claseItem = val.chat_id !== null ? 'chat-item' : 'user-item';
+                    val.no_leidos = val.no_leidos > 0 ? val.no_leidos : '';
 
                     lista_chats.append(
                         '      <a href="#!" class="collection-item avatar ' + claseItem + '">' +
                         '      <input type="hidden" value="' + idItem + '" id="chat' + idItem + '">' +
                         '              <img src="' + val.ruta_imagen + '" alt="" class="circle">' +
                         '          <span  class="title accent-color-text">' + val.nombre + '</span>' +
-                        '          <p class="grey-text">' + val.ultimo_mensaje + '</p>' +
-                        '          <p class="grey-text secondary-content" style="margin-top:-5px" href="#!">' + val.fecha_ultimo + '</p>' +
-                        '          <p href="#!"  class="secondary-content primary-color-text"><span style="margin-top:25px" class="badge">' + val.no_leidos + '</span></p>' +
+                        '          <p class="grey-text ultimoMensaje">' + val.ultimo_mensaje + '</p>' +
+                        '          <p class="grey-text secondary-content fechaUltimo" style="margin-top:-5px" href="#!">' + val.fecha_ultimo + '</p>' +
+                        '          <p href="#!"  class="secondary-content primary-color-text"><span style="margin-top:25px" class="badge noLeidos">' + val.no_leidos + '</span></p>' +
                         '      </a>');
                 });
 
@@ -51,6 +60,13 @@ $(function() {
                 "active_chat": $("#_active_chat").val()
             },
             success: function(data) {
+                var hora = new Date();
+
+                $('#chat' + $('#_active_chat').val()).parent('a').find('.ultimoMensaje').html(mensaje);
+                $('#chat' + $('#_active_chat').val()).parent('a').find('.fechaUltimo').html(hora.getHours() + ':' + hora.getMinutes());
+                $('#chat' + $('#_active_chat').val()).parent('a').find('.noLeidos').html('');
+
+
                 console.log(data);
             }
         });
@@ -63,7 +79,7 @@ $(function() {
 
             var idChat = $(this).find("[type=hidden]").val();
             $("#_active_chat").val(idChat);
-            console.log(idChat);
+
             $.ajax({
                 url: $("#_url").val() + "/api/chat/mensajesAdmin",
                 method: "POST",
@@ -73,14 +89,50 @@ $(function() {
                     page: '1'
                 },
                 success: function(data) {
+
+
                     mensajes = data.data;
+                    $('#chat' + idChat).parent('a').find('.noLeidos').html('');
                     $("#lista-mensajes").html("");
+                    var hoy = new Date();
+                    hoy = [hoy.getDate(), hoy.getMonth() + 1, hoy.getFullYear()].join('/');
+
                     for (var i = 0, max = mensajes.length; i < max; i++) {
+
+                        fecha_mensaje = new Date(mensajes[i].created_at.split(' ')[0]);
+                        fecha_mensaje = [fecha_mensaje.getDate() + 1, fecha_mensaje.getMonth() + 1, fecha_mensaje.getFullYear()].join('/');
+
+                        fecha = fecha_mensaje == hoy ?
+                            //Toma la hora y elimina los segundos
+                            mensajes[i].created_at.split(' ')[1].split(':')[0] + ':' + mensajes[i].created_at.split(' ')[1].split(':')[1] :
+                            //Toma la fecha
+                            mensajes[i].created_at.split(' ')[0];
+
+
                         if (mensajes[i].envia_usuario) {
-                            $("#lista-mensajes").prepend("<li class='mensaje-izquierda primary-color'>" + mensajes[i].mensaje + "</li>");
+                            $("#lista-mensajes").prepend("<li class='mensaje-izquierda primary-color'>" + mensajes[i].mensaje +
+                                "<br><div class='fecha_mensaje'>" + fecha +
+                                "</div><div style='display:none;' class='fecha_mensaje full_fecha'>" +
+                                mensajes[i].created_at + "</div></li>");
                         } else {
-                            $("#lista-mensajes").prepend("<li class='mensaje-derecha accent-color'>" + mensajes[i].mensaje + "</li>");
+                            $("#lista-mensajes").prepend("<li class='mensaje-derecha accent-color'>" + mensajes[i].mensaje +
+                                "<br><div class='fecha_mensaje'>" + fecha +
+                                "</div><div style='display:none;' class='fecha_mensaje full_fecha'>" +
+                                mensajes[i].created_at + "</div></li>");
                         }
+
+
+                        $('#lista-mensajes > li').first().mouseenter(function() {
+                            $(this).find('.fecha_mensaje:first()').css('display', 'none');
+                            $(this).find('.fecha_mensaje:last()').css('display', 'block');
+                        });
+
+                        $('#lista-mensajes > li').first().mouseleave(function() {
+                            $(this).find('.fecha_mensaje:first()').css('display', 'block');
+                            $(this).find('.fecha_mensaje:last()').css('display', 'none');
+                        });
+
+
                     }
                     $("#lista-mensajes")[0].scrollTop = $("#lista-mensajes")[0].scrollHeight;
                 }
@@ -88,7 +140,6 @@ $(function() {
         });
     }
     chat_item_event();
-
 
 
     function user_item_event() {
@@ -117,6 +168,7 @@ $(function() {
         });
     }
     user_item_event();
+
 
 });
 

@@ -28,6 +28,7 @@ class ChatController  extends Controller{
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request) {
+
         $chats = Chat::all();
         $arr = array();
         

@@ -55,12 +55,12 @@
                         <img src="{{$chat['chat']->usuario->datosUsuario->ruta_imagen}}" alt="" class="circle">
 
                     <span  class="title accent-color-text">{{$chat['chat']->usuario->datosUsuario->nombre}}</span>
-                    <p class="grey-text">
+                    <p class="grey-text ultimoMensaje">
                     @if( $chat['chat']->ultimoMensaje() )
                         {{$chat['chat']->ultimoMensaje()->mensaje}}
                     @endif
                     </p>
-                    <p class="grey-text secondary-content" style="margin-top:-5px" href="#!">
+                    <p class="grey-text secondary-content fechaUltimo" style="margin-top:-5px" href="#!">
                     @if( $chat['chat']->ultimoMensaje() )
                         {{
                         $chat['chat']->ultimoMensaje()->created_at->format('d/m/Y') == \Carbon\Carbon::now("America/Mexico_City")->format('d/m/Y') ?
@@ -69,9 +69,14 @@
                         }}
                     @endif
                     </p>
-                    @if( $chat['chat']->contarNoLeidos() > 0 )
-                        <p href="#!"  class="secondary-content primary-color-text"><span style="margin-top:25px" class="badge">{{$chat['chat']->contarNoLeidos()}}</span></p>
-                    @endif
+                        <p href="#!"  class="secondary-content primary-color-text">
+                            <span style="margin-top:25px" class="badge noLeidos">
+                                @if( $chat['chat']->contarNoLeidos() > 0 )
+                                    {{$chat['chat']->contarNoLeidos()}}
+                                @endif
+                            </span>
+                        </p>
+                    
                 </a>
                 @endforeach
             </div>
@@ -94,10 +99,49 @@
         var socket = io("{{env('SOCKET_URL')}}");
         socket.on("message", function(message){
             console.log("MENSAJE NUEVo");
-            mensaje = JSON.parse(message)
+            mensaje = JSON.parse(message);
+
+            //Cuando el chat esta en la lista 
+            if( $('#chat'+mensaje.id_chat).length > 0 ){
+                $('#lista-chats').prepend($('#chat'+mensaje.id_chat).parent());    
+                var noLeidos = $('#chat'+mensaje.id_chat).parent().find('.noLeidos').html();
+                noLeidos = noLeidos == "" ? 1 : Number(noLeidos) + 1;
+                $('#chat'+mensaje.id_chat).parent().find('.noLeidos').html(noLeidos);
+            
+            //El chat no esta en la lista
+            }else{
+                $.ajax({
+                    url: $("#_url").val() + "/api/chat/getChat",
+                    method: "POST",
+                    data: {
+                        chat_id: mensaje.id_chat
+                    },
+                    success: function(data) {
+
+                        var idItem = data.chat_id !== null ? data.chat_id : data.user_id;
+                        var claseItem = data.chat_id !== null ? 'chat-item' : 'user-item';
+                        data.no_leidos = data.no_leidos > 0 ? data.no_leidos : '';
+
+                        $('#lista-chats').prepend('<a href="#!" class="collection-item avatar ' + claseItem + '">' +
+                            '      <input type="hidden" value="' + idItem + '" id="chat' + idItem + '">' +
+                            '              <img src="' + data.ruta_imagen + '" alt="" class="circle">' +
+                            '          <span  class="title accent-color-text">' + data.nombre + '</span>' +
+                            '          <p class="grey-text ultimoMensaje">' + data.ultimo_mensaje + '</p>' +
+                            '          <p class="grey-text secondary-content fechaUltimo" style="margin-top:-5px" href="#!">' + data.fecha_ultimo + '</p>' +
+                            '          <p href="#!"  class="secondary-content primary-color-text"><span style="margin-top:25px" class="badge noLeidos">' + data.no_leidos + '</span></p>' +
+                            '      </a>');
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+            }
+            
+            
             if(mensaje.id_chat == $("#_active_chat").val()) {
                 $("#lista-mensajes").append("<li class='mensaje-izquierda primary-color'>" +  mensaje.mensaje  + "</li>");
             }
+
         });
     </script>
 

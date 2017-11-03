@@ -124,6 +124,7 @@ class ChatApiController extends Controller
      public function mensajesAdmin (Request $request) {
         $user = Auth::guard('api')->user();
         $chat = Chat::find($request->id_chat);
+        $chat->todosLeidos();
         return response()->json(
              $chat->mensajes()->orderBy('created_at', 'desc')->paginate(20)
             );
@@ -136,7 +137,7 @@ class ChatApiController extends Controller
     public function enviarAdmin(Request $request) {
         $user = Auth::guard('api')->user();
         $chat = Chat::find($request->active_chat);
-
+        
         $mensaje = Mensaje::create(array(
             'id_chat' => $chat->id_chat,
             'mensaje' => $request->mensaje,
@@ -174,5 +175,40 @@ class ChatApiController extends Controller
             'data' => true,
             'errors' => []
         ));
+    }
+
+
+    function getChat(Request $request){
+        $chat_id = $request->chat_id;
+        $chat = Chat::find($chat_id);
+        
+        if( isset($chat) ){
+            $user = $chat->usuario->datosUsuario;
+            $ultimo_mensaje = "";
+            $no_leidos = 0;
+            $fecha_ultimo = "";
+            
+            if( $chat->ultimoMensaje() ){
+                $ultimo_mensaje = $chat->ultimoMensaje()->mensaje;
+                $no_leidos = $chat->contarNoLeidos();
+               
+                $fecha_ultimo = $chat->ultimoMensaje()->created_at->format('d/m/Y') == \ Carbon\Carbon::now("America/Mexico_City")->format('d/m/Y') ?
+                    $chat->ultimoMensaje()->created_at->format('H:i') :
+                    $chat->ultimoMensaje()->created_at->format('d/m/Y');
+            }
+
+                return array(
+                     'user_id' => $user->id_usuario,
+                    'nombre' => $user->nombre,
+                    'ruta_imagen' => $user->ruta_imagen,
+                    'chat_id'   => $chat_id,
+                    'ultimo_mensaje' => $ultimo_mensaje,
+                    'no_leidos' => $no_leidos,
+                    'fecha_ultimo' => $fecha_ultimo
+                );
+        }else{
+            return null;
+        }
+        
     }
 }
