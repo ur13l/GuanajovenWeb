@@ -90,7 +90,7 @@
                 <div class="campo-mensaje">
                     <form id="form_enviar">
                         <input id="mensaje" name="mensaje" value="" type="text">
-                        <input id="enviarMensaje" class="mensaje-izquierda primary-color" type="submit" value="Enviar">
+                        <button id="enviarMensaje" class="mensaje-izquierda primary-color" type="submit">Enviar<i class="material-icons right">send</i></button>
                     </form>
                 </div>
             </div>
