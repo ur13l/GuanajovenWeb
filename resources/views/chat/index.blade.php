@@ -51,10 +51,12 @@
                 @foreach($chats as $chat)
                 <a href="#!" class="collection-item avatar chat-item">
 
-                <input type="hidden" value="{{$chat['chat']->id_chat}}" id="chat{{$chat['chat']->id_chat}}">
+                 <input type="hidden" value="{{$chat['chat']->id_chat}}" id="chat{{$chat['chat']->id_chat}}">
+                    
+                    @if( $chat['chat']->usuario )
                         <img src="{{$chat['chat']->usuario->datosUsuario->ruta_imagen}}" alt="" class="circle">
-
-                    <span  class="title accent-color-text">{{$chat['chat']->usuario->datosUsuario->nombre}}</span>
+                        <span  class="title accent-color-text">{{$chat['chat']->usuario->datosUsuario->nombre}}</span>
+                    @endif
                     <p class="grey-text ultimoMensaje">
                     @if( $chat['chat']->ultimoMensaje() )
                         {{$chat['chat']->ultimoMensaje()->mensaje}}
@@ -107,6 +109,7 @@
                 var noLeidos = $('#chat'+mensaje.id_chat).parent().find('.noLeidos').html();
                 noLeidos = noLeidos == "" ? 1 : Number(noLeidos) + 1;
                 $('#chat'+mensaje.id_chat).parent().find('.noLeidos').html(noLeidos);
+                $('#chat'+mensaje.id_chat).parent().find('.ultimoMensaje').html(mensaje.mensaje);
             
             //El chat no esta en la lista
             }else{
