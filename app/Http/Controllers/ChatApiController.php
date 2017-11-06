@@ -14,9 +14,13 @@ use LRedis;
 
 class ChatApiController extends Controller
 {
+    public function listaChats(Request $request){
+        
+    }
 
     public function buscarUsuarios(Request $request){
       $nombre = $request->busqueda;
+
 
       $users = DatosUsuario::where('nombre',$nombre)
                 ->orWhere('nombre', 'like', '%' . $nombre . '%')
@@ -148,6 +152,7 @@ class ChatApiController extends Controller
         $tokens = LoginToken::where('id_usuario', $chat->id_usuario)->pluck('device_token')->toArray();
 
 
+
         //Generación del mensaje.
                 $message = array(
                     'title' => "Nuevo mensaje",
@@ -159,16 +164,16 @@ class ChatApiController extends Controller
                     'content_available' => true,
                     'tag' => "chat");
 
+        if( count($tokens) > 0 ){
+            $dispositivo = LoginToken::where('device_token',$tokens[0])->get()->first();
 
-  $dispositivo = LoginToken::where('device_token',$tokens[0])->get()->first();
-
-
-    if($dispositivo->os == "ios"){
-       NotificationsUtils::sendNotification($tokens, $message, 'notification');
-    }else{
-      NotificationsUtils::sendNotification($tokens, $message, 'data');
-    }
-
+            if($dispositivo->os == "ios"){
+               NotificationsUtils::sendNotification($tokens, $message, 'notification');
+            }else{
+              NotificationsUtils::sendNotification($tokens, $message, 'data');
+            }
+        }
+        
         return response()->json(array(
             'success' => true,
             'status' => 200,

@@ -1,15 +1,15 @@
 $(function() {
 
-    function listChatsRefresh() {
-
-    }
-
-    $("#buscarUsuarios").keydown(function() {
+    $("#buscarUsuarios").keyup(function() {
 
         var buscar = $(this).val();
+        var html;
 
-        if (buscar.length == 0) {
-            listChatsRefresh();
+        if (buscar.length > 0) {
+            html = $('#lista_chats').html();
+        } else {
+            if (html !== null)
+                $('#lista_chats').html(html);
         }
 
         $.ajax({
@@ -50,7 +50,8 @@ $(function() {
         var mensaje = $("#mensaje").val();
         $("#lista-mensajes").append("<li class='mensaje-derecha accent-color'>" + mensaje + "</li>");
         $("#lista-mensajes")[0].scrollTop = $("#lista-mensajes")[0].scrollHeight;
-        $("#mensaje").val('')
+        $("#mensaje").val('');
+        $('#lista-chats').prepend($('#chat' + $('#_active_chat').val()).parent());
         $.ajax({
             url: $("#_url").val() + "/api/chat/enviarAdmin",
             method: "POST",
@@ -66,8 +67,8 @@ $(function() {
                 $('#chat' + $('#_active_chat').val()).parent('a').find('.fechaUltimo').html(hora.getHours() + ':' + hora.getMinutes());
                 $('#chat' + $('#_active_chat').val()).parent('a').find('.noLeidos').html('');
 
+                $('#chat' + $('#_active_chat').val()).parent('a').trigger('click');
 
-                console.log(data);
             }
         });
 
@@ -106,20 +107,21 @@ $(function() {
                             //Toma la hora y elimina los segundos
                             mensajes[i].created_at.split(' ')[1].split(':')[0] + ':' + mensajes[i].created_at.split(' ')[1].split(':')[1] :
                             //Toma la fecha
-                            mensajes[i].created_at.split(' ')[0];
+                            fecha_mensaje;
 
 
                         if (mensajes[i].envia_usuario) {
                             $("#lista-mensajes").prepend("<li class='mensaje-izquierda primary-color'>" + mensajes[i].mensaje +
                                 "<br><div class='fecha_mensaje'>" + fecha +
                                 "</div><div style='display:none;' class='fecha_mensaje full_fecha'>" +
-                                mensajes[i].created_at + "</div></li>");
+                                fecha_mensaje + ' ' + mensajes[i].created_at.split(' ')[1] + "</div></li>");
                         } else {
                             $("#lista-mensajes").prepend("<li class='mensaje-derecha accent-color'>" + mensajes[i].mensaje +
                                 "<br><div class='fecha_mensaje'>" + fecha +
                                 "</div><div style='display:none;' class='fecha_mensaje full_fecha'>" +
-                                mensajes[i].created_at + "</div></li>");
+                                fecha_mensaje + ' ' + mensajes[i].created_at.split(' ')[1] + "</div></li>");
                         }
+
 
 
                         $('#lista-mensajes > li').first().mouseenter(function() {
