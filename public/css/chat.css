@@ -65,7 +65,8 @@
 
 #lista-chats{
     overflow: scroll;
-    height: 650px;
+    height: -webkit-fill-available;
+    padding-bottom: 3.5cm;
 }
 
 #contenedor_izq{

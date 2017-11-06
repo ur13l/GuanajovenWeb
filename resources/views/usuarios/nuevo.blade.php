@@ -164,8 +164,10 @@
                         
                         console.log(data.permisos_rol);
 
+                        $('.list-group-item').removeClass('list-group-item-info');
+
                         $.each(data.permisos_rol, function(index, value) {
-                            $('#' + value.id).attr('class', 'list-group-item list-group-item-info');
+                            $('#' + value.id).addClass('list-group-item-info');
                         });
 
                     },
