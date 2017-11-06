@@ -3,13 +3,13 @@ $(function() {
     $("#buscarUsuarios").keyup(function() {
 
         var buscar = $(this).val();
-        var lista_html;
+        var html;
 
         if (buscar.length > 0) {
-            lista_html = $('#lista_chats').html();
+            html = $('#lista_chats').html();
         } else {
-            if (lista_html !== null)
-                $('#lista_chats').html(lista_html);
+            if (html !== null)
+                $('#lista_chats').html(html);
         }
 
         $.ajax({

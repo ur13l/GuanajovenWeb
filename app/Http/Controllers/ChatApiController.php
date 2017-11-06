@@ -14,6 +14,9 @@ use LRedis;
 
 class ChatApiController extends Controller
 {
+    public function listaChats(Request $request){
+        
+    }
 
     public function buscarUsuarios(Request $request){
       $nombre = $request->busqueda;
