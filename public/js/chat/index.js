@@ -1,5 +1,25 @@
 $(function() {
 
+    $(window).resize(function(event) {
+        if ($(window).width() <= 970) {
+            $('#enviarMensaje').html('<i class="material-icons right">send</i>');
+            $('#enviarMensaje').css({
+                'width': '1.3cm',
+                'border-radius': '30px',
+                'height': '47px',
+                'padding-top': '10px'
+            });
+        } else {
+            $('#enviarMensaje').html('Enviar<i class="material-icons right">send</i>');
+            $('#enviarMensaje').css({
+                'width': '2.8cm',
+                'border-radius': '0px',
+                'height': '40px',
+                'padding-top': '7px'
+            });
+        }
+    });
+
     $("#buscarUsuarios").keyup(function() {
 
         var buscar = $(this).val();

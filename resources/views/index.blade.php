@@ -55,10 +55,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(function(){
-        console.log( $('[type=submit]').parent() );
-
-    });
+    
 </script>
 </body>
 </html>

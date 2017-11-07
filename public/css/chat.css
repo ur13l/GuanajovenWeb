@@ -22,7 +22,6 @@
     bottom: 0;
     width:66%;
     right:0;
-    padding-right: 10%;
 }
 
 #lista-mensajes {
@@ -52,12 +51,7 @@
     color: white;
 }
 
-#enviarMensaje {
-    position: absolute;
-    margin-top: -61px;
-    margin-left: 86%;
-    width: 13%;
-}
+
 
 .buscarUsuarioDiv{
     margin-top: 16px;
@@ -65,8 +59,8 @@
 
 #lista-chats{
     overflow: scroll;
-    height: -webkit-fill-available;
-    padding-bottom: 3.5cm;
+    height: 17cm;
+    padding-bottom: 10cm;
 }
 
 #contenedor_izq{
@@ -74,8 +68,6 @@
 }
 
 #buscarUsuarios{
-    padding-left: 15px;
-    width: -webkit-fill-available;
     margin-bottom: 0px;
     background-color: rgba(7, 70, 119, 0.05);
 }
@@ -84,4 +76,18 @@
     height: 3px;
     text-align: right;
     font-size: 9px;
+}
+
+#mensaje{
+    width: 80%;
+    float: left;
+}
+
+#enviarMensaje {
+    width: 2.8cm;
+    float: left;
+    margin-right: auto;
+    margin-left: 3.5%;
+    height: 40px;
+    padding-top: 7px;
 }

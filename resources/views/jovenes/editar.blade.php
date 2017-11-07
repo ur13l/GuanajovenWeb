@@ -46,7 +46,7 @@
                   </select>
                 </div>
                 <div class="input-field col s8 m6">
-                    <input id="fecha_nacimiento" name="fecha_nacimiento" type="date" class="datepicker">
+                    <input id="fecha_nacimiento" name="fecha_nacimiento" class="datepicker">
                     <label for="fecha_nacimiento">Fecha de Nacimiento</label>
                 </div>
                 <div class="col s5">

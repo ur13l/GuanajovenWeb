@@ -22,7 +22,7 @@ $(function() {
 
     $(".datepicker").change(function() {
 
-        $(this).val(moment($(this).val(), "DD MMMM YYYY").format("DD MMMM, YYYY"))
+        $(this).val(moment($(this).val(), "DD MMMM, YYYY").format("DD MMMM, YYYY"))
     })
 
     //Funcionalidad de botón eliminar
