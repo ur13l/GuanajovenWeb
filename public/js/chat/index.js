@@ -1,6 +1,6 @@
 $(function() {
 
-    $(window).resize(function(event) {
+    function btn_resize() {
         if ($(window).width() <= 970) {
             $('#enviarMensaje').html('<i class="material-icons right">send</i>');
             $('#enviarMensaje').css({
@@ -10,6 +10,7 @@ $(function() {
                 'padding-top': '10px'
             });
         } else {
+
             $('#enviarMensaje').html('Enviar<i class="material-icons right">send</i>');
             $('#enviarMensaje').css({
                 'width': '2.8cm',
@@ -18,6 +19,11 @@ $(function() {
                 'padding-top': '7px'
             });
         }
+    }
+    btn_resize();
+
+    $(window).resize(function(event) {
+        btn_resize();
     });
 
     $("#buscarUsuarios").keyup(function() {
