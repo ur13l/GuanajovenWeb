@@ -98,7 +98,7 @@ $(function() {
                     
                     console.log(data.permisos_rol);
 
-                    $('.list-group-item').removeClass('list-group-item-info');
+                    $('.list-group-item-rol').removeClass('list-group-item-info');
 
                     $.each(data.permisos_rol, function(index, value) {
                         $('#' + value.id).addClass('list-group-item-info');
