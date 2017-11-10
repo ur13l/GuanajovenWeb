@@ -71,14 +71,14 @@ class UsuariosController extends Controller{
     }
 
     public function obtenerValoresPuesto(Request $request) {
-        $id_puesto = $request->id_permiso;
+        $id_puesto = $request->id_puesto;
 
-        $puesto = Puesto::where('id', '=', $id_puesto)->get();
-        $area = Area::where('id', '=', $puesto->id_area)->get();
-        $direccion = Direccion::where('id', '=', $area->id_direccion)->get();
-        $dependencia = Dependencia::where('id', '=', $direccion->id_dependencia)->get();
+        $puesto = Puesto::where('id', '=', $id_puesto)->first();
+        $area = Area::where('id', '=', $puesto->id_area)->first();
+        $direccion = Direccion::where('id', '=', $area->id_direccion)->first();
+        $dependencia = Dependencia::where('id', '=', $direccion->id_dependencia)->first();
 
-        $data = array('area' => $area, 'direccion' => direccion, 'dependencia' => $dependencia);
+        $data = array('area' => $area, 'direccion' => $direccion, 'dependencia' => $dependencia);
 
         return $data;
     }

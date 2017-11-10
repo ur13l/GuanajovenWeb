@@ -110,6 +110,31 @@ $(function() {
                 }
             });
 
+        });
+
+        $('#puesto').change(function() {
+            var id_puesto = $('#puesto').val();
+
+            $.ajax({
+                type: 'POST',
+                url: 'obtenerValoresPuesto',
+                headers: {'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')},
+                data: {
+                    id_puesto : id_puesto
+                },
+                success: function(data) {
+                    $('.list-group-item-puesto').removeClass('list-group-item-info');
+                    
+                    $('#area_'  + data.area.id).addClass('list-group-item-info');
+                    $('#direccion_' + data.direccion.id).addClass('list-group-item-info');
+                    $('#dependencia_' + data.dependencia.id).addClass('list-group-item-info');
+
+                },
+                error: function(data) {
+
+                }
+            });
         })
+    })
     })
 });
