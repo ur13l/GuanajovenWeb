@@ -49,18 +49,18 @@
                 </div>
 
                 <div class="input-field col s12 ">
-                    <input id="correo" name="correo" type="email" class="validate">
-                    <label for="correo">Correo electrónico</label>
+                    <input id="email" name="email" type="email" class="validate">
+                    <label for="email">Correo electrónico</label>
                 </div>
 
                 <div class="input-field col s12">
-                    <input id="contraseña" name="contraseña" type="password" class="validate">
-                    <label for="contraseña">Contraseña</label>
+                    <input id="password" name="password" type="password" class="validate">
+                    <label for="password">Contraseña</label>
                 </div>
 
                 <div class="input-field col s12">
-                    <input id="repetir_contraseña" name="repetir_contraseña" type="password" class="validate">
-                    <label for="repetir_contraseña">Repetir contraseña</label>
+                    <input id="confirmar_password" name="confirmar_password" type="password" class="validate">
+                    <label for="confirmar_password">Confirmar contraseña</label>
                 </div>
 
                 <div class="input-field col s12 ">
