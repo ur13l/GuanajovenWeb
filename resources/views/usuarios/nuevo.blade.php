@@ -81,7 +81,7 @@
                 <div class="col s12">
                     <ul class="list-group">
                         @foreach($permisos as $permiso)
-                            <li id="{{ $permiso->id }}" class="list-group-item">{{ $permiso->nombre_vista }}</li>
+                            <li id="{{ $permiso->id }}" class="list-group-item-rol">{{ $permiso->nombre_vista }}</li>
                         @endforeach
                     </ul>
                 </div>
@@ -99,7 +99,7 @@
                 <div class="col s4">
                     <ul class="list-group">
                         @foreach($areas as $area)
-                            <li class="list-group-item">{{ $area->nombre }}</li>
+                            <li id="area_{{ $area->id }}"class="list-group-item-puesto">{{ $area->nombre }}</li>
                         @endforeach
                     </ul>
                 </div>
@@ -107,7 +107,7 @@
                 <div class="col s4">
                     <ul class="list-group">
                         @foreach($direcciones as $direccion)
-                            <li class="list-group-item">{{ $direccion->nombre }}</li>
+                            <li id="direccion_{{ $direccion->id }}" class="list-group-item-puesto">{{ $direccion->nombre }}</li>
                         @endforeach
                     </ul>
                 </div>
@@ -115,7 +115,7 @@
                 <div class="col s4">
                     <ul class="list-group">
                         @foreach($dependencias as $dependencia)
-                            <li class="list-group-item">{{ $dependencia->nombre }}</li>
+                            <li id="dependencia_{{ $dependencia->id }}" class="list-group-item-puesto">{{ $dependencia->nombre }}</li>
                         @endforeach
                     </ul>
                 </div>
@@ -169,7 +169,7 @@
                         
                         console.log(data.permisos_rol);
 
-                        $('.list-group-item').removeClass('list-group-item-info');
+                        $('.list-group-item-rol').removeClass('list-group-item-info');
 
                         $.each(data.permisos_rol, function(index, value) {
                             $('#' + value.id).addClass('list-group-item-info');
@@ -181,6 +181,30 @@
                     }
                 });
 
+            })
+
+            $('#puesto').change(function() {
+                var id_puesto = $('#puesto').val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'obtenerValoresPuesto',
+                    headers: {'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')},
+                    data: {
+                        id_puesto : id_puesto
+                    },
+                    success: function(data) {
+                        $('.list-group-item-puesto').removeClass('list-group-item-info');
+                        
+                        $('#area_'  + data.area.id).addClass('list-group-item-info');
+                        $('#direccion_' + data.direccion.id).addClass('list-group-item-info');
+                        $('#dependencia_' + data.dependencia.id).addClass('list-group-item-info');
+
+                    },
+                    error: function(data) {
+
+                    }
+                });
             })
         })
     </script>
