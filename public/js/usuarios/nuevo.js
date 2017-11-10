@@ -8,40 +8,17 @@ $(function() {
         },
 
         rules: {
-            "empresa": {
-                required: true
-            },
-            "convenio": {
-                required: true
-            },
-            "nombre_comercial": {
-                required: true
-            },
-            "razon_social": {
-                required: true
-            },
-            "imagen": {
-                required: true
-            },
-            "estatus": {
-                required: true
-            },
-            "prioridad": {
-                required: true
-            },
-            "url_empresa": {
-                required: true
-            }
+            "curp": { required: true },
+            "nombre": { required: true },
+            "apellido_paterno": { required: true },
+            "apellido_materno": { required: true },
+            "correo": { required: true },
+            "password": { required: true },
+            "confirmar_password": { required: true }
         },
         messages:{
-            "empresa": "Este campo es obligatorio",
-            "convenio": "Este campo es obligatorio",
-            "nombre_comercial": "Este campo es obligatorio",
-            "razon_social": "Este campo es obligatorio",
-            "imagen": "Este campo es obligatorio",
-            "estatus": "Este campo es obligatorio",
-            "prioridad": "Este campo es obligatorio",
-            "url_empresa": "Este campo es obligatorio",
+            "curp": "Este campo es obligatorio",
+            
         },
         errorElement : 'div',
         errorPlacement: function(error, element) {
