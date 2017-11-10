@@ -120,7 +120,9 @@
                     </ul>
                 </div>
 
+                <div class="col s4">
                 <input class="input-field btn right" style="background: #BF3364;" type="submit" value="Registrar">
+</div>
             </div>
         </form>
     </div>
