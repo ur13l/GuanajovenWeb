@@ -34,17 +34,17 @@
                 </div>
 
                 <div class="input-field col s12 ">
-                    <input readonly id="nombre" name="nombre" type="text" class="validate">
+                    <input readonly id="nombre" name="nombre" type="text" >
                     <label for="nombre">Nombre</label>
                 </div>
 
                 <div class="input-field col s12 ">
-                    <input readonly id="apellido_paterno" name="apellido_paterno" type="text" class="validate">
+                    <input readonly id="apellido_paterno" name="apellido_paterno" type="text">
                     <label for="apellido_paterno">Apellido Paterno</label>
                 </div>
 
                 <div class="input-field col s12 ">
-                    <input readonly id="apellido_materno" name="apellido_materno" type="text" class="validate">
+                    <input readonly id="apellido_materno" name="apellido_materno" type="text">
                     <label for="apellido_materno">Apellido Materno</label>
                 </div>
 
@@ -127,6 +127,8 @@
         </form>
     </div>
 
+<<<<<<< HEAD
+=======
     <script>
         $(function () {
             $('#curp').keyup(function () {
@@ -211,4 +213,5 @@
         })
     </script>
 
+>>>>>>> 96f8b3f9eac3ef37c9fc24ab30dbab0101e4729b
 @endsection
