@@ -34,17 +34,17 @@
                 </div>
 
                 <div class="input-field col s12 ">
-                    <input readonly id="nombre" name="nombre" type="text" class="validate">
+                    <input readonly id="nombre" name="nombre" type="text" >
                     <label for="nombre">Nombre</label>
                 </div>
 
                 <div class="input-field col s12 ">
-                    <input readonly id="apellido_paterno" name="apellido_paterno" type="text" class="validate">
+                    <input readonly id="apellido_paterno" name="apellido_paterno" type="text">
                     <label for="apellido_paterno">Apellido Paterno</label>
                 </div>
 
                 <div class="input-field col s12 ">
-                    <input readonly id="apellido_materno" name="apellido_materno" type="text" class="validate">
+                    <input readonly id="apellido_materno" name="apellido_materno" type="text">
                     <label for="apellido_materno">Apellido Materno</label>
                 </div>
 
@@ -124,65 +124,5 @@
             </div>
         </form>
     </div>
-
-    <script>
-        $(function () {
-            $('#curp').keyup(function () {
-                if ($('#curp').val().length === 18) {
-                    var curp = $('#curp').val().toLocaleUpperCase();
-                    $.ajax({
-                        type: "POST",
-                        url: 'curp',
-                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                        data: {
-                            curp: curp
-                        },
-                        success: function (data) {
-                            $('#nombre').val(data.data.nombres).trigger('change');
-                            $('#apellido_paterno').val(data.data.PrimerApellido).trigger('change');
-                            $('#apellido_materno').val(data.data.SegundoApellido).trigger('change');
-                            $('#fecha_nacimiento').val(data.data.fechNac).trigger('change')
-                        },
-                        error: function (data) {
-                            console.log('Error:', data);
-                        }
-                    });
-                } else if ($('#curp').val().length < 18) {
-                    $('#nombre').val('')
-                    $('#apellido_paterno').val('');
-                    $('#apellido_materno').val('');
-                    $('#fecha_nacimiento').val('');
-                }
-            });
-
-            $('#rol').change(function () {
-                var id_rol = $('#rol').val();
-
-                $.ajax({
-                    type: 'POST',
-                    url: 'obtenerPermisos',
-                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    data: {
-                        id_rol : id_rol
-                    },
-                    success: function(data) {
-                        
-                        console.log(data.permisos_rol);
-
-                        $('.list-group-item').removeClass('list-group-item-info');
-
-                        $.each(data.permisos_rol, function(index, value) {
-                            $('#' + value.id).addClass('list-group-item-info');
-                        });
-
-                    },
-                    error: function(data) {
-                        console.log(data);
-                    }
-                });
-
-            })
-        })
-    </script>
 
 @endsection
