@@ -49,13 +49,18 @@
                 </div>
 
                 <div class="input-field col s12 ">
-                    <input readonly id="fecha_nacimiento" name="fecha_nacimiento" type="text" class="validate">
-                    <label for="fecha_nacimiento">Fecha nacimiento</label>
-                </div>
-
-                <div class="input-field col s12 ">
                     <input id="correo" name="correo" type="email" class="validate">
                     <label for="correo">Correo electrónico</label>
+                </div>
+
+                <div class="input-field col s12">
+                    <input id="contraseña" name="contraseña" type="password" class="validate">
+                    <label for="contraseña">Contraseña</label>
+                </div>
+
+                <div class="input-field col s12">
+                    <input id="repetir_contraseña" name="repetir_contraseña" type="password" class="validate">
+                    <label for="repetir_contraseña">Repetir contraseña</label>
                 </div>
 
                 <div class="input-field col s12 ">
