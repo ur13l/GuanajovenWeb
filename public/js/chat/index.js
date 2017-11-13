@@ -126,8 +126,9 @@ $(function() {
 
                     for (var i = 0, max = mensajes.length; i < max; i++) {
 
-                        fecha_mensaje = new Date(mensajes[i].created_at.split(' ')[0]);
-                        fecha_mensaje = [fecha_mensaje.getDate() + 1, fecha_mensaje.getMonth() + 1, fecha_mensaje.getFullYear()].join('/');
+                        console.log(mensajes[i].created_at);
+                        fecha_mensaje = new Date( mensajes[i].created_at.split(' ')[0].replace(/-/g,' '));
+                        fecha_mensaje = [fecha_mensaje.getDate(), fecha_mensaje.getMonth() + 1, fecha_mensaje.getFullYear()].join('/');
 
                         fecha = fecha_mensaje == hoy ?
                             //Toma la hora y elimina los segundos
