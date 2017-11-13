@@ -31,45 +31,67 @@ $(function() {
         var buscar = $(this).val();
         var html;
 
-        if (buscar.length > 0) {
-            html = $('#lista_chats').html();
+        //Si no hay nada en el buscador reinicia la lista
+        if (buscar.length == 0) {
+            $.ajax({
+                url: $("#_url").val() + "/api/chat/recargaListaChats",
+                method: "POST",
+                success: function(data) {
+                    var lista_chats = $('#lista-chats');
+                    lista_chats.html("");
+
+                    jQuery.each(data, function(index, val) {
+                        val.no_leidos = val.no_leidos == 0 ? '' : val.no_leidos;
+                        lista_chats.append(
+                            '      <a href="#!" class="collection-item avatar chat-item">' +
+                            '      <input type="hidden" value="' + val.id + '" id="chat' + val.id + '">' +
+                            '              <img src="' + val.ruta_imagen + '" alt="" class="circle">' +
+                            '          <span  class="title accent-color-text">' + val.nombre + '</span>' +
+                            '          <p class="grey-text ultimoMensaje">' + val.ultimo_mensaje + '</p>' +
+                            '          <p class="grey-text secondary-content fechaUltimo" style="margin-top:-5px" href="#!">' + val.fecha_ultimo + '</p>' +
+                            '          <p href="#!"  class="secondary-content primary-color-text"><span style="margin-top:25px" class="badge noLeidos">' + val.no_leidos + '</span></p>' +
+                            '      </a>');
+                    });
+                    chat_item_event();
+                    user_item_event();
+
+                }
+            });
         } else {
-            if (html !== null)
-                $('#lista_chats').html(html);
+            $.ajax({
+                url: $("#_url").val() + "/api/chat/buscarUsuarios",
+                method: "POST",
+                data: {
+                    busqueda: buscar
+                },
+                success: function(data) {
+                    var lista_chats = $('#lista-chats');
+                    lista_chats.html("");
+
+                    jQuery.each(data, function(index, val) {
+
+                        var idItem = val.chat_id !== null ? val.chat_id : val.user_id;
+                        var claseItem = val.chat_id !== null ? 'chat-item' : 'user-item';
+                        val.no_leidos = val.no_leidos > 0 ? val.no_leidos : '';
+
+                        lista_chats.append(
+                            '      <a href="#!" class="collection-item avatar ' + claseItem + '">' +
+                            '      <input type="hidden" value="' + idItem + '" id="chat' + idItem + '">' +
+                            '              <img src="' + val.ruta_imagen + '" alt="" class="circle">' +
+                            '          <span  class="title accent-color-text">' + val.nombre + '</span>' +
+                            '          <p class="grey-text ultimoMensaje">' + val.ultimo_mensaje + '</p>' +
+                            '          <p class="grey-text secondary-content fechaUltimo" style="margin-top:-5px" href="#!">' + val.fecha_ultimo + '</p>' +
+                            '          <p href="#!"  class="secondary-content primary-color-text"><span style="margin-top:25px" class="badge noLeidos">' + val.no_leidos + '</span></p>' +
+                            '      </a>');
+                    });
+
+                    chat_item_event();
+                    user_item_event();
+
+                }
+            });
         }
 
-        $.ajax({
-            url: $("#_url").val() + "/api/chat/buscarUsuarios",
-            method: "POST",
-            data: {
-                busqueda: buscar
-            },
-            success: function(data) {
-                var lista_chats = $('#lista-chats');
-                lista_chats.html("");
-
-                jQuery.each(data, function(index, val) {
-
-                    var idItem = val.chat_id !== null ? val.chat_id : val.user_id;
-                    var claseItem = val.chat_id !== null ? 'chat-item' : 'user-item';
-                    val.no_leidos = val.no_leidos > 0 ? val.no_leidos : '';
-
-                    lista_chats.append(
-                        '      <a href="#!" class="collection-item avatar ' + claseItem + '">' +
-                        '      <input type="hidden" value="' + idItem + '" id="chat' + idItem + '">' +
-                        '              <img src="' + val.ruta_imagen + '" alt="" class="circle">' +
-                        '          <span  class="title accent-color-text">' + val.nombre + '</span>' +
-                        '          <p class="grey-text ultimoMensaje">' + val.ultimo_mensaje + '</p>' +
-                        '          <p class="grey-text secondary-content fechaUltimo" style="margin-top:-5px" href="#!">' + val.fecha_ultimo + '</p>' +
-                        '          <p href="#!"  class="secondary-content primary-color-text"><span style="margin-top:25px" class="badge noLeidos">' + val.no_leidos + '</span></p>' +
-                        '      </a>');
-                });
-
-                chat_item_event();
-                user_item_event();
-
-            }
-        });
     });
 
     $("#form_enviar").submit(function() {
@@ -127,7 +149,7 @@ $(function() {
                     for (var i = 0, max = mensajes.length; i < max; i++) {
 
                         console.log(mensajes[i].created_at);
-                        fecha_mensaje = new Date( mensajes[i].created_at.split(' ')[0].replace(/-/g,' '));
+                        fecha_mensaje = new Date(mensajes[i].created_at.split(' ')[0].replace(/-/g, ' '));
                         fecha_mensaje = [fecha_mensaje.getDate(), fecha_mensaje.getMonth() + 1, fecha_mensaje.getFullYear()].join('/');
 
                         fecha = fecha_mensaje == hoy ?

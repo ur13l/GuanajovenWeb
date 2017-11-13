@@ -14,8 +14,46 @@ use LRedis;
 
 class ChatApiController extends Controller
 {
-    public function listaChats(Request $request){
+    public function recargaListaChats(Request $request){
+        $chats = Chat::all();
+        $arr = array();
         
+        foreach ($chats as $key => $chat) {
+            $user = $chat->usuario->datosUsuario;
+
+            $id = $chat->id_chat;
+            $ruta_imagen = $user->ruta_imagen;
+            $nombre = $user->nombre;
+            $no_leidos = $chat->contarNoLeidos();
+            
+            
+            if( count($chat->mensajes()->get()) > 0 ){
+                $ultimo_mensaje = $chat->ultimoMensaje()->mensaje;
+                $fecha_ultimo = $chat->ultimoMensaje()->created_at->format('d/m/Y') == \Carbon\Carbon::now("America/Mexico_City")->format('d/m/Y') ? $chat->ultimoMensaje()->created_at->format('H:i') :
+                        $chat->ultimoMensaje()->created_at->format('d/m/Y');
+                $order = $chat->ultimoMensaje()->id_mensaje;   
+            }else{
+                $order = 0;
+                $ultimo_mensaje = "";
+                $fecha_ultimo = "";
+            }
+
+            array_push($arr, array(
+                'order' => $order, 
+                'id' => $id, 
+                'ruta_imagen' => $ruta_imagen,
+                'nombre' => $nombre,
+                'ultimo_mensaje' => $ultimo_mensaje,
+                'fecha_ultimo' => $fecha_ultimo,
+                'no_leidos' => $no_leidos 
+                ) 
+            );
+        }
+
+        rsort($arr);
+        
+        return response()->json($arr);
+
     }
 
     public function buscarUsuarios(Request $request){
@@ -43,7 +81,7 @@ class ChatApiController extends Controller
                 if( $chat->ultimoMensaje() ){
                     $ultimo_mensaje = $chat->ultimoMensaje()->mensaje;
                     $no_leidos = $chat->contarNoLeidos();
-               
+
                     $fecha_ultimo = $chat->ultimoMensaje()->created_at->format('d/m/Y') == \ Carbon\Carbon::now("America/Mexico_City")->format('d/m/Y') ?
                         $chat->ultimoMensaje()->created_at->format('H:i') :
                         $chat->ultimoMensaje()->created_at->format('d/m/Y');
@@ -58,7 +96,7 @@ class ChatApiController extends Controller
                 'ultimo_mensaje' => $ultimo_mensaje,
                 'no_leidos' => $no_leidos,
                 'fecha_ultimo' => $fecha_ultimo
-           );     
+           );
 
            array_push($items, $item);
       }
@@ -141,7 +179,7 @@ class ChatApiController extends Controller
     public function enviarAdmin(Request $request) {
         $user = Auth::guard('api')->user();
         $chat = Chat::find($request->active_chat);
-        
+
         $mensaje = Mensaje::create(array(
             'id_chat' => $chat->id_chat,
             'mensaje' => $request->mensaje,
@@ -173,7 +211,7 @@ class ChatApiController extends Controller
               NotificationsUtils::sendNotification($tokens, $message, 'data');
             }
         }
-        
+
         return response()->json(array(
             'success' => true,
             'status' => 200,
@@ -186,17 +224,17 @@ class ChatApiController extends Controller
     function getChat(Request $request){
         $chat_id = $request->chat_id;
         $chat = Chat::find($chat_id);
-        
+
         if( isset($chat) ){
             $user = $chat->usuario->datosUsuario;
             $ultimo_mensaje = "";
             $no_leidos = 0;
             $fecha_ultimo = "";
-            
+
             if( $chat->ultimoMensaje() ){
                 $ultimo_mensaje = $chat->ultimoMensaje()->mensaje;
                 $no_leidos = $chat->contarNoLeidos();
-               
+
                 $fecha_ultimo = $chat->ultimoMensaje()->created_at->format('d/m/Y') == \ Carbon\Carbon::now("America/Mexico_City")->format('d/m/Y') ?
                     $chat->ultimoMensaje()->created_at->format('H:i') :
                     $chat->ultimoMensaje()->created_at->format('d/m/Y');
@@ -214,6 +252,6 @@ class ChatApiController extends Controller
         }else{
             return null;
         }
-        
+
     }
 }

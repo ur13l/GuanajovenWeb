@@ -55,6 +55,7 @@
 
 .buscarUsuarioDiv{
     margin-top: 16px;
+    background-color: rgba(7, 70, 119, 0.05);
 }
 
 #lista-chats{
@@ -70,6 +71,8 @@
 #buscarUsuarios{
     margin-bottom: 0px;
     background-color: rgba(7, 70, 119, 0.05);
+    width: 85%;
+    padding-left: 5%;
 }
 
 .fecha_mensaje{
