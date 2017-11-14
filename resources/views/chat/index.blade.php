@@ -46,13 +46,16 @@
         <div class="col s4 list" id="contenedor_izq">
             <div class="buscarUsuarioDiv">
                 <input type="text" name="" id="buscarUsuarios">
+                <div style="width: 10%;float: right;height: 46px;">
+                  <i class="material-icons right" style="float:none!important;margin-top: 12px;">search</i>
+                </div>
             </div>
             <div class="collection" id="lista-chats">
                 @foreach($chats as $chat)
                 <a href="#!" class="collection-item avatar chat-item">
 
                  <input type="hidden" value="{{$chat['chat']->id_chat}}" id="chat{{$chat['chat']->id_chat}}">
-                    
+
                     @if( $chat['chat']->usuario )
                         <img src="{{$chat['chat']->usuario->datosUsuario->ruta_imagen}}" alt="" class="circle">
                         <span  class="title accent-color-text">{{$chat['chat']->usuario->datosUsuario->nombre}}</span>
@@ -78,7 +81,7 @@
                                 @endif
                             </span>
                         </p>
-                    
+
                 </a>
                 @endforeach
             </div>
@@ -103,14 +106,14 @@
             console.log("MENSAJE NUEVo");
             mensaje = JSON.parse(message);
 
-            //Cuando el chat esta en la lista 
+            //Cuando el chat esta en la lista
             if( $('#chat'+mensaje.id_chat).length > 0 ){
-                $('#lista-chats').prepend($('#chat'+mensaje.id_chat).parent());    
+                $('#lista-chats').prepend($('#chat'+mensaje.id_chat).parent());
                 var noLeidos = $('#chat'+mensaje.id_chat).parent().find('.noLeidos').html();
                 noLeidos = noLeidos == "" ? 1 : Number(noLeidos) + 1;
                 $('#chat'+mensaje.id_chat).parent().find('.noLeidos').html(noLeidos);
                 $('#chat'+mensaje.id_chat).parent().find('.ultimoMensaje').html(mensaje.mensaje);
-            
+
             //El chat no esta en la lista
             }else{
                 $.ajax({
@@ -139,8 +142,8 @@
                     }
                 });
             }
-            
-            
+
+
             if(mensaje.id_chat == $("#_active_chat").val()) {
                 $("#lista-mensajes").append("<li class='mensaje-izquierda primary-color'>" +  mensaje.mensaje  + "</li>");
             }
