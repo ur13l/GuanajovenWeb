@@ -164,7 +164,8 @@ class UsuariosController extends Controller{
                 'id_usuario' => $id,
                 'id_rol' => $id_rol,
                 'id_puesto' => $id_puesto,
-                'telefono' => $telefono
+                'telefono' => $telefono,
+                'estatus' => 1
             ]); 
 
         }
@@ -172,7 +173,7 @@ class UsuariosController extends Controller{
         if (count($errors) > 0) {
             return back()->withErrors($errors);
         } else {
-            return "SUCCESS";
+            return redirect('/usuarios');
         }
     }
     
