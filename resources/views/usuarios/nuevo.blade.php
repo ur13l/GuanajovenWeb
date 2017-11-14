@@ -21,7 +21,7 @@
         @foreach($errors->all() as $error)
             <div class="red-text">{{$error}}</div>
         @endforeach
-        <form id="form-crear" method="post" action="{{url('/empresas/crear')}}" class="col s12"
+        <form id="form-crear" method="post" action="{{url('/usuarios/registrar')}}" class="col s12"
               enctype="multipart/form-data">
             {{csrf_field()}}
 
