@@ -32,6 +32,7 @@
         </div>
     </div>
 @include('jovenes.lista')
+
     <!--Modal para eliminar joven-->
     <!--
     <div id="modal-borrar" class="modal">
@@ -48,6 +49,7 @@
             </div>
         </form>
     </div>-->
+    
 @endsection
 
 
