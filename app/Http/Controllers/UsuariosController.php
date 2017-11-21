@@ -34,9 +34,11 @@ class UsuariosController extends Controller{
         $this->middleware('auth.web');
     }
 
+    /**
+     * Método que devuelve la vista principal con todos los usuarios.
+     */
     public function index(Request $request) {
         $usuarios = Funcionario::where('estatus', '=', 1)->paginate(20);
-
         return view('usuarios.index', ['usuarios' => $usuarios]);
     }
 
@@ -188,23 +190,24 @@ class UsuariosController extends Controller{
         $columna = $request->columna ?: 'usuario.id';
         $tipo = $request->tipo ?: 'asc';
         $usuarios = Funcionario::leftJoin('usuario', 'usuario.id', '=', 'funcionario.id_usuario')
-          -> leftJoin('datos_usuario', 'usuario.id', '=', 'datos_usuario.id_usuario')
-          -> leftJoin('rol', 'funcionario.id_rol', '=', 'rol.id')
-          -> leftJoin('puesto', 'funcionario.id_puesto', '=', 'puesto.id')
-          -> where('estatus', 1)
-        ->where(function ($query) use ($q){
-          $query -> where('usuario.id', 'like', "%$q%")
-                 -> orWhere('datos_usuario.nombre', 'like', "%$q%")
-                 -> orWhere('apellido_paterno', 'like', "%$q%")
-                 -> orWhere('apellido_materno', 'like', "%$q%")
-                 -> orWhere('curp', 'like', "%$q%")
-                 -> orWhere('email', 'like', "%$q%")
-                 -> orWhere('funcionario.telefono', 'like', "%$q%")
-                 -> orWhere('rol.nombre_vista', 'like', "%$q%")
-                 -> orWhere('puesto.nombre', 'like', "%$q%");
-        })
-        ->orderBy($columna, $tipo)
-        ->paginate(20);      
+            -> leftJoin('datos_usuario', 'usuario.id', '=', 'datos_usuario.id_usuario')
+            -> leftJoin('rol', 'funcionario.id_rol', '=', 'rol.id')
+            -> leftJoin('puesto', 'funcionario.id_puesto', '=', 'puesto.id')
+            -> where('estatus', 1)
+            ->where(function ($query) use ($q){
+            $query -> where('usuario.id', 'like', "%$q%")
+                    -> orWhere('datos_usuario.nombre', 'like', "%$q%")
+                    -> orWhere('apellido_paterno', 'like', "%$q%")
+                    -> orWhere('apellido_materno', 'like', "%$q%")
+                    -> orWhere('curp', 'like', "%$q%")
+                    -> orWhere('email', 'like', "%$q%")
+                    -> orWhere('funcionario.telefono', 'like', "%$q%")
+                    -> orWhere('rol.nombre_vista', 'like', "%$q%")
+                    -> orWhere('puesto.nombre', 'like', "%$q%");
+            })
+            ->select(['usuario.id', 'funcionario.id_usuario', 'funcionario.id_rol', 'funcionario.id_puesto', 'datos_usuario.id_datos_usuario', 'datos_usuario.nombre', 'apellido_paterno', 'apellido_materno', 'curp', 'email', 'funcionario.telefono', 'rol.nombre_vista', 'puesto.nombre'])
+            ->orderBy($columna, $tipo)
+            ->paginate(20);  
         return View::make('usuarios.lista')->with('usuarios', $usuarios)->render();      
       }
     
