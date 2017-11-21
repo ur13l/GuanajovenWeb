@@ -11,15 +11,15 @@
     <input class='tipo' type='hidden' value='{{ $evento->tipo }}'>
     <td class="estadisticas-{{ $evento->id_evento }}">
         {!! Form::open(['url' => '/eventos/estadisticas/' . $evento->id_evento, 'method' => 'POST', 'id' => 'estadisticaEvento-' . $evento->id_evento]) !!}
-            <i class='material-icons' style='cursor:pointer' onclick="$('#estadisticaEvento-{{ $evento->id_evento }}').submit();">insert_chart</i>
+            <i class='material-icons' style='cursor:pointer; color:grey' onclick="$('#estadisticaEvento-{{ $evento->id_evento }}').submit();">insert_chart</i>
         {!! Form::close() !!}
     </td>
     <td class='edit'>
         {!! Form::open(['url' => '/eventos/editar/' . $evento->id_evento, 'method' => 'POST', 'id' => 'editarEvento-' . $evento->id_evento]) !!}
-            <i class='material-icons' style='cursor:pointer' onclick="$('#editarEvento-{{ $evento->id_evento }}').submit();">edit</i>
+            <i class='material-icons' style='cursor:pointer; color:grey'onclick="$('#editarEvento-{{ $evento->id_evento }}').submit();">edit</i>
         {!! Form::close() !!}
     </td>
     <td class='delete'>
-        <i class='material-icons deleteP' data-id="{{$evento->id_evento}}" style='cursor:pointer'>delete</i>
+        <i class='material-icons deleteP' data-id="{{$evento->id_evento}}" style='cursor:pointer; color:grey'>delete</i>
     </td>
 </tr>

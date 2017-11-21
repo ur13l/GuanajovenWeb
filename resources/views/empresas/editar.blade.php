@@ -238,8 +238,12 @@
                   <td class="fecha_inicio">{{$promocion->fecha_inicio}}</td>
                   <td class="fecha_fin">{{$promocion->fecha_fin}}</td>
                   <!--href="{{url('/empresas/editarPromocion/'.$promocion->id_promocion)}}"-->
-                  <td> <a class="btn-floating halfway-fab waves-effect waves-light accent-color editar-button"><i class="material-icons">mode_edit</i></a></td>
-                    <td><a href="{{url('/promociones/eliminarPromocion/'.$promocion->id_promocion.'/'.$empresa->id_empresa)}}" class="btn-floating halfway-fab waves-effect waves-light red" id="delete-button"><i class="material-icons">clear</i></a></td>
+                  <td class='edit'>
+                    <i class='material-icons editar-button' style='cursor:pointer; color:grey'>edit</i>
+                    </td>
+                    <td class='delete'>
+                     <a href="{{url('/promociones/eliminarPromocion/'.$promocion->id_promocion.'/'.$empresa->id_empresa)}}" id="delete-button"><i style="color:grey" class="material-icons">delete</i></a>
+                    </td>
                 </tr>
       @endforeach
                      </tbody>

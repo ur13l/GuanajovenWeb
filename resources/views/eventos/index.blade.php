@@ -120,7 +120,7 @@
     </div>
     <div class="fixed-action-btn" style="bottom: 10px; right: 24px;">
         <a href="{{url('eventos/nuevo')}}" class="btn-floating btn-large waves-effect waves-light btn modal-trigger" style="background: #BF3364;">
-            <i class="material-icons" id="new-event">add</i>
+            <i class="material-icons"  id="new-event">add</i>
         </a>
     </div>
     <div class="fixed-action-btn" id="delete-selection" style="display:none; bottom: 10px; right: 100px;">
