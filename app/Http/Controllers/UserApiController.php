@@ -134,6 +134,7 @@ class UserApiController extends Controller {
                         'id_genero' => $id_genero,
                         'fecha_nacimiento' => $fecha_nacimiento,
                         'id_estado_nacimiento' => $id_estado_nacimiento,
+                        'id_nivel_estudios' => null,
                         //'id_ocupacion' => $id_ocupacion,
                         'codigo_postal' => $codigo_postal,
                         'telefono' => $telefono,
