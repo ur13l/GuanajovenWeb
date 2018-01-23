@@ -40,7 +40,9 @@ Route::group(['prefix' => 'usuarios'], function () {
     Route::post('login_admin', 'Auth\LoginApiController@loginAdmin');
     Route::post('curp', 'UserApiController@obtenerCurp');
     Route::post('posicion','UserApiController@obtenerPosicion');
-    Route::post('actualizar-token-guanajoven', 'UserApiController@actualizarTokenGuanajoven');
+    Route::post('actualizar-token-guanajoven', 'UserApiController@actualizarTokenGuanajoven');    
+    Route::post('posicionpuntaje', 'UserApiController@posicionPuntaje');
+    
 });
 
 Route::group(['prefix' => 'convocatorias'], function() {

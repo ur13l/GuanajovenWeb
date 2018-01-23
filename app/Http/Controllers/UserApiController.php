@@ -455,4 +455,34 @@ class UserApiController extends Controller {
 
         return response()-json($rol_permiso);
     }
+
+    public function posicionPuntaje(Request $request) {
+        $user = Auth::guard('api')->user();
+        if ($user) {
+            return response()->json([
+                'status' => 200,
+                'success' => true,
+                'errors' => [],
+                'data' => [
+                    'posicion' => $this->getPosicion($user->email),
+                    'puntaje' => $user->puntaje
+                ]
+            ]); 
+        }
+    }
+
+     //Función para calcular la posicion de l usuario en la app
+     private function getPosicion($correo) {
+        $posicion = 1;
+        $users = DB::table('usuario')->orderBy('puntaje','desc')->get();
+
+        foreach ($users as $item) {
+            if ($item->email == $correo) {
+                break;
+            }
+            $posicion++;
+        }
+
+        return $posicion;
+    }
 }
