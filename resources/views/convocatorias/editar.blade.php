@@ -78,8 +78,9 @@
                         @foreach($convocatoria->documentos as $index => $documento)
 
                         <div class="section hoverable">
-                                <input type="hidden" name="doc-id[]" value="{{$documento->id_documento}}">
                             <div class="row">
+                                <input type="hidden" name="doc-id[]" value="{{$documento->id_documento}}">
+                            
                                 <div class="col m2 hide-on-small-and-down">
                                     <span class="col l12 center-align">
                                     @if($documento->id_formato == 1)

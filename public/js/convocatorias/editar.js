@@ -131,6 +131,7 @@ $(function() {
         });
     });
 
+    
     //Validación de formulario para nueva convocatoria
     $("#form-editar").validate({
         submitHandler: function(form) {
@@ -230,4 +231,5 @@ $(function() {
         }
         span.html("Cambiar");
     });
+
 });

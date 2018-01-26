@@ -141,6 +141,8 @@ class ConvocatoriasController extends Controller {
 
 
     public function editar(Request $request) {
+
+        
         //Se actualiza la convocatoria seleccionada
         $id = $request->input('id_convocatoria');
         $convocatoria = Convocatoria::find($id);
@@ -161,20 +163,22 @@ class ConvocatoriasController extends Controller {
         }
 
         //Se revisan los documentos que hay que actualizar
-        foreach($request->input('doc-id') as $index => $id_documento) {
-            //Se revisa si existe el documento
-            $documento = Documento::find($id_documento);
-            $titulo = $request->input('doc-titulo')[$index];
-            $file = $request->file('doc-file-' . $id_documento);
+        if($request->input('doc-id')){
+            foreach($request->input('doc-id') as $index => $id_documento) {
+                //Se revisa si existe el documento
+                $documento = Documento::find($id_documento);
+                $titulo = $request->input('doc-titulo')[$index];
+                $file = $request->file('doc-file-' . $id_documento);
 
-            $documento->titulo = $titulo;
-            if(isset($file)) {
-                FileUtils::eliminar($documento->ruta_documento);
-                $documento->ruta_documento = FileUtils::guardar($file, 'storage/docs/', 'doc_');//Actualizando el formato
-                $formato = Formato::where('nombre',$file->getClientOriginalExtension())->get()->first();
-                $documento->id_formato = isset($formato->id_formato) ? $formato->id_formato : Formato::OTRO; //El 5 representa otro formato
+                $documento->titulo = $titulo;
+                if(isset($file)) {
+                    FileUtils::eliminar($documento->ruta_documento);
+                    $documento->ruta_documento = FileUtils::guardar($file, 'storage/docs/', 'doc_');//Actualizando el formato
+                    $formato = Formato::where('nombre',$file->getClientOriginalExtension())->get()->first();
+                    $documento->id_formato = isset($formato->id_formato) ? $formato->id_formato : Formato::OTRO; //El 5 representa otro formato
+                }
+                $documento->save();
             }
-            $documento->save();
         }
 
         //Se cargan los nuevos documentos
