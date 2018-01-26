@@ -40,6 +40,6 @@ class Evento extends Model {
     }
 
     public function usuarios() {
-        return $this->belongsToMany('App\User', 'usuario_evento', 'id_evento', 'id_usuario');
+        return $this->belongsToMany('App\User', 'usuario_evento', 'id_evento', 'id_usuario')->withPivot('asistio');
     }
 }

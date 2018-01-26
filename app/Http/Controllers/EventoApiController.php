@@ -6,7 +6,7 @@ use App\CodigoGuanajoven;
 use App\DatosUsuario;
 use App\Evento;
 use Auth;
-use App\NotificacionEvento;
+use App\UsuarioEvento;
 use App\Notifications\EventoNotificacion;
 use App\User;
 use Carbon\Carbon;
@@ -42,8 +42,7 @@ class EventoApiController extends Controller
      * params: [id_evento, api_token, latitud, longitud]
      * Método para indicar que a un usuario está en el área de un evento.
      */
-    public function marcarEvento(Request $request)
-    {
+    public function marcarEvento(Request $request) {
         $idEvento = $request->input('id_evento');
         $apiToken = $request->input('api_token');
         $latitudUsuario = $request->input('latitud');
@@ -70,11 +69,11 @@ class EventoApiController extends Controller
         $distanciaMetros = $distanciaTotal * 1000;
 
         if ($distanciaMetros <= 500) {
-            if (NotificacionEvento::where('id_evento', '=', $idEvento)->where('id_usuario', '=', $usuario->id)->where('asistio', '=', 1)->count() == 0) {
-                $notificacion = NotificacionEvento::where('id_evento', $idEvento)->where('id_usuario', $usuario->id)->first();
+            if (UsuarioEvento::where('id_evento', '=', $idEvento)->where('id_usuario', '=', $usuario->id)->where('asistio', '=', 1)->count() == 0) {
+                $notificacion = UsuarioEvento::where('id_evento', $idEvento)->where('id_usuario', $usuario->id)->first();
 
                 if ($notificacion == null) {
-                    $registro = new NotificacionEvento();
+                    $registro = new UsuarioEvento();
                     $registro->id_usuario = $usuario->id;
                     $registro->id_evento = $idEvento;
                     $registro->asistio = 1;
@@ -121,75 +120,53 @@ class EventoApiController extends Controller
         }
     }
 
-    public function registrar(Request $request)
-    {
+    public function registrar(Request $request) {
         $token = $request->input('token');
-        $idEvento = $request->input('id_evento');
-        $fechaActual = Carbon::now('America/Mexico_City')->toDateTimeString();
-        $codigoGuanajoven = CodigoGuanajoven::where('token', $token)
-            ->first();
-        $evento = Evento::find($idEvento);
-        $usuario = User::find($codigoGuanajoven->id_usuario);
+        $id_evento = $request->input('id_evento');
+        $fecha_actual = Carbon::now('America/Mexico_City')->toDateTimeString();
 
-        $notificacion = $evento->usuarios()->find($usuario->id);
+        $evento = Evento::find($id_evento);
 
-        if (!isset($notificacion) || $notificacion->asistio !== 1) {
-            if (isset($codigoGuanajoven)) {
-                $usuario = User::find($codigoGuanajoven->id_usuario);
+        $codigo_guanajoven = CodigoGuanajoven::where(
+            'token', $token
+        )->first();
 
-                if (isset($usuario)) {
-                    if(!isset($notificacion)) {
-                        $evento->usuarios()->attach($usuario->id, ['dispositivo' => 2, 'asistio' => 1]);  
-                            
-                    } 
-                    else {
-                        $notificacion->pivot->dispositivo = 2;
-                        $notificacion->pivot->asistio = 1;
-                        $notificacion->pivot->save();
+        if(!is_null($evento)) {
+            if(!is_null($codigo_guanajoven)) {
+                $usuario = User::find($codigo_guanajoven->id_usuario);
+                if(!is_null($usuario)) {
+                    $registro = $evento->usuarios()->find($usuario->id);
+                    if(is_null($registro)) {
+                        $evento->usuarios()->attach($usuario);
+                        $nuevo_registro = $evento->usuarios()->find($usuario->id);
+                        $this->updateUserData($usuario, $evento, $nuevo_registro);
+
+                        return $this->sendResponse(200, true, [], $usuario->email);
+                    } else {
+                        if($registro->pivot->asistio == 0) {
+                            $this->updateUserData($usuario, $evento, $registro);
+
+                            return $this->sendResponse(200, true, [], $usuario->email);
+                        } else {
+                            return $this->sendResponse(200, false, ['Usuario ya habia sido registrado'], null);
+                        }
                     }
-                        $puntaje = $usuario->puntaje;
-                        $sumaPuntajes = $puntaje + $evento->puntos_otorgados;
-                        $usuario->update(['puntaje' => $sumaPuntajes]);
+                } else {
+                    return $this->sendResponse(200, false, ['No existe usuario'], null);
                 }
-                else {
-                    return response()->json(array(
-                        'status' => 404,
-                        'success' => false,
-                        'errors' => ["No existe usuario"],
-                        'data' => ''
-                    ));
-                }
-
-                return response()->json(array(
-                    'status' => 200,
-                    'success' => true,
-                    'errors' => [],
-                    'data' => $usuario->email
-                ));
-                 
             } else {
-                return response()->json(array(
-                    'status' => 404,
-                    'success' => false,
-                    'errors' => ["No existe código"],
-                    'data' => ''
-                ));
+                return $this->sendResponse(200, false, ['No existe codigo'], null);
             }
         } else {
-            return response()->json(array(
-                'status' => 404,
-                'success' => false,
-                'errors' => ["Usuario ya había sido registrado"],
-                'data' => ''
-            ));
+            return $this->sendResponse(200, false, ['No existe evento'], null);
         }
+
     }
 
-    public function usuariosRegistrados(Request $request)
-    {
+    public function usuariosRegistrados(Request $request) {
         $id_evento = $request->input("id_evento");
 
-        $eventos = NotificacionEvento::where('id_evento', '=', $id_evento)
+        $eventos = UsuarioEvento::where('id_evento', '=', $id_evento)
             ->where('asistio', '=', 1)
             ->get();
 
@@ -237,11 +214,10 @@ class EventoApiController extends Controller
 
     }
 
-    public function usuariosInteresados(Request $request)
-    {
+    public function usuariosInteresados(Request $request) {
         $id_evento = $request->input("id_evento");
 
-        $eventos = NotificacionEvento::where('id_evento', '=', $id_evento)
+        $eventos = UsuarioEvento::where('id_evento', '=', $id_evento)
             ->where('asistio', '=', 0)
             ->where('le_interesa', '=', 1)
             ->get();
@@ -290,7 +266,6 @@ class EventoApiController extends Controller
         }
     }
 
-
     /**
      * Evento: Enviar notificacion
      * params: [api_token, id_evento]
@@ -323,9 +298,23 @@ class EventoApiController extends Controller
         
     }
 
+    private function updateUserData($usuario, $evento, $registro) {
+        $puntaje = $evento->puntos_otorgados + $usuario->puntaje;
+        $usuario->puntaje = $puntaje;
+        $usuario->save();
 
-    private function subir() {
+        $registro->pivot->dispositivo = 2;
+        $registro->pivot->asistio = 1;
+        $registro->pivot->save();
+    }
 
+    private function sendResponse($status, $success, $errors, $data) {
+        return response()->json(array(
+            'status' => $status,
+            'success' => $success,
+            'errors' => $errors,
+            'data' => $data
+        ));
     }
 
 

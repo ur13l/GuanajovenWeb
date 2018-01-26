@@ -4,18 +4,19 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class NotificacionEvento extends Model {
+class UsuarioEvento extends Model {
     protected $table = 'usuario_evento';
-
-    protected $primaryKey = 'id_evento';
 
     protected $fillable = [
         'id_evento',
         'id_usuario',
         'le_interesa',
-        'asistio',
-        'asistira'
+        'asistio'
     ];
 
-    public $timestamps = false;
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deleted_at'
+    ];
 }
