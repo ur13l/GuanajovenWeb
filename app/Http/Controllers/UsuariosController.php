@@ -133,7 +133,8 @@ class UsuariosController extends Controller{
                 'email' => $correo,
                 'password' => $password,
                 'id_google' => null,
-                'id_facebook' => null
+                'id_facebook' => null,
+                'admin' => 1
             ]);
 
             //Datos User
