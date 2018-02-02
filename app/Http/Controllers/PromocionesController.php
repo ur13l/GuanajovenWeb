@@ -38,9 +38,7 @@ class PromocionesController  extends Controller{
           'descripcion' => 'required',
           'bases' => 'required',
           'fecha_inicio' => 'required',
-          'fecha_fin' => 'required',
-          'codigo_promocion' => 'required',
-          'url_promocion' => 'required'
+          'fecha_fin' => 'required'
       ]);
 
 
