@@ -19,7 +19,6 @@ $(function() {
         descripcion = $($(this).parent().siblings()[1]).text();
         fecha_inicio = $($(this).parent().siblings()[2]).text();
         fecha_fin = $($(this).parent().siblings()[3]).text();
-        titulo = titulo.replace(/\s/g, '');
         $("#editPromocion").openModal();
         $("#editid_promocion").val(id_promocion);
         $("#editdescripcion").val(descripcion);
@@ -28,7 +27,7 @@ $(function() {
         $("#editfecha_fin").val(fecha_fin);
         $("#editcodigo_promocion").val(codigo_promocion);
         $("#editurl_promocion").val(url_promocion);
-        $("#edittitulo").val(titulo);
+        $("#edittitulo").val(titulo.trim());
         $(".isTrue").addClass("active");
     });
 
